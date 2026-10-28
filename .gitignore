@@ -1,0 +1,35 @@
+# Resultados de compilacion y del editor.
+**/bin/
+**/obj/
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Resultados de pruebas y cobertura.
+TestResults/
+**/TestResults/
+artifacts/
+**/coverage/
+*.coverage
+*.coveragexml
+
+# Credenciales y configuracion local.
+.env
+.env.*
+!.env.example
+**/appsettings.Local.json
+**/secrets.json
+*.pfx
+*.p12
+*.pem
+*.key
+
+# Registros y archivos del sistema.
+**/registros/
+*.log
+Thumbs.db
+.DS_Store

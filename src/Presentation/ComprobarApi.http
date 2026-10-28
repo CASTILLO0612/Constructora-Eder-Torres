@@ -1,0 +1,13 @@
+@direccion = http://localhost:5180
+
+### La API responde sin requerir una base de datos.
+GET {{direccion}}/salud/viva
+Accept: application/json
+
+### Disponibilidad real de PostgreSQL; devuelve 503 si falta configuracion.
+GET {{direccion}}/salud/lista
+Accept: application/json
+
+### Contrato OpenAPI disponible en desarrollo.
+GET {{direccion}}/openapi/v1.json
+Accept: application/json

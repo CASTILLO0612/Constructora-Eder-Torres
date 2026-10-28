@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>ConstructoraEderTorres.Aplicacion</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Domain/ConstructoraEderTorres.Dominio.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CasosDeUso/Seguridad/" />
+    <Folder Include="CasosDeUso/Obras/" />
+    <Folder Include="CasosDeUso/Personal/" />
+    <Folder Include="CasosDeUso/Asistencia/" />
+    <Folder Include="CasosDeUso/SeguimientoObra/" />
+    <Folder Include="CasosDeUso/EPP/" />
+    <Folder Include="CasosDeUso/Herramientas/" />
+    <Folder Include="CasosDeUso/Sincronizacion/" />
+    <Folder Include="Contratos/" />
+    <Folder Include="Comun/" />
+  </ItemGroup>
+</Project>

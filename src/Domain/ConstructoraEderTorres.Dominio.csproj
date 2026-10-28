@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>ConstructoraEderTorres.Dominio</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Entidades/" />
+    <Folder Include="ObjetosValor/" />
+    <Folder Include="Reglas/" />
+    <Folder Include="Seguridad/" />
+    <Folder Include="Obras/" />
+    <Folder Include="Personal/" />
+    <Folder Include="Asistencia/" />
+    <Folder Include="SeguimientoObra/" />
+    <Folder Include="EPP/" />
+    <Folder Include="Herramientas/" />
+  </ItemGroup>
+</Project>
