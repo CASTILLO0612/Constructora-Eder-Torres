@@ -26,8 +26,10 @@ public sealed partial class AdaptadorEppPostgreSql(
             .Where(e => (estado == null || e.Estado == estado) && contexto.AsignacionesTrabajadorObra.Any(a =>
                 a.IdAsignacion == e.IdAsignacion && (idObra == null || a.IdObra == idObra)
                 && (idTrabajador == null || a.IdTrabajador == idTrabajador) && (obras == null || obras.Contains(a.IdObra))))
-            .OrderByDescending(e => e.EntregadoEn).ThenByDescending(e => e.IdEntregaEpp).Paginar(paginacion);
-        return await ConsultarEntregasBase(origen).ToListAsync(cancelacion);
+            .OrderByDescending(e => e.EntregadoEn).ThenByDescending(e => e.IdEntregaEpp);
+        return await ConsultarEntregasBase(origen)
+            .Buscar(paginacion, e => e.NombreCompletoTrabajador, e => e.CodigoObra, e => e.NombreTipoEpp, e => e.CodigoInternoEpp, e => e.Estado)
+            .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
     public async Task<IReadOnlyList<RespuestaReposicionEpp>> ListarReposicionesAsync(int? idObra,
@@ -40,8 +42,10 @@ public sealed partial class AdaptadorEppPostgreSql(
                     join a in contexto.AsignacionesTrabajadorObra on e.IdAsignacion equals a.IdAsignacion
                     where e.IdEntregaEpp == r.IdEntregaOrigen && (idObra == null || a.IdObra == idObra)
                         && (obras == null || obras.Contains(a.IdObra)) select e.IdEntregaEpp).Any())
-            .OrderByDescending(r => r.SolicitadaEn).ThenByDescending(r => r.IdReposicionEpp).Paginar(paginacion);
-        return await ConsultarReposicionesBase(origen).ToListAsync(cancelacion);
+            .OrderByDescending(r => r.SolicitadaEn).ThenByDescending(r => r.IdReposicionEpp);
+        return await ConsultarReposicionesBase(origen)
+            .Buscar(paginacion, r => r.Motivo, r => r.Descripcion, r => r.Estado)
+            .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
     public Task<bool> ExisteTipoEppPorNombreAsync(string nombre, CancellationToken cancelacion = default) =>
@@ -74,6 +78,7 @@ public sealed partial class AdaptadorEppPostgreSql(
         await contexto.TiposEpp.AsNoTracking()
             .OrderBy(t => t.IdTipoEpp)
             .Select(t => new RespuestaTipoEpp(t.IdTipoEpp, t.Nombre, t.Descripcion, t.VidaUtilDias, t.ExistenciaMinima, t.Activo))
+            .Buscar(paginacion, t => t.Nombre, t => t.Descripcion)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
     public Task<bool> ExisteEppPorCodigoAsync(string codigoInterno, CancellationToken cancelacion = default) =>
@@ -164,6 +169,7 @@ public sealed partial class AdaptadorEppPostgreSql(
                 e.FechaAdquisicion,
                 e.Estado,
                 e.Condicion))
+            .Buscar(paginacion, e => e.NombreTipoEpp, e => e.CodigoInterno, e => e.NumeroSerie, e => e.Estado, e => e.Condicion)
             .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
@@ -171,7 +177,8 @@ public sealed partial class AdaptadorEppPostgreSql(
         int? idTipoEpp = null, CancellationToken cancelacion = default) =>
         await contexto.TiposEpp.AsNoTracking()
             .Where(t => idTipoEpp == null || t.IdTipoEpp == idTipoEpp)
-            .OrderBy(t => t.IdTipoEpp).Paginar(paginacion)
+            .OrderBy(t => t.IdTipoEpp).Buscar(paginacion, t => t.Nombre, t => t.Descripcion)
+            .Paginar(paginacion)
             .Select(t => new ResumenExistenciaTipoEpp(t.IdTipoEpp, t.Nombre, t.ExistenciaMinima,
                 contexto.EquiposProteccionPersonal.Count(e => e.IdTipoEpp == t.IdTipoEpp && e.Estado == EstadosEpp.Disponible),
                 contexto.EquiposProteccionPersonal.Count(e => e.IdTipoEpp == t.IdTipoEpp && e.Estado == EstadosEpp.Entregado),
@@ -473,6 +480,7 @@ public sealed partial class AdaptadorEppPostgreSql(
             };
         return await entregas.Concat(devoluciones).Concat(reposiciones)
             .OrderByDescending(e => e.Fecha).ThenBy(e => e.TipoEvento).ThenByDescending(e => e.Id)
+            .Buscar(paginacion, e => e.CodigoObra, e => e.NombreObra, e => e.CodigoInterno, e => e.NombreTipo, e => e.TipoEvento, e => e.Descripcion)
             .Paginar(paginacion)
             .Select(e => new EventoHistorialEppTrabajador(e.Fecha, e.TipoEvento, e.Id, e.IdObra,
                 e.CodigoObra, e.NombreObra, e.IdEpp, e.CodigoInterno, e.NombreTipo, e.Estado, e.Condicion, e.Descripcion))
@@ -559,6 +567,7 @@ public sealed partial class AdaptadorEppPostgreSql(
                 g.Count(x => x.Entrega.Estado == EstadosEntregaEpp.Activa),
                 g.Count(x => x.Entrega.Estado == EstadosEntregaEpp.Reemplazada),
                 g.Count(x => x.Entrega.Estado == EstadosEntregaEpp.Perdida)))
+            .Buscar(paginacion, e => e.CodigoObra, e => e.NombreObra, e => e.CedulaTrabajador, e => e.NombreCompletoTrabajador, e => e.NombreTipoEpp)
             .Paginar(paginacion).ToListAsync(cancelacion);
     }
 

@@ -83,6 +83,7 @@ public sealed class AdaptadorObrasPostgreSql(
 
         var obras = await consulta
             .OrderBy(o => o.IdObra)
+            .Buscar(paginacion, o => o.Codigo, o => o.Nombre, o => o.Descripcion, o => o.Direccion, o => o.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
         return obras.Select(Mapear).ToList();

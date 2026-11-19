@@ -944,12 +944,41 @@ main {
     color: var(--secundario);
 }
 .buscar-tabla input {
+    flex: 1;
     border: 0;
     outline: none !important;
     background: none;
     min-height: 0;
     padding: 8px;
     min-width: 0;
+}
+.buscar-tabla > svg,
+.busqueda-selector > svg {
+    flex-shrink: 0;
+}
+.limpiar-busqueda {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--secundario);
+    cursor: pointer;
+}
+.limpiar-busqueda:hover {
+    background: var(--fondo);
+    color: var(--texto);
+}
+.estado-busqueda:empty {
+    display: none;
+}
+.estado-busqueda {
+    display: block;
 }
 .barra-filtros select,
 .barra-filtros .filtro input {

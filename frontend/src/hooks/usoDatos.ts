@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api, construirRuta, ErrorApi } from "../api/cliente";
 import { guardarConsulta, leerConsulta } from "../offline/almacenamiento";
 import { useSesion } from "../app/Sesion";
+import { buscarConsultaGuardada } from "../offline/busquedaLocal";
 
 export function useDatos<T>(
     ruta: string | null,
@@ -18,6 +19,8 @@ export function useDatos<T>(
         enabled: !!perfil && !!ruta,
         queryFn: async ({ signal }) => {
             try {
+                if (!navigator.onLine)
+                    throw new Error("Consulta sin conexión.");
                 let datos: T = await api.leer<T>(ruta!, parametros, signal);
                 if (todasLasPaginas && Array.isArray(datos)) {
                     const acumulados: unknown[] = [...datos];
@@ -39,7 +42,8 @@ export function useDatos<T>(
                     }
                     datos = acumulados as T;
                 }
-                await guardarConsulta(perfil!.idUsuario, clave, datos);
+                if (!parametros.buscar)
+                    await guardarConsulta(perfil!.idUsuario, clave, datos);
                 return {
                     datos,
                     cache: false,
@@ -47,7 +51,15 @@ export function useDatos<T>(
                 };
             } catch (e) {
                 if (e instanceof ErrorApi || signal.aborted) throw e;
-                const local = await leerConsulta(perfil!.idUsuario, clave);
+                const local =
+                    (await leerConsulta(perfil!.idUsuario, clave)) ||
+                    (parametros.pagina
+                        ? await buscarConsultaGuardada(
+                              perfil!.idUsuario,
+                              ruta!,
+                              parametros,
+                          )
+                        : undefined);
                 if (!local)
                     throw !navigator.onLine
                         ? new Error(
@@ -62,6 +74,7 @@ export function useDatos<T>(
             }
         },
         staleTime: 45_000,
+        gcTime: parametros.buscar ? 2 * 60_000 : 10 * 60_000,
         retry: false,
         refetchOnWindowFocus: false,
         networkMode: "always",

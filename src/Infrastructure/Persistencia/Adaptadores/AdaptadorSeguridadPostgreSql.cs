@@ -219,6 +219,7 @@ public sealed class AdaptadorSeguridadPostgreSql(
 
         var usuarios = await consulta
             .OrderBy(u => u.IdUsuario)
+            .Buscar(paginacion, u => u.NombreUsuario, u => u.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
         var ids = usuarios.Select(u => u.IdUsuario).ToArray();
@@ -306,12 +307,14 @@ public sealed class AdaptadorSeguridadPostgreSql(
         await contexto.Permisos.AsNoTracking()
             .OrderBy(p => p.Codigo)
             .Select(p => new RespuestaPermiso(p.IdPermiso, p.Codigo, p.Nombre, p.Descripcion, p.Activo))
+            .Buscar(paginacion, p => p.Codigo, p => p.Nombre, p => p.Descripcion)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
     public async Task<IReadOnlyList<RespuestaRol>> ListarRolesAsync(
         CancellationToken cancelacion = default)
     {
-        var roles = await contexto.Roles.AsNoTracking().OrderBy(r => r.Nombre).Paginar(paginacion).ToListAsync(cancelacion);
+        var roles = await contexto.Roles.AsNoTracking().OrderBy(r => r.Nombre).Buscar(paginacion, r => r.Nombre, r => r.Descripcion)
+            .Paginar(paginacion).ToListAsync(cancelacion);
         var idsRoles = roles.Select(r => r.IdRol).ToArray();
         var permisosPorRol = await (from rp in contexto.RolesPermiso.AsNoTracking()
                                     join p in contexto.Permisos.AsNoTracking() on rp.IdPermiso equals p.IdPermiso
@@ -630,9 +633,10 @@ public sealed class AdaptadorSeguridadPostgreSql(
         }
 
         var filas = await consulta
+            .Buscar(paginacion, x => x.NombreUsuario, x => x.Auditoria.Accion, x => x.Auditoria.Entidad, x => x.Auditoria.Campo)
             .OrderByDescending(x => x.Auditoria.FechaHora)
             .ThenByDescending(x => x.Auditoria.IdAuditoria)
-            .Take(filtro.Limite)
+            .Paginar(paginacion)
             .ToListAsync(cancelacion);
 
         return filas.Select(x => new RespuestaAuditoria(

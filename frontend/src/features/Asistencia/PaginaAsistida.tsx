@@ -10,6 +10,7 @@ import {
 } from "../../components/Interfaz";
 import { SelectorReferencia } from "../../components/SelectorReferencia";
 import { useDatos } from "../../hooks/usoDatos";
+import { coincideBusqueda } from "../../hooks/usoBusqueda";
 import { useSesion } from "../../app/Sesion";
 import { useAviso } from "../../app/Avisos";
 import { fechaJornada } from "../../app/formatos";
@@ -63,9 +64,10 @@ export default function PaginaAsistida() {
                   tipoContratacion: "Sin especialidad",
               }));
     const lista = disponibles.filter((a) =>
-        a.nombreCompletoTrabajador
-            .toLocaleLowerCase()
-            .includes(buscar.toLocaleLowerCase()),
+        coincideBusqueda(
+            `${a.nombreCompletoTrabajador} ${a.cedulaTrabajador}`,
+            buscar,
+        ),
     );
     const grupos = new Map<string, typeof lista>();
     for (const fila of lista) {

@@ -47,6 +47,7 @@ public sealed class AdaptadorAsistenciaPostgreSql(
                 o.Estado, o.Latitud, o.Longitud, o.RadioAsistenciaMetros, a.FechaInicio, a.FechaFin,
                 contexto.Asistencias.Where(r => r.IdAsignacion == a.IdAsignacion && r.SalidaEn == null
                     && r.Estado != EstadosAsistencia.Anulada).Select(r => (long?)r.IdAsistencia).FirstOrDefault()))
+            .Buscar(paginacion, a => a.CodigoObra, a => a.NombreObra, a => a.Direccion, a => a.EstadoObra)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
     public Task<bool> ExisteSolapamientoAsync(int idTrabajador, DateTime entradaEn, DateTime? salidaEn,
@@ -72,6 +73,7 @@ public sealed class AdaptadorAsistenciaPostgreSql(
             select new RespuestaCorreccionAsistencia(c.IdCorreccion, c.IdAsistencia, asignacion.IdObra,
                 c.IdUsuarioSolicita, c.IdUsuarioAprueba, c.EntradaAnterior, c.SalidaAnterior,
                 c.EntradaNueva, c.SalidaNueva, c.Motivo, c.Estado, c.SolicitadoEn, c.ResueltoEn))
+            .Buscar(paginacion, c => c.Motivo, c => c.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
@@ -327,7 +329,9 @@ public sealed class AdaptadorAsistenciaPostgreSql(
     public async Task<IReadOnlyList<RespuestaAsistencia>> ListarRegistrosAsync(FiltroConsolidadoAsistencia filtro,
         IReadOnlySet<int>? idsObrasPermitidas, CancellationToken cancelacion = default) =>
         await ConsultarAsistenciasBase(FiltrarRegistros(filtro, idsObrasPermitidas)
-            .OrderByDescending(a => a.FechaJornada).ThenByDescending(a => a.IdAsistencia).Paginar(paginacion))
+            .OrderByDescending(a => a.FechaJornada).ThenByDescending(a => a.IdAsistencia))
+            .Buscar(paginacion, a => a.NombreCompletoTrabajador, a => a.Estado)
+            .Paginar(paginacion)
             .ToListAsync(cancelacion);
 
     public async Task<IReadOnlyList<ItemConsolidadoAsistencia>> ConsultarConsolidadoAsync(
@@ -357,7 +361,8 @@ public sealed class AdaptadorAsistenciaPostgreSql(
                 Corregidas = g.Count(a => a.Estado == EstadosAsistencia.Corregida),
                 Horas = g.Sum(a => a.SalidaEn != null ? (decimal)(a.SalidaEn.Value - a.EntradaEn).TotalHours : 0m)
             };
-        var filas = await consulta.Paginar(paginacion).ToListAsync(cancelacion);
+        var filas = await consulta.Buscar(paginacion, x => x.Key.CodigoObra, x => x.Key.NombreObra, x => x.Key.NombreTrabajador, x => x.Key.Cedula)
+            .Paginar(paginacion).ToListAsync(cancelacion);
         var ids = filas.Select(f => f.Key.IdTrabajador).ToArray();
         var cuadrillas = await (
             from tc in contexto.TrabajadoresCuadrilla.AsNoTracking()

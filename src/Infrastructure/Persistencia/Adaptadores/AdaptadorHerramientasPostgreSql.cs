@@ -25,8 +25,10 @@ public sealed partial class AdaptadorHerramientasPostgreSql(
                     where ah.IdAsignacionHerramienta == i.IdAsignacionHerramienta && (idObra == null || a.IdObra == idObra)
                         && (idHerramienta == null || ah.IdHerramienta == idHerramienta)
                         && (obras == null || obras.Contains(a.IdObra)) select ah.IdAsignacionHerramienta).Any())
-            .OrderByDescending(i => i.FechaHora).ThenByDescending(i => i.IdIncidenciaHerramienta).Paginar(paginacion);
-        return await ConsultarIncidenciasBase(origen).ToListAsync(cancelacion);
+            .OrderByDescending(i => i.FechaHora).ThenByDescending(i => i.IdIncidenciaHerramienta);
+        return await ConsultarIncidenciasBase(origen)
+            .Buscar(paginacion, i => i.CodigoInternoHerramienta, i => i.TipoIncidencia, i => i.Descripcion, i => i.Resolucion, i => i.Estado)
+            .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
     public Task<bool> ExisteCategoriaPorNombreAsync(string nombre, CancellationToken cancelacion = default) =>
@@ -62,6 +64,7 @@ public sealed partial class AdaptadorHerramientasPostgreSql(
         await contexto.CategoriasHerramienta.AsNoTracking()
             .OrderBy(c => c.IdCategoria)
             .Select(c => new RespuestaCategoriaHerramienta(c.IdCategoria, c.Nombre, c.Descripcion, c.Activo))
+            .Buscar(paginacion, c => c.Nombre, c => c.Descripcion)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
     public Task<bool> ExisteTipoPorNombreEnCategoriaAsync(
@@ -122,6 +125,7 @@ public sealed partial class AdaptadorHerramientasPostgreSql(
                 t.Nombre,
                 t.Descripcion,
                 t.Activo))
+            .Buscar(paginacion, t => t.NombreCategoria, t => t.Nombre, t => t.Descripcion)
             .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
@@ -190,6 +194,7 @@ public sealed partial class AdaptadorHerramientasPostgreSql(
         }
 
         return await ConsultarHerramientasBase(origen.OrderBy(h => h.IdHerramienta))
+            .Buscar(paginacion, h => h.CodigoInterno, h => h.NumeroSerie, h => h.Marca, h => h.Modelo, h => h.NombreTipoHerramienta, h => h.NombreCategoria, h => h.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
@@ -313,6 +318,7 @@ public sealed partial class AdaptadorHerramientasPostgreSql(
                 a.CreadoEn,
                 a.SincronizadoEn,
                 false))
+            .Buscar(paginacion, a => a.CodigoInternoHerramienta, a => a.NombreTipoHerramienta, a => a.NombreCompletoTrabajador, a => a.CodigoObra, a => a.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
     }
 

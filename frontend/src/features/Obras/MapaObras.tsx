@@ -347,8 +347,8 @@ export default function MapaObras({
                 ))}
                 {obras.length >= 100 && (
                     <p className="ayuda-campo">
-                        Se muestran las primeras 100 obras cargadas. Consulta
-                        las páginas de la lista para revisar las restantes.
+                        Busca una obra por su nombre o código para ubicarla
+                        directamente.
                     </p>
                 )}
             </div>

@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
-import { Search, Plus } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Plus } from "lucide-react";
 import { useDatos } from "../hooks/usoDatos";
 import { nombrePersona, etiqueta, fecha, texto } from "../app/formatos";
 import { ErrorVisible, Boton, Cargando } from "./Interfaz";
 import type { Fila } from "../features/Modulos/catalogo";
 import { useCola } from "../hooks/usoCola";
+import { useBusqueda, coincideBusqueda } from "../hooks/usoBusqueda";
+import { Busqueda } from "./Busqueda";
 
 type Fuente = { ruta: string; id: string; parametros?: Fila };
 export function fuentePara(campo: string, idObra?: number): Fuente | null {
@@ -149,40 +151,86 @@ export function SelectorReferencia({
     idControl?: string;
     historial?: boolean;
 }) {
-    const [pagina, setPagina] = useState(1);
-    const [filas, setFilas] = useState<Fila[]>([]);
+    const [paginacion, setPaginacion] = useState({ clave: "", pagina: 1 });
+    const [cargadas, setCargadas] = useState<{ clave: string; filas: Fila[] }>({
+        clave: "",
+        filas: [],
+    });
     const [buscar, setBuscar] = useState("");
     const fuente = fuentePara(campo, idObra);
     const clave =
         fuente?.ruta + JSON.stringify(fuente?.parametros) + String(historial);
+    const busqueda = useBusqueda(buscar, clave);
+    const claveConsulta = `${clave}|${busqueda.consulta}`;
+    const pagina = paginacion.clave === claveConsulta ? paginacion.pagina : 1;
+    const vistas = useRef({ clave, filas: new Map<string, Fila>() });
+    if (vistas.current.clave !== clave)
+        vistas.current = { clave, filas: new Map() };
     const { operaciones } = useCola(campo === "idAvance");
     const consulta = useDatos<Fila[]>(fuente?.ruta || null, {
         ...fuente?.parametros,
         ...(historial ? { estado: undefined, soloVigentes: undefined } : {}),
         pagina,
-        tamanoPagina: 100,
+        tamanoPagina: 50,
+        buscar: busqueda.consulta || undefined,
     });
+    const filas =
+        cargadas.clave === claveConsulta
+            ? cargadas.filas
+            : consulta.datos || [];
     useEffect(() => {
-        setPagina(1);
-        setFilas([]);
         setBuscar("");
     }, [clave]);
     useEffect(() => {
-        if (consulta.datos)
-            setFilas((anteriores) => {
+        if (consulta.datos) {
+            const seleccion = new Set(
+                Array.isArray(valor)
+                    ? valor.map(String)
+                    : [String(valor ?? "")],
+            );
+            const recibidos = new Set(
+                consulta.datos.map((fila) => String(fila[fuente!.id])),
+            );
+            for (const id of vistas.current.filas.keys())
+                if (!seleccion.has(id) && !recibidos.has(id))
+                    vistas.current.filas.delete(id);
+            for (const fila of consulta.datos)
+                vistas.current.filas.set(String(fila[fuente!.id]), fila);
+            setCargadas((anteriores) => {
                 const combinadas =
                     pagina === 1
                         ? consulta.datos!
-                        : [...anteriores, ...consulta.datos!];
-                return [
-                    ...new Map(
-                        combinadas.map((f) => [f[fuente!.id], f]),
-                    ).values(),
-                ];
+                        : [
+                              ...(anteriores.clave === claveConsulta
+                                  ? anteriores.filas
+                                  : []),
+                              ...consulta.datos!,
+                          ];
+                return {
+                    clave: claveConsulta,
+                    filas: [
+                        ...new Map(
+                            combinadas.map((f) => [f[fuente!.id], f]),
+                        ).values(),
+                    ],
+                };
             });
-    }, [consulta.datos, fuente?.id, pagina]);
+        }
+    }, [consulta.datos, fuente?.id, pagina, claveConsulta, valor]);
     const opciones = useMemo(() => {
-        const actuales = filas.map((f) => ({
+        const seleccion = Array.isArray(valor)
+            ? valor.map(String)
+            : [String(valor ?? "")];
+        const registros = [...filas];
+        for (const id of seleccion) {
+            const fila = vistas.current.filas.get(id);
+            if (
+                fila &&
+                !registros.some((f) => String(f[fuente?.id || "id"]) === id)
+            )
+                registros.push(fila);
+        }
+        const actuales = registros.map((f) => ({
             valor: String(f[fuente?.id || "id"]),
             titulo: tituloReferencia(f),
             detalle: f.estado ? etiqueta(String(f.estado)) : "",
@@ -192,6 +240,10 @@ export function SelectorReferencia({
                 (o) =>
                     o.coleccion === "avances" &&
                     o.estado !== "CONFIRMADA" &&
+                    coincideBusqueda(
+                        `Avance pendiente ${fecha(o.datos.fechaAvance)}`,
+                        buscar,
+                    ) &&
                     (!idObra ||
                         o.rutaConsulta ===
                             `/api/seguimiento/obras/${idObra}/avances`),
@@ -201,12 +253,8 @@ export function SelectorReferencia({
                     titulo: `Avance pendiente · ${fecha(o.datos.fechaAvance)}`,
                     detalle: "Se adjuntará al sincronizar el avance",
                 });
-        return actuales.filter((o) =>
-            `${o.titulo} ${o.detalle}`
-                .toLocaleLowerCase()
-                .includes(buscar.toLocaleLowerCase()),
-        );
-    }, [filas, fuente?.id, campo, operaciones, idObra, buscar]);
+        return actuales;
+    }, [filas, fuente?.id, campo, operaciones, idObra, buscar, valor]);
     if (!fuente)
         return (
             <p className="ayuda-campo">
@@ -218,16 +266,18 @@ export function SelectorReferencia({
     const nombre = etiquetaVisible || campo;
     return (
         <div className="selector-referencia">
-            {(multiple || filas.length > 15) && (
-                <div className="busqueda-selector">
-                    <Search size={17} aria-hidden="true" />
-                    <input
-                        aria-label={`Buscar ${nombre}`}
-                        placeholder="Buscar opciones…"
-                        value={buscar}
-                        onChange={(e) => setBuscar(e.target.value)}
-                    />
-                </div>
+            {(multiple ||
+                filas.length > 15 ||
+                buscar ||
+                vistas.current.filas.size > 15) && (
+                <Busqueda
+                    opciones
+                    nombre={`Buscar ${nombre.replace(/^Filtrar por\s+/i, "")}`}
+                    valor={buscar}
+                    cambiar={setBuscar}
+                    ayuda={busqueda.ayuda}
+                    esperando={busqueda.esperando}
+                />
             )}
             {consulta.isLoading && !filas.length ? (
                 <Cargando variante="opciones" texto="Cargando opciones…" />
@@ -258,7 +308,9 @@ export function SelectorReferencia({
                         <p className="ayuda-campo">
                             {consulta.isLoading
                                 ? "Cargando opciones…"
-                                : "No hay opciones cargadas."}
+                                : buscar
+                                  ? "No se encontraron opciones."
+                                  : "No hay opciones disponibles."}
                         </p>
                     )}
                 </div>
@@ -291,14 +343,30 @@ export function SelectorReferencia({
             {consulta.cache && (
                 <small className="ayuda-campo">
                     Opciones guardadas en este dispositivo.
+                    {!!busqueda.consulta &&
+                        " Búsqueda limitada a las opciones guardadas."}
                 </small>
             )}
             {consulta.error && <ErrorVisible error={consulta.error} />}
-            {consulta.datos?.length === 100 && (
+            {!multiple &&
+                !consulta.isLoading &&
+                !!busqueda.consulta &&
+                !filas.length && (
+                    <p className="ayuda-campo" role="status">
+                        No se encontraron opciones. Prueba otra búsqueda.
+                    </p>
+                )}
+            {consulta.datos?.length === 50 && (
                 <Boton
                     type="button"
                     variante="texto"
-                    onClick={() => setPagina((p) => p + 1)}
+                    disabled={consulta.isFetching || busqueda.esperando}
+                    onClick={() =>
+                        setPaginacion({
+                            clave: claveConsulta,
+                            pagina: pagina + 1,
+                        })
+                    }
                 >
                     <Plus size={14} />
                     Cargar más opciones

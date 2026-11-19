@@ -199,7 +199,10 @@ export function Paginacion({
 }) {
     return (
         <div className="paginacion">
-            <span>{cantidad} registros en esta página</span>
+            <span>
+                {cantidad} {cantidad === 1 ? "registro" : "registros"} en esta
+                página
+            </span>
             <div>
                 <Boton
                     variante="secundario"

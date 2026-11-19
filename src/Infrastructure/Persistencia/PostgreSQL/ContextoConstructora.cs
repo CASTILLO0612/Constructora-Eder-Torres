@@ -63,6 +63,14 @@ public sealed class ContextoConstructora(
     {
         base.OnModelCreating(constructorModelo);
         constructorModelo.HasPostgresExtension("pgcrypto");
+        constructorModelo.HasPostgresExtension("pg_trgm");
+        constructorModelo.HasDbFunction(typeof(BusquedaPostgreSql).GetMethod(nameof(BusquedaPostgreSql.Normalizar))!)
+            .HasParameter("valores").HasStoreType("text[]");
+        // Evita que la inferencia de varchar(n) en arrays introduzca conversiones que impiden usar el índice.
+        constructorModelo.HasDbFunction(typeof(BusquedaPostgreSql).GetMethod(nameof(BusquedaPostgreSql.ComoTexto))!)
+            .HasTranslation(argumentos => new Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlUnaryExpression(
+                System.Linq.Expressions.ExpressionType.Convert, argumentos[0], typeof(string),
+                new Microsoft.EntityFrameworkCore.Storage.StringTypeMapping("text", System.Data.DbType.String)));
         constructorModelo.ApplyConfigurationsFromAssembly(typeof(ContextoConstructora).Assembly);
     }
 }

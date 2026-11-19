@@ -2,14 +2,7 @@ import { TablaDatos } from "../../components/TablaDatos";
 import Detalle from "../../components/DetalleRegistro";
 import { lazy, Suspense, useCallback, useEffect, useId, useState } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
-import {
-    Search,
-    Plus,
-    RefreshCw,
-    List,
-    Map as MapIcon,
-    MapPin,
-} from "lucide-react";
+import { Plus, RefreshCw, List, Map as MapIcon, MapPin } from "lucide-react";
 import {
     modulos,
     rutaConDatos,
@@ -20,7 +13,9 @@ import {
 import { useSesion } from "../../app/Sesion";
 import { useDatos } from "../../hooks/usoDatos";
 import { nombresAreas, nombreCampo } from "../../components/etiquetas";
-import { nombrePersona, fecha, etiqueta } from "../../app/formatos";
+import { fecha, etiqueta } from "../../app/formatos";
+import { useBusqueda } from "../../hooks/usoBusqueda";
+import { Busqueda } from "../../components/Busqueda";
 import {
     Boton,
     Encabezado,
@@ -77,7 +72,7 @@ export default function PaginaModulo({
         disponibles[0];
     const [filtros, setFiltros] = useState<Fila>({});
     const [buscar, setBuscar] = useState("");
-    const [pagina, setPagina] = useState(1);
+    const [paginacion, setPaginacion] = useState({ clave: "", pagina: 1 });
     const [obra, setObra] = useState<number | undefined>();
     const [detalle, setDetalle] = useState<Fila | null>(null);
     const [formulario, setFormulario] = useState<{
@@ -137,16 +132,33 @@ export default function PaginaModulo({
     const contexto = { idObra: obra, ...filtrosConsulta };
     const ruta =
         recurso && !errorFiltros ? rutaConDatos(recurso.ruta, contexto) : null;
+    const busquedaTexto = useBusqueda(buscar, `${nombre}/${recurso?.clave}`);
+    const clavePagina = JSON.stringify([
+        ruta,
+        filtrosConsulta,
+        obra,
+        busquedaTexto.consulta,
+        mapa,
+    ]);
+    const pagina = paginacion.clave === clavePagina ? paginacion.pagina : 1;
+    const setPagina = (pagina: number) =>
+        setPaginacion({ clave: clavePagina, pagina });
     const filtroParams = {
         ...filtrosConsulta,
         ...(recurso?.filtros?.includes("idObra") ? { idObra: obra } : {}),
         pagina,
         tamanoPagina: 25,
+        buscar: busquedaTexto.consulta || undefined,
     };
-    const consulta = useDatos<Fila[]>(ruta, filtroParams);
+    const consulta = useDatos<Fila[]>(!mapa ? ruta : null, filtroParams);
     const mapaConsulta = useDatos<Fila[]>(
         mapa && nombre === "obras" ? "/api/obras" : null,
-        { estado: filtros.estado, pagina: 1, tamanoPagina: 100 },
+        {
+            estado: filtros.estado,
+            buscar: busquedaTexto.consulta || undefined,
+            pagina,
+            tamanoPagina: 100,
+        },
     );
     const cerrarFormulario = useCallback(() => {
         setFormulario(null);
@@ -213,18 +225,7 @@ export default function PaginaModulo({
                 detalle="Tu perfil no tiene permisos para consultar este módulo."
             />
         );
-    const filas = (consulta.datos || []).filter(
-        (f) =>
-            !buscar ||
-            Object.values(f).some((v) =>
-                String(v ?? "")
-                    .toLocaleLowerCase()
-                    .includes(buscar.toLocaleLowerCase()),
-            ) ||
-            nombrePersona(f)
-                .toLocaleLowerCase()
-                .includes(buscar.toLocaleLowerCase()),
-    );
+    const filas = consulta.datos || [];
     const necesitaObra =
         recurso.requiereObra || recurso.filtros?.includes("idObra");
     const gerencia = perfil?.roles.some(
@@ -322,16 +323,14 @@ export default function PaginaModulo({
                         >
                             Buscar
                         </label>
-                        <div className="buscar-tabla">
-                            <Search size={18} />
-                            <input
-                                id={`${idFiltros}-buscar`}
-                                placeholder="Buscar en esta página…"
-                                aria-label="Buscar en los registros cargados"
-                                value={buscar}
-                                onChange={(e) => setBuscar(e.target.value)}
-                            />
-                        </div>
+                        <Busqueda
+                            id={`${idFiltros}-buscar`}
+                            nombre="Buscar registros"
+                            valor={buscar}
+                            cambiar={setBuscar}
+                            ayuda={busquedaTexto.ayuda}
+                            esperando={busquedaTexto.esperando}
+                        />
                     </div>
                     {necesitaObra && (
                         <div className="filtro-referencia">
@@ -535,6 +534,8 @@ export default function PaginaModulo({
                     <p className="aviso-cache">
                         Consulta guardada en este dispositivo ·{" "}
                         {fecha(consulta.guardadoEn, true)}
+                        {!!busquedaTexto.consulta &&
+                            " · Búsqueda limitada a los registros guardados."}
                     </p>
                 )}
                 {errorFiltros ? (
@@ -547,12 +548,22 @@ export default function PaginaModulo({
                     ) : mapaConsulta.error ? (
                         <ErrorVisible error={mapaConsulta.error} />
                     ) : (
-                        <Suspense fallback={<Cargando variante="mapa" />}>
-                            <MapaObras
-                                obras={mapaConsulta.datos || []}
-                                seleccionar={setDetalle}
+                        <>
+                            <Suspense fallback={<Cargando variante="mapa" />}>
+                                <MapaObras
+                                    obras={mapaConsulta.datos || []}
+                                    seleccionar={setDetalle}
+                                />
+                            </Suspense>
+                            <Paginacion
+                                pagina={pagina}
+                                siguiente={
+                                    (mapaConsulta.datos?.length || 0) === 100
+                                }
+                                cambiar={setPagina}
+                                cantidad={mapaConsulta.datos?.length || 0}
                             />
-                        </Suspense>
+                        </>
                     )
                 ) : !ruta ? (
                     <Vacio
@@ -564,31 +575,52 @@ export default function PaginaModulo({
                 ) : consulta.error ? (
                     <ErrorVisible error={consulta.error} />
                 ) : !filas.length ? (
-                    <Vacio
-                        titulo={
-                            buscar
-                                ? "No se encontraron coincidencias"
-                                : "Todavía no hay registros"
-                        }
-                        detalle={
-                            buscar
-                                ? "Prueba otra búsqueda en esta página."
-                                : recurso.descripcion
-                        }
-                        accion={
-                            crear && (
-                                <Boton
-                                    variante="secundario"
-                                    onClick={() =>
-                                        setFormulario({ accion: crear })
-                                    }
-                                >
-                                    <Plus size={16} />
-                                    {crear.titulo}
-                                </Boton>
-                            )
-                        }
-                    />
+                    <>
+                        <Vacio
+                            titulo={
+                                pagina > 1
+                                    ? "No hay más registros"
+                                    : busquedaTexto.consulta
+                                      ? "No se encontraron coincidencias"
+                                      : "Todavía no hay registros"
+                            }
+                            detalle={
+                                buscar
+                                    ? "Prueba otro nombre o código, o revisa los filtros seleccionados."
+                                    : recurso.descripcion
+                            }
+                            accion={
+                                busquedaTexto.consulta ? (
+                                    <Boton
+                                        variante="secundario"
+                                        onClick={() => setBuscar("")}
+                                    >
+                                        Limpiar búsqueda
+                                    </Boton>
+                                ) : (
+                                    crear && (
+                                        <Boton
+                                            variante="secundario"
+                                            onClick={() =>
+                                                setFormulario({ accion: crear })
+                                            }
+                                        >
+                                            <Plus size={16} />
+                                            {crear.titulo}
+                                        </Boton>
+                                    )
+                                )
+                            }
+                        />
+                        {pagina > 1 && (
+                            <Paginacion
+                                pagina={pagina}
+                                siguiente={false}
+                                cambiar={setPagina}
+                                cantidad={0}
+                            />
+                        )}
+                    </>
                 ) : (
                     <>
                         <TablaDatos

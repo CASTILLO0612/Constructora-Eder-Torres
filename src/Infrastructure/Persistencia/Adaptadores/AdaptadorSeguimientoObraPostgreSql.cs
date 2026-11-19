@@ -16,7 +16,8 @@ public sealed partial class AdaptadorSeguimientoObraPostgreSql(
     public async Task<IReadOnlyList<RespuestaEvidencia>> ListarEvidenciasPorAvanceAsync(
         long idAvance, CancellationToken cancelacion = default) =>
         await ConsultarEvidenciasBase(contexto.Evidencias.Where(e => e.IdAvance == idAvance)
-            .OrderByDescending(e => e.CapturadaEn).ThenByDescending(e => e.IdEvidencia).Paginar(paginacion))
+            .OrderByDescending(e => e.CapturadaEn).ThenByDescending(e => e.IdEvidencia).Buscar(paginacion, e => e.TipoEvidencia)
+            .Paginar(paginacion))
             .ToListAsync(cancelacion);
 
     public Task<bool> ExisteObraAsync(int idObra, CancellationToken cancelacion = default) =>
@@ -135,6 +136,7 @@ public sealed partial class AdaptadorSeguimientoObraPostgreSql(
         var actividades = await contexto.Actividades.AsNoTracking()
             .Where(a => a.IdObra == idObra)
             .OrderBy(a => a.IdActividad)
+            .Buscar(paginacion, a => a.Codigo, a => a.Nombre, a => a.Descripcion, a => a.UnidadMedida, a => a.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
         if (actividades.Count == 0)
@@ -410,6 +412,7 @@ public sealed partial class AdaptadorSeguimientoObraPostgreSql(
                 av.CreadoEn,
                 av.SincronizadoEn,
                 false))
+            .Buscar(paginacion, a => a.CodigoActividad, a => a.NombreActividad, a => a.Observaciones, a => a.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
@@ -517,6 +520,7 @@ public sealed partial class AdaptadorSeguimientoObraPostgreSql(
                 ev.CreadoEn,
                 ev.SincronizadoEn,
                 false))
+            .Buscar(paginacion, e => e.TipoEvidencia)
             .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
@@ -614,6 +618,7 @@ public sealed partial class AdaptadorSeguimientoObraPostgreSql(
             .Where(i => i.IdObra == idObra)
             .OrderByDescending(i => i.InicioEn)
             .ThenByDescending(i => i.IdIncidencia)
+            .Buscar(paginacion, i => i.TipoIncidencia, i => i.Descripcion, i => i.Justificacion, i => i.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
         if (incidencias.Count == 0)
@@ -754,6 +759,7 @@ public sealed partial class AdaptadorSeguimientoObraPostgreSql(
         int idObra, CancellationToken cancelacion = default) =>
         await contexto.Actas.AsNoTracking().Where(a => a.IdObra == idObra)
             .OrderByDescending(a => a.PeriodoInicio).ThenByDescending(a => a.IdActa)
+            .Buscar(paginacion, a => a.NumeroActa, a => a.Estado)
             .Paginar(paginacion)
             .Select(a => new ResumenActa(a.IdActa, a.IdObra, a.NumeroActa,
                 a.PeriodoInicio, a.PeriodoFin, a.Estado, a.CreadoEn))

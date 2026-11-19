@@ -54,6 +54,15 @@ const tipo = (esquema, nombre = "") => {
 };
 const salida = path.join(raiz, "frontend/src/api");
 await mkdir(salida, { recursive: true });
+const limitesBusqueda = documento["x-limites-busqueda"];
+if (!limitesBusqueda)
+    throw new Error("El contrato no contiene los límites de búsqueda.");
+await writeFile(
+    path.join(salida, "busqueda.ts"),
+    "// Generado desde el contrato OpenAPI.\nexport const limitesBusqueda = " +
+        JSON.stringify(limitesBusqueda, null, 2) +
+        " as const;\n",
+);
 await writeFile(
     path.join(salida, "contratos.ts"),
     "// Generado desde el OpenAPI de la API. Ejecutar npm run contratos para actualizar.\n" +

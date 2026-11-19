@@ -31,6 +31,7 @@ public sealed class AdaptadorPersonalPostgreSql(
         await contexto.Cargos.AsNoTracking()
             .OrderBy(c => c.IdCargo)
             .Select(c => new RespuestaCargo(c.IdCargo, c.Nombre, c.Descripcion, c.Activo))
+            .Buscar(paginacion, c => c.Nombre, c => c.Descripcion)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
     public async Task<RespuestaCargo?> ObtenerCargoPorIdAsync(int idCargo, CancellationToken cancelacion = default) =>
@@ -59,6 +60,7 @@ public sealed class AdaptadorPersonalPostgreSql(
         await contexto.Especialidades.AsNoTracking()
             .OrderBy(e => e.IdEspecialidad)
             .Select(e => new RespuestaEspecialidad(e.IdEspecialidad, e.Nombre, e.Descripcion, e.Activo))
+            .Buscar(paginacion, e => e.Nombre, e => e.Descripcion)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
     public async Task<RespuestaEspecialidad?> ObtenerEspecialidadPorIdAsync(int idEspecialidad, CancellationToken cancelacion = default) =>
@@ -87,6 +89,7 @@ public sealed class AdaptadorPersonalPostgreSql(
         await contexto.Cuadrillas.AsNoTracking()
             .OrderBy(c => c.IdCuadrilla)
             .Select(c => new RespuestaCuadrilla(c.IdCuadrilla, c.Codigo, c.Nombre, c.Descripcion, c.Activo))
+            .Buscar(paginacion, c => c.Codigo, c => c.Nombre, c => c.Descripcion)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
     public async Task<RespuestaCuadrilla?> ObtenerCuadrillaPorIdAsync(int idCuadrilla, CancellationToken cancelacion = default) =>
@@ -233,6 +236,7 @@ public sealed class AdaptadorPersonalPostgreSql(
 
         var filas = await consulta
             .OrderBy(x => x.Trabajador.IdTrabajador)
+            .Buscar(paginacion, x => x.Trabajador.PrimerNombre, x => x.Trabajador.SegundoNombre, x => x.Trabajador.PrimerApellido, x => x.Trabajador.SegundoApellido, x => x.Trabajador.Cedula, x => x.Trabajador.Telefono, x => x.Trabajador.Correo)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
         if (filas.Count == 0)
@@ -493,6 +497,7 @@ public sealed class AdaptadorPersonalPostgreSql(
                 a.FechaFin,
                 a.EsResponsable,
                 a.Estado))
+            .Buscar(paginacion, a => a.NombreCompletoTrabajador, a => a.CedulaTrabajador, a => a.CodigoObra, a => a.NombreEspecialidad, a => a.TipoContratacion, a => a.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
@@ -604,6 +609,7 @@ public sealed class AdaptadorPersonalPostgreSql(
                 co.FechaInicio,
                 co.FechaFin,
                 co.Estado))
+            .Buscar(paginacion, c => c.CodigoCuadrilla, c => c.NombreCuadrilla, c => c.Estado)
             .Paginar(paginacion).ToListAsync(cancelacion);
 
     public Task<bool> ExisteTrabajadorCuadrillaActivaAsync(
@@ -681,7 +687,8 @@ public sealed class AdaptadorPersonalPostgreSql(
                 tc.FechaInicio,
                 tc.FechaFin);
 
-        return await consulta.Paginar(paginacion).ToListAsync(cancelacion);
+        return await consulta.Buscar(paginacion, t => t.NombreCompletoTrabajador, t => t.NombreCuadrilla)
+            .Paginar(paginacion).ToListAsync(cancelacion);
     }
 
     private static RespuestaTrabajador MapearTrabajador(

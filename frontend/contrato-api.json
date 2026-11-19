@@ -1532,6 +1532,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -4527,6 +4537,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -5834,6 +5854,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -6238,6 +6268,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -6589,6 +6629,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -9116,6 +9166,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -12664,6 +12724,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -13493,6 +13563,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -14321,6 +14401,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -15164,6 +15254,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -16975,6 +17075,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -18360,6 +18470,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -18750,6 +18870,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -19582,6 +19712,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -21204,6 +21344,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -23984,6 +24134,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -24338,6 +24498,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -27052,6 +27222,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -27966,6 +28146,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -29826,6 +30016,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -30712,6 +30912,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -33898,6 +34108,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -34745,6 +34965,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -37521,6 +37751,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -38376,6 +38616,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -38732,6 +38982,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -40052,6 +40312,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -40494,6 +40764,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -42674,6 +42954,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -44972,6 +45262,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -45812,6 +46112,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -46668,6 +46978,16 @@
               "minimum": 1,
               "type": "integer"
             }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -47522,6 +47842,16 @@
               "maximum": 500,
               "minimum": 1,
               "type": "integer"
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "description": "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+            "schema": {
+              "maxLength": 120,
+              "minLength": 3,
+              "type": "string"
             }
           }
         ],
@@ -54604,5 +54934,10 @@
     {
       "name": "Sincronización Offline"
     }
-  ]
+  ],
+  "x-limites-busqueda": {
+    "longitudMinima": 3,
+    "longitudMaxima": 120,
+    "maximoPalabras": 8
+  }
 }

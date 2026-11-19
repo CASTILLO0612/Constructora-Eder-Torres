@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Globalization;
+using ConstructoraEderTorres.Aplicacion.Comun;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,13 @@ internal sealed class TransformadorOperacionApi(OpcionesApi opciones) : IOpenApi
         {
             AgregarPaginacion(operacion, "pagina", 1, null);
             AgregarPaginacion(operacion, "tamanoPagina", opciones.TamanoPaginaPredeterminado, opciones.TamanoPaginaMaximo);
+            operacion.Parameters.Add(new OpenApiParameter
+            {
+                Name = "buscar", In = ParameterLocation.Query,
+                Description = "Busca en los campos públicos de la lista antes de paginar, sin distinguir mayúsculas ni tildes. Todas las palabras deben coincidir. Conserva permisos y filtros.",
+                Schema = new OpenApiSchema { Type = JsonSchemaType.String, MinLength = BusquedaTexto.LongitudMinima,
+                    MaxLength = BusquedaTexto.LongitudMaxima }
+            });
         }
 
         var problema = await contexto.GetOrCreateSchemaAsync(typeof(ProblemDetails), null, cancelacion);

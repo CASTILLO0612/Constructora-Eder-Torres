@@ -49,7 +49,9 @@ public static class InyeccionDependencias
             var consulta = solicitud.Query;
             var pagina = consulta is not null && int.TryParse(consulta["pagina"], out var p) ? p : 1;
             var tamano = consulta is not null && int.TryParse(consulta["tamanoPagina"], out var t) ? t : opciones.TamanoPaginaPredeterminado;
-            return new PaginacionConsulta(pagina, tamano);
+            if (solicitud.Path == "/api/auditorias" && int.TryParse(consulta?["limite"], out var limite) && limite > 0)
+                tamano = consulta!.ContainsKey("tamanoPagina") ? Math.Min(tamano, limite) : limite;
+            return new PaginacionConsulta(pagina, tamano, consulta?["buscar"].ToString().Trim());
         });
 
         servicios.AddProblemDetails(opciones => opciones.CustomizeProblemDetails = contexto =>

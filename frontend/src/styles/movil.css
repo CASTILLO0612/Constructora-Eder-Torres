@@ -386,6 +386,16 @@
     .paginacion .boton {
         min-height: 44px !important;
         font-size: 14px !important;
+        min-width: 0;
+        padding-inline: 7px !important;
+        justify-content: center;
+        gap: 6px;
+    }
+    .paginacion > div {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        width: 100%;
+        gap: 6px;
     }
     .numero-pagina {
         height: 35px !important;
