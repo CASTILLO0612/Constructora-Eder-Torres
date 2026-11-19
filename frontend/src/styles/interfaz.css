@@ -431,6 +431,9 @@ label {
     flex-direction: column;
 }
 .barra-superior {
+    position: sticky;
+    top: 0;
+    z-index: 20;
     height: 74px;
     min-height: 74px;
     display: flex;
@@ -527,15 +530,6 @@ main {
     background: var(--superficie);
     border: 1px solid var(--borde);
     border-radius: 6px;
-}
-.pie-aplicacion {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 19px 38px;
-    border-top: 1px solid var(--borde);
-    font-size: 10px;
-    color: var(--secundario);
 }
 .navegacion-movil,
 .abrir-menu,

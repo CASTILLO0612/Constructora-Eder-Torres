@@ -24,7 +24,7 @@ export async function conLimiteSolicitud<T>(
     } catch (error) {
         if (plazoAgotado)
             throw new DOMException(
-                "El servidor tardó demasiado en responder. Vuelve a intentarlo.",
+                "La operación está tardando demasiado. Vuelve a intentarlo.",
                 "TimeoutError",
             );
         throw error;

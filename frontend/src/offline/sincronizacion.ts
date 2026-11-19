@@ -1,4 +1,5 @@
 import { api, ErrorApi, mensajeError } from "../api/cliente";
+import { mensajeParaUsuario } from "../app/mensajes";
 import {
     avisarCola,
     baseLocal,
@@ -156,7 +157,7 @@ async function procesar(idUsuario: number) {
                 operacion.idServidor = resultado
                     .map((r) => r.idAsistencia)
                     .join(",");
-                operacion.mensaje = "Lista confirmada por el servidor";
+                operacion.mensaje = undefined;
                 await guardarOperacion(operacion);
                 window.dispatchEvent(new Event("cet:datos-cambiados"));
                 continue;
@@ -177,12 +178,12 @@ async function procesar(idUsuario: number) {
             const acuse = resultado.acuses[0];
             if (!acuse)
                 throw new Error(
-                    "El servidor no devolvió el acuse de la operación. Se conserva para reenvío.",
+                    "Aún no se pudo confirmar la captura. Se conserva para volver a enviarla.",
                 );
             if (confirmados.has(acuse.estadoAcuse)) {
                 operacion.estado = "CONFIRMADA";
                 operacion.idServidor = String(acuse.idRegistroServidor ?? "");
-                operacion.mensaje = "Confirmado por el servidor";
+                operacion.mensaje = undefined;
                 // Se conservan UUID y acuse, retirando bytes de evidencia ya confirmados.
                 if (operacion.coleccion === "evidencias")
                     operacion.datos = {
@@ -194,9 +195,10 @@ async function procesar(idUsuario: number) {
                     acuse.estadoAcuse === "PENDIENTE_REINTENTO"
                         ? "PENDIENTE"
                         : "ATENCION";
-                operacion.mensaje =
-                    acuse.mensajeError ||
-                    "Revisa los datos y permisos antes de reenviar.";
+                operacion.mensaje = mensajeParaUsuario(
+                    acuse.mensajeError,
+                    "Revisa los datos y permisos antes de reenviar.",
+                );
                 operacion.codigo = acuse.codigoError;
                 operacion.proximoIntento =
                     Date.now() +

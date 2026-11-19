@@ -142,7 +142,7 @@ export const etiquetas: Record<string, string> = {
     roles: "Roles",
     activo: "Activo",
     ultimoAcceso: "Último acceso",
-    entidad: "Entidad",
+    entidad: "Área",
     accion: "Acción",
     campo: "Campo",
     valorAnterior: "Valor anterior",
@@ -166,7 +166,68 @@ export const etiquetas: Record<string, string> = {
     evidenciasConsolidadas: "Evidencias incluidas",
     incidenciasConsolidadas: "Incidencias incluidas",
     aprobaciones: "Decisiones registradas",
+    precisionGpsMetros: "Precisión de la ubicación",
+    datosInventario: "Datos del inventario",
+    estadoHerramienta: "Estado de la herramienta",
+    salidaAt: "Salida",
+    revision: "Revisión",
 };
 export const nombreCampo = (campo: string) =>
     etiquetas[campo] ||
     campo.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase());
+import { permisos } from "../api/permisos";
+
+export const esCampoInterno = (campo: string) =>
+    /^(?:ids?[A-Z_]|[Uu]uid)/.test(campo) ||
+    /^(?:fueIdempotente|fueConfirmacionBorrador|rutaArchivo|huellaArchivo|rutaFirma|rutaConstancia|ipOrigen|esSincronizacionDiferida|contenidoArchivo|tipoContenido|tamanoBytes|precisionGps)/.test(
+        campo,
+    ) ||
+    /^(?:latitud|longitud)(?:Entrada|Salida|Lectura)$/.test(campo);
+
+export const nombresAreas: Record<string, string> = {
+    obras: "Obras",
+    trabajadores: "Personal",
+    cargos: "Cargos",
+    especialidades: "Especialidades",
+    cuadrillas: "Cuadrillas",
+    cuadrillas_obra: "Cuadrillas de obra",
+    asignaciones_trabajador_obra: "Asignaciones a obra",
+    trabajadores_cuadrilla: "Integrantes de cuadrilla",
+    asistencias: "Asistencia",
+    registros_asistencia: "Asistencia",
+    correcciones_asistencia: "Correcciones de asistencia",
+    actividades: "Actividades",
+    avances: "Avances",
+    evidencias: "Evidencias",
+    incidencias: "Incidencias de obra",
+    incidencias_obra: "Incidencias de obra",
+    actas: "Actas semanales",
+    epps: "Equipo de protección",
+    entregas_epp: "Entregas de protección",
+    reposiciones_epp: "Reposiciones de protección",
+    herramientas: "Herramientas",
+    asignaciones_herramienta: "Asignaciones de herramientas",
+    incidencias_herramienta: "Incidencias de herramientas",
+    usuarios: "Usuarios",
+    roles: "Roles",
+    usuarios_rol: "Roles de usuario",
+    roles_permiso: "Permisos de los roles",
+};
+
+export function nombreCampoAuditoria(campo: string): string {
+    const nombre = campo.replace(/_([a-z])/g, (_, c: string) =>
+        c.toUpperCase(),
+    );
+    return etiquetas[nombre] || "Datos del registro";
+}
+
+export function nombrePermiso(codigo: string): string {
+    const nombre = Object.entries(permisos).find(
+        ([, valor]) => valor === codigo,
+    )?.[0];
+    if (!nombre) return "Permiso";
+    const etiqueta = nombreCampo(nombre)
+        .toLocaleLowerCase()
+        .replace(/\bepp\b/g, "EPP");
+    return etiqueta.charAt(0).toUpperCase() + etiqueta.slice(1);
+}

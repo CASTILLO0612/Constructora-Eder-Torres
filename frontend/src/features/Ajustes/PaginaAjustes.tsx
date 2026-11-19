@@ -173,7 +173,7 @@ export default function PaginaAjustes() {
                             <dd>{enLinea ? "Disponible" : "Sin conexión"}</dd>
                         </div>
                         <div>
-                            <dt>Sesión con el servidor</dt>
+                            <dt>Estado de tu sesión</dt>
                             <dd>
                                 {sinVerificar
                                     ? "Pendiente de verificar"

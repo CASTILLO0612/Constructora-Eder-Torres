@@ -51,7 +51,7 @@ export function useDatos<T>(
                 if (!local)
                     throw !navigator.onLine
                         ? new Error(
-                              "Esta consulta no está guardada en el dispositivo. Abre esta vista o prepara la obra con conexión antes de usarla offline.",
+                              "Esta consulta no está guardada en el dispositivo. Abre esta vista o prepara la obra con conexión antes de usarla sin conexión.",
                           )
                         : e;
                 return {

@@ -19,7 +19,7 @@ import {
 } from "./catalogo";
 import { useSesion } from "../../app/Sesion";
 import { useDatos } from "../../hooks/usoDatos";
-import { nombreCampo } from "../../components/etiquetas";
+import { nombresAreas, nombreCampo } from "../../components/etiquetas";
 import { nombrePersona, fecha, etiqueta } from "../../app/formatos";
 import {
     Boton,
@@ -351,7 +351,9 @@ export default function PaginaModulo({
                         ?.filter((f) => f !== "idObra")
                         .map((f) => (
                             <div className="filtro" key={f}>
-                                {(f.startsWith("id") || f === "estado") && (
+                                {(f.startsWith("id") ||
+                                    f === "estado" ||
+                                    f === "entidad") && (
                                     <label
                                         className="etiqueta-filtro"
                                         htmlFor={`${idFiltros}-${f}`}
@@ -375,6 +377,39 @@ export default function PaginaModulo({
                                         idObra={obra}
                                         etiquetaVisible={nombreCampo(f)}
                                     />
+                                ) : f === "entidad" ? (
+                                    <select
+                                        id={`${idFiltros}-${f}`}
+                                        aria-label="Filtrar por área"
+                                        value={String(filtros[f] || "")}
+                                        onChange={(e) => {
+                                            setFiltros((a) => ({
+                                                ...a,
+                                                [f]: e.target.value,
+                                            }));
+                                            setPagina(1);
+                                        }}
+                                    >
+                                        <option value="">
+                                            Todas las áreas
+                                        </option>
+                                        {Object.entries(nombresAreas)
+                                            .filter(
+                                                ([valor]) =>
+                                                    ![
+                                                        "registros_asistencia",
+                                                        "incidencias_obra",
+                                                    ].includes(valor),
+                                            )
+                                            .map(([valor, nombre]) => (
+                                                <option
+                                                    key={valor}
+                                                    value={valor}
+                                                >
+                                                    {nombre}
+                                                </option>
+                                            ))}
+                                    </select>
                                 ) : f === "estado" ? (
                                     <select
                                         id={`${idFiltros}-${f}`}

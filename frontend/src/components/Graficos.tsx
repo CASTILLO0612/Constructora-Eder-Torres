@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId, useState, type PointerEvent } from "react";
 import { numero, fecha } from "../app/formatos";
 import { porcentajeActividad } from "../features/Inicio/datosGraficos";
 import type { PuntoAsistencia } from "../features/Inicio/datosGraficos";
@@ -96,12 +96,16 @@ export function GraficoDistribucion({
 export function GraficoEvolucion({
     puntos,
     medida,
+    diaSeleccionado,
+    seleccionarDia,
 }: {
     puntos: PuntoAsistencia[];
     medida: "marcaciones" | "horas";
+    diaSeleccionado?: string;
+    seleccionarDia: (dia: string) => void;
 }) {
     const identificador = useId();
-    const [indice, setIndice] = useState<number>();
+    const indice = puntos.findIndex((p) => p.fecha === diaSeleccionado);
     const maximo = Math.max(1, ...puntos.map((p) => p[medida]));
     const coordenadas = puntos.map((p, i) => ({
         x: 24 + (i * 592) / Math.max(1, puntos.length - 1),
@@ -112,8 +116,21 @@ export function GraficoEvolucion({
         .map((c, i) => `${i ? "L" : "M"} ${c.x} ${c.y}`)
         .join(" ");
     const seleccionado =
-        coordenadas[indice ?? Math.max(0, coordenadas.length - 1)];
+        coordenadas[indice < 0 ? Math.max(0, coordenadas.length - 1) : indice];
     const unidades = medida === "horas" ? "h" : "registros";
+    const seleccionarConPuntero = (e: PointerEvent<SVGSVGElement>) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        if (!puntos.length || r.width <= 0) return;
+        const x = ((e.clientX - r.left) / r.width) * 640;
+        const i = Math.max(
+            0,
+            Math.min(
+                puntos.length - 1,
+                Math.round(((x - 24) / 592) * (puntos.length - 1)),
+            ),
+        );
+        seleccionarDia(puntos[i].fecha);
+    };
     return (
         <figure className="evolucion-grafico">
             <div className="escala-grafico">
@@ -125,21 +142,8 @@ export function GraficoEvolucion({
             <svg
                 viewBox="0 0 640 240"
                 aria-hidden="true"
-                onPointerMove={(e) => {
-                    const r = e.currentTarget.getBoundingClientRect();
-                    const x = ((e.clientX - r.left) / r.width) * 640;
-                    setIndice(
-                        Math.max(
-                            0,
-                            Math.min(
-                                puntos.length - 1,
-                                Math.round(
-                                    ((x - 24) / 592) * (puntos.length - 1),
-                                ),
-                            ),
-                        ),
-                    );
-                }}
+                onPointerMove={seleccionarConPuntero}
+                onPointerDown={seleccionarConPuntero}
             >
                 <defs>
                     <linearGradient
@@ -217,8 +221,8 @@ export function GraficoEvolucion({
                         key={p.fecha}
                         aria-pressed={indice === i}
                         aria-label={`${fecha(p.fecha)}: ${numero(p[medida])} ${unidades}`}
-                        onClick={() => setIndice(i)}
-                        onFocus={() => setIndice(i)}
+                        onClick={() => seleccionarDia(p.fecha)}
+                        onFocus={() => seleccionarDia(p.fecha)}
                     >
                         <span>
                             {new Intl.DateTimeFormat("es-NI", {

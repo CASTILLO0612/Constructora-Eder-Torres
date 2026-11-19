@@ -196,7 +196,7 @@ export default function PaginaInicio() {
                     </button>
                     <Link to="/pendientes">
                         <span>
-                            Pendientes locales
+                            Capturas pendientes
                             <RefreshCw size={17} />
                         </span>
                         <strong>{pendientes.length}</strong>

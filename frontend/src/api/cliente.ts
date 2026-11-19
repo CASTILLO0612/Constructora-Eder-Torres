@@ -1,6 +1,7 @@
 import { configuracion } from "../app/configuracion";
 import type { RespuestaAntifalsificacion } from "./contratos";
 import { conLimiteSolicitud } from "./limiteSolicitud";
+import { mensajeEstado, mensajeParaUsuario } from "../app/mensajes";
 
 export type ProblemaApi = {
     title?: string;
@@ -17,9 +18,12 @@ export class ErrorApi extends Error {
         public reintentarEnMs = 0,
     ) {
         super(
-            problema.detail ||
-                problema.title ||
-                `No se pudo completar la solicitud (${estado}).`,
+            estado === 429
+                ? mensajeEstado(estado)
+                : mensajeParaUsuario(
+                      problema.detail || problema.title,
+                      mensajeEstado(estado),
+                  ),
         );
         this.name = "ErrorApi";
     }
@@ -178,9 +182,9 @@ export const api = {
 
 export const mensajeError = (error: unknown) =>
     error instanceof ErrorApi
-        ? error.message
+        ? mensajeParaUsuario(error.message, mensajeEstado(error.estado))
         : error instanceof TypeError
-          ? "No se pudo contactar con el servidor. Revisa la conexión."
+          ? "No se pudo conectar. Revisa tu conexión e inténtalo nuevamente."
           : error instanceof Error
-            ? error.message
+            ? mensajeParaUsuario(error.message)
             : "No se pudo completar la operación.";

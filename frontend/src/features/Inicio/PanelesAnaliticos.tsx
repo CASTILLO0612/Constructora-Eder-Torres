@@ -97,22 +97,29 @@ export function DistribucionObras({
 
 export function EvolucionAsistencia() {
     const [dias, setDias] = useState(7);
+    const [diaSeleccionado, setDiaSeleccionado] = useState<string>();
     const [medida, setMedida] = useState<"marcaciones" | "horas">(
         "marcaciones",
     );
     const hasta = fechaJornada(),
         desde = desplazarFecha(hasta, 1 - dias);
-    const consulta = useDatos<RespuestaAsistencia[]>("/api/asistencias", {
-        fechaDesde: desde,
-        fechaHasta: hasta,
-        pagina: 1,
-        tamanoPagina: 100,
-    });
+    const consulta = useDatos<RespuestaAsistencia[]>(
+        "/api/asistencias",
+        {
+            fechaDesde: desde,
+            fechaHasta: hasta,
+            pagina: 1,
+            tamanoPagina: 100,
+        },
+        true,
+    );
     const puntos = useMemo(
         () => agruparAsistencia(consulta.datos || [], hasta, dias),
         [consulta.datos, hasta, dias],
     );
-    const total = puntos.reduce((s, v) => s + v[medida], 0);
+    const puntoSeleccionado =
+        puntos.find((p) => p.fecha === diaSeleccionado) || puntos.at(-1);
+    const total = puntoSeleccionado?.[medida] ?? 0;
     return (
         <section
             className="panel panel-grafico"
@@ -140,7 +147,12 @@ export function EvolucionAsistencia() {
                 </label>
             </div>
             <div className="resumen-grafico">
-                <strong>
+                <strong
+                    className="total-asistencia"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    aria-label={`${medida === "horas" ? "Horas" : "Registros"} del ${fecha(puntoSeleccionado?.fecha)}`}
+                >
                     {consulta.datos ? (
                         numero(total, medida === "horas" ? 1 : 0)
                     ) : (
@@ -171,23 +183,25 @@ export function EvolucionAsistencia() {
             ) : consulta.error ? (
                 <ErrorVisible error={consulta.error} />
             ) : (
-                <GraficoEvolucion puntos={puntos} medida={medida} />
+                <GraficoEvolucion
+                    puntos={puntos}
+                    medida={medida}
+                    diaSeleccionado={puntoSeleccionado?.fecha}
+                    seleccionarDia={setDiaSeleccionado}
+                />
             )}
             <div className="pie-grafico">
                 <span>
                     {consulta.cache
                         ? `Consulta guardada · ${fecha(consulta.guardadoEn, true)}`
                         : `${fecha(desde)} — ${fecha(hasta)}`}
-                    {(consulta.datos?.length || 0) >= 100
-                        ? " · Primeros 100 registros de la consulta"
-                        : ""}
                     {medida === "horas"
                         ? " · Jornadas cerradas no anuladas"
                         : ""}
                 </span>
                 <Link
                     className="enlace-accion"
-                    to={`/asistencia?fechaDesde=${desde}&fechaHasta=${hasta}`}
+                    to={`/asistencia?fechaDesde=${puntoSeleccionado?.fecha || hasta}&fechaHasta=${puntoSeleccionado?.fecha || hasta}`}
                 >
                     Ver registros
                     <ArrowUpRight size={16} />

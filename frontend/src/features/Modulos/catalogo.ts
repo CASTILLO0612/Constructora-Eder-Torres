@@ -1071,11 +1071,11 @@ export const modulos: Record<string, Modulo> = {
             {
                 clave: "permisos",
                 titulo: "Permisos",
-                descripcion: "Catálogo de capacidades definidas por la API.",
+                descripcion: "Acciones que pueden autorizarse a cada perfil.",
                 ruta: "/api/permisos",
                 identidad: "idPermiso",
                 permisos: [p.gestionarRoles],
-                columnas: ["nombre", "codigo", "descripcion", "activo"],
+                columnas: ["nombre", "descripcion", "activo"],
             },
         ],
     },

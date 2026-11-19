@@ -18,6 +18,7 @@ import {
 import { etiqueta } from "../app/formatos";
 import { mensajeError, ErrorApi } from "../api/cliente";
 import { EsqueletoCarga, type VarianteCarga } from "./EsqueletoCarga";
+import { mensajeParaUsuario } from "../app/mensajes";
 
 export function Boton({
     children,
@@ -86,13 +87,14 @@ export function ErrorVisible({ error }: { error: unknown }) {
                     <ul>
                         {Object.entries(error.problema.errors).map(
                             ([campo, mensajes]) => (
-                                <li key={campo}>{mensajes.join(" ")}</li>
+                                <li key={campo}>
+                                    {mensajes
+                                        .map((m) => mensajeParaUsuario(m))
+                                        .join(" ")}
+                                </li>
                             ),
                         )}
                     </ul>
-                )}
-                {error instanceof ErrorApi && error.problema.identificador && (
-                    <small>Referencia: {error.problema.identificador}</small>
                 )}
             </div>
         </div>

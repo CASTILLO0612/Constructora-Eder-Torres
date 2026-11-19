@@ -24,7 +24,7 @@ export function PrepararObra({ idObra }: { idObra: number }) {
             const persistir = async (ruta: string, datos: unknown) => {
                 if (!(await guardarConsulta(perfil!.idUsuario, ruta, datos)))
                     throw new Error(
-                        "No se pudo guardar el contexto local. Revisa el espacio y los permisos de almacenamiento del navegador.",
+                        "No se pudieron guardar los datos de la obra. Revisa el espacio disponible en tu dispositivo.",
                     );
             };
             const pasos: {
@@ -149,7 +149,9 @@ export function PrepararObra({ idObra }: { idObra: number }) {
                 disabled={!navigator.onLine}
             >
                 <Download size={16} />
-                {ocupado ? `Preparando ${avance}` : "Preparar obra offline"}
+                {ocupado
+                    ? `Preparando ${avance}`
+                    : "Preparar obra sin conexión"}
             </Boton>
             {error !== undefined && <ErrorVisible error={error} />}
         </div>

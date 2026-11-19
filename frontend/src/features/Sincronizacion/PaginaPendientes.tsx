@@ -20,6 +20,8 @@ import { useSesion } from "../../app/Sesion";
 import { fecha } from "../../app/formatos";
 import { reintentarOperacion, sincronizar } from "../../offline/sincronizacion";
 import { nombreCampo } from "../../components/etiquetas";
+import { valorCelda } from "../../components/TablaDatos";
+import { mensajeParaUsuario } from "../../app/mensajes";
 import type { OperacionPendiente } from "../../offline/almacenamiento";
 import { obtenerOperacion } from "../../offline/almacenamiento";
 const Formulario = lazy(() =>
@@ -27,6 +29,32 @@ const Formulario = lazy(() =>
         default: m.FormularioOperacion,
     })),
 );
+const camposDetalle = new Set([
+    "fechaJornada",
+    "entradaEn",
+    "salidaEn",
+    "fechaAvance",
+    "cantidadEjecutada",
+    "observaciones",
+    "observacion",
+    "motivo",
+    "justificacion",
+    "tipoIncidencia",
+    "inicioEn",
+    "finEn",
+    "horasPerdidas",
+    "nombreArchivo",
+    "tipoEvidencia",
+    "entregadoEn",
+    "devueltoEn",
+    "entregadaEn",
+    "condicionEntrega",
+    "condicionDevolucion",
+    "tipoEvento",
+    "fechaHora",
+    "resolucion",
+    "costoEstimado",
+]);
 export default function PaginaPendientes() {
     const { perfil } = useSesion();
     const {
@@ -76,10 +104,7 @@ export default function PaginaPendientes() {
                 }
             />
             {cargando ? (
-                <Cargando
-                    variante="tarjetas"
-                    texto="Cargando pendientes locales…"
-                />
+                <Cargando variante="tarjetas" texto="Cargando pendientes…" />
             ) : (
                 <div className="metricas metricas-tres">
                     <div>
@@ -116,7 +141,6 @@ export default function PaginaPendientes() {
                                 ).length
                             }
                         </strong>
-                        <small>Con acuse del servidor</small>
                     </div>
                 </div>
             )}
@@ -167,50 +191,51 @@ export default function PaginaPendientes() {
                                     </span>
                                     <div>
                                         <h3>{o.titulo}</h3>
-                                        <p>
-                                            {fecha(o.creadoEn, true)} ·{" "}
-                                            {o.intentos} intentos
-                                        </p>
+                                        <p>{fecha(o.creadoEn, true)}</p>
                                     </div>
                                     <Estado valor={o.estado} />
                                 </div>
-                                {o.mensaje && (
+                                {o.estado !== "CONFIRMADA" && o.mensaje && (
                                     <p className="motivo-operacion">
-                                        {o.mensaje}
+                                        {mensajeParaUsuario(o.mensaje)}
                                     </p>
                                 )}
-                                <details className="detalle-operacion">
-                                    <summary>
-                                        Ver datos de la captura
-                                        <ChevronDown size={15} />
-                                    </summary>
-                                    <dl>
-                                        {Object.entries(o.datos)
-                                            .filter(
-                                                ([k]) =>
-                                                    ![
-                                                        "contenidoArchivo",
-                                                        "esSincronizacionDiferida",
-                                                    ].includes(k),
-                                            )
-                                            .map(([k, v]) => (
-                                                <div key={k}>
-                                                    <dt>{nombreCampo(k)}</dt>
-                                                    <dd>
-                                                        {typeof v === "object"
-                                                            ? JSON.stringify(v)
-                                                            : String(v ?? "—")}
-                                                    </dd>
-                                                </div>
-                                            ))}
-                                        {o.idServidor && (
-                                            <div>
-                                                <dt>Registro confirmado</dt>
-                                                <dd>{o.idServidor}</dd>
-                                            </div>
-                                        )}
-                                    </dl>
-                                </details>
+                                {o.estado !== "CONFIRMADA" &&
+                                    Object.entries(o.datos).some(
+                                        ([k, v]) =>
+                                            camposDetalle.has(k) && v != null,
+                                    ) && (
+                                        <details className="detalle-operacion">
+                                            <summary>
+                                                Ver datos de la captura
+                                                <ChevronDown size={15} />
+                                            </summary>
+                                            <dl>
+                                                {Object.entries(o.datos)
+                                                    .filter(
+                                                        ([k, v]) =>
+                                                            camposDetalle.has(
+                                                                k,
+                                                            ) &&
+                                                            v != null &&
+                                                            typeof v !==
+                                                                "object",
+                                                    )
+                                                    .map(([k, v]) => (
+                                                        <div key={k}>
+                                                            <dt>
+                                                                {nombreCampo(k)}
+                                                            </dt>
+                                                            <dd>
+                                                                {valorCelda(k, {
+                                                                    [k]: v,
+                                                                })}
+                                                            </dd>
+                                                        </div>
+                                                    ))}
+                                            </dl>
+                                        </details>
+                                    )}
                                 {o.estado !== "CONFIRMADA" &&
                                     o.estado !== "ENVIANDO" && (
                                         <div className="acciones-operacion">
@@ -257,7 +282,7 @@ export default function PaginaPendientes() {
                                                 disabled={!navigator.onLine}
                                             >
                                                 <RefreshCw size={15} />
-                                                Reintentar misma captura
+                                                Reintentar envío
                                             </Boton>
                                         </div>
                                     )}

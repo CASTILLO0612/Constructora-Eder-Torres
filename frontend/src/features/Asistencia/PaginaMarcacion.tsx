@@ -375,9 +375,9 @@ export default function PaginaMarcacion() {
                         {!navigator.onLine && (
                             <div className="mensaje">
                                 <WifiOff size={18} />
-                                Sin conexión: la lectura se verifica con la
-                                geocerca guardada; la API volverá a validarla al
-                                sincronizar.
+                                Sin conexión. Tu marcación se guardará en este
+                                dispositivo y quedará pendiente hasta recuperar
+                                la conexión.
                             </div>
                         )}
                         <Boton
@@ -407,8 +407,7 @@ export default function PaginaMarcacion() {
                         </Boton>
                         <p id="ayuda-marcacion" className="ayuda-marcacion">
                             El GPS se comprueba al verificar y al marcar, sin
-                            rastreo continuo. Cada registro requiere
-                            confirmación del servidor.
+                            rastreo continuo.
                         </p>
                     </div>
                 </section>

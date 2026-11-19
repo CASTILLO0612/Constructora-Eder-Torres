@@ -1,10 +1,16 @@
 import type { ReactNode } from "react";
 import { Eye } from "lucide-react";
-import { nombreCampo } from "./etiquetas";
+import {
+    esCampoInterno,
+    nombresAreas,
+    nombreCampo,
+    nombreCampoAuditoria,
+    nombrePermiso,
+} from "./etiquetas";
 import { nombrePersona, numero, fecha, texto, etiqueta } from "../app/formatos";
 import { Estado } from "./Interfaz";
 import type { Fila } from "../features/Modulos/catalogo";
-export function valorCelda(campo: string, fila: Fila) {
+export function valorCelda(campo: string, fila: Fila): ReactNode {
     const valor = fila[campo];
     if (campo === "nombreCompleto") return nombrePersona(fila);
     if (campo === "estado") return <Estado valor={valor} />;
@@ -28,6 +34,19 @@ export function valorCelda(campo: string, fila: Fila) {
     if (valor === null || valor === undefined || valor === "")
         return <span className="dato-ausente">—</span>;
     if (typeof valor === "boolean") return valor ? "Sí" : "No";
+    if (campo === "entidad") return nombresAreas[String(valor)] || "Registro";
+    if (campo === "campo") return nombreCampoAuditoria(String(valor));
+    if (campo === "valorAnterior" || campo === "valorNuevo") {
+        const origen = String(fila.campo || "").replace(
+            /_([a-z])/g,
+            (_, c: string) => c.toUpperCase(),
+        );
+        if (esCampoInterno(origen)) return "Referencia del registro";
+        if (/^[\[{]/.test(String(valor)))
+            return "Datos del registro actualizados";
+        if (origen && !["valorAnterior", "valorNuevo"].includes(origen))
+            return valorCelda(origen, { [origen]: valor });
+    }
     if (Array.isArray(valor))
         return (
             <span className="resumen-lista">
@@ -43,12 +62,21 @@ export function valorCelda(campo: string, fila: Fila) {
                                           "",
                                   ),
                               )
-                            : etiqueta(String(x)),
+                            : campo === "codigosPermiso"
+                              ? nombrePermiso(String(x))
+                              : etiqueta(String(x)),
                     )
                     .join(", ")}
                 {valor.length > 3 ? ` +${valor.length - 3}` : ""}
             </span>
         );
+    if (
+        typeof valor === "string" &&
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:[\d.]+(?:Z|[+-]\d{2}:\d{2})$/.test(
+            valor,
+        )
+    )
+        return fecha(valor, true);
     if (/fecha|En$|EnUtc$|Utc$/.test(campo))
         return fecha(valor, /En$|Utc$/.test(campo));
     if (typeof valor === "number") return numero(valor);
@@ -112,7 +140,7 @@ export function TablaDatos({
                                         <button
                                             className="boton-icono"
                                             title="Ver detalle"
-                                            aria-label={`Ver detalle de ${texto(f.nombre || f.codigo || f.numeroActa || f.nombreCompletoTrabajador || f[identidad])}`}
+                                            aria-label={`Ver detalle de ${texto(f.nombre || f.codigo || f.numeroActa || f.nombreCompletoTrabajador || f.nombreUsuario || "este registro")}`}
                                             onClick={() => ver(f)}
                                         >
                                             <Eye size={17} />

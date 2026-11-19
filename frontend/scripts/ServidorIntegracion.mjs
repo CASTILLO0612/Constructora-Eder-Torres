@@ -91,8 +91,8 @@ const servidor = http.createServer(async (peticion, respuesta) => {
             });
             respuesta.end(
                 JSON.stringify({
-                    title: "El servidor no está disponible.",
-                    detail: "No se pudo contactar con la API.",
+                    title: "No se pudo completar la operación.",
+                    detail: "No se pudo conectar. Revisa tu conexión e inténtalo nuevamente.",
                 }),
             );
         });

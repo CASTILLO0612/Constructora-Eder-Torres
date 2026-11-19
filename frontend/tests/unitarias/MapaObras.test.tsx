@@ -156,9 +156,11 @@ it("dibuja todas las obras y sus radios con las bibliotecas reales del SDK y abr
         expect(within(mapa).getAllByRole("button")).toHaveLength(2),
     );
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-    expect(
-        screen.queryByText("Cargando el mapa de Google…"),
-    ).not.toBeInTheDocument();
+    await waitFor(() =>
+        expect(
+            screen.queryByText("Cargando el mapa de Google…"),
+        ).not.toBeInTheDocument(),
+    );
     expect(sdk.marcadores.map((m) => m.opciones.position)).toEqual(
         obras.map((o) => ({ lat: o.latitud, lng: o.longitud })),
     );

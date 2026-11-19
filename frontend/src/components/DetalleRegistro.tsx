@@ -8,7 +8,7 @@ import {
     type Recurso,
     type Accion,
 } from "../features/Modulos/catalogo";
-import { nombreCampo } from "./etiquetas";
+import { esCampoInterno, nombreCampo, nombrePermiso } from "./etiquetas";
 import { texto } from "../app/formatos";
 import { Modal, Boton, Cargando, ErrorVisible } from "./Interfaz";
 import { valorCelda } from "./TablaDatos";
@@ -16,18 +16,6 @@ import { useSesion } from "../app/Sesion";
 import { EnlacesContexto } from "./EnlacesContexto";
 import { VistaPreviaEvidencia } from "./VistaPreviaEvidencia";
 import type { RespuestaEvidencia } from "../api/contratos";
-const ocultarDetalle = new Set([
-    "fueIdempotente",
-    "fueConfirmacionBorrador",
-    "uuidRegistro",
-    "uuidOperacion",
-    "rutaArchivo",
-    "huellaArchivo",
-    "rutaFirma",
-    "rutaConstancia",
-    "ipOrigen",
-    "esSincronizacionDiferida",
-]);
 export default function Detalle({
     fila,
     recurso,
@@ -97,11 +85,9 @@ export default function Detalle({
                     {Object.entries(datos)
                         .filter(
                             ([c, v]) =>
-                                !ocultarDetalle.has(c) &&
+                                !esCampoInterno(c) &&
                                 !Array.isArray(v) &&
-                                !c.startsWith("id") &&
-                                c !== "fueIdempotente" &&
-                                c !== "fueConfirmacionBorrador",
+                                (typeof v !== "object" || v === null),
                         )
                         .map(([c]) => (
                             <div key={c}>
@@ -115,7 +101,7 @@ export default function Detalle({
                 )}
                 {evidencias.error && <ErrorVisible error={evidencias.error} />}
                 {Object.entries(datos)
-                    .filter(([, v]) => Array.isArray(v))
+                    .filter(([c, v]) => !esCampoInterno(c) && Array.isArray(v))
                     .map(([c, v]) => {
                         const lista = v as unknown[];
                         return (
@@ -140,13 +126,11 @@ export default function Detalle({
                                                 {Object.entries(x as Fila)
                                                     .filter(
                                                         ([n, z]) =>
-                                                            !ocultarDetalle.has(
+                                                            !esCampoInterno(
                                                                 n,
                                                             ) &&
-                                                            !n.startsWith(
-                                                                "id",
-                                                            ) &&
-                                                            !Array.isArray(z) &&
+                                                            typeof z !==
+                                                                "object" &&
                                                             z !== null,
                                                     )
                                                     .map(([n]) => (
@@ -191,7 +175,11 @@ export default function Detalle({
                                                 )}
                                             </div>
                                         ) : (
-                                            <p key={i}>{texto(x)}</p>
+                                            <p key={i}>
+                                                {c === "codigosPermiso"
+                                                    ? nombrePermiso(String(x))
+                                                    : texto(x)}
+                                            </p>
                                         ),
                                     )
                                 )}

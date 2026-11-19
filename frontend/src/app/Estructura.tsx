@@ -271,7 +271,7 @@ export function Estructura() {
                         <WifiOff size={16} />
                         <span>
                             {sinVerificar
-                                ? "Sesión local sin verificar. Se comprobará la conexión con el servidor antes de enviar."
+                                ? "Conexión pendiente de verificar. Tus capturas se conservan hasta poder enviarlas."
                                 : "Trabajas sin conexión. Las capturas compatibles se conservarán en este dispositivo."}
                         </span>
                         <Link to="/pendientes">Ver pendientes</Link>
@@ -292,10 +292,6 @@ export function Estructura() {
                         <Outlet />
                     </Suspense>
                 </main>
-                <footer className="pie-aplicacion">
-                    <span>Constructora Eder Torres</span>
-                    <span>Gestión y seguimiento de obras</span>
-                </footer>
             </div>
             <nav className="navegacion-movil" aria-label="Accesos rápidos">
                 {enlaces

@@ -159,7 +159,7 @@ export default function PaginaAsistida() {
                 );
             }
             aviso(
-                "Lista guardada. La API confirmará todas las marcaciones o rechazará la lista completa.",
+                "Lista guardada. Consulta la confirmación de las asistencias en Pendientes.",
             );
             setSeleccion([]);
             void sincronizar(perfil!.idUsuario).catch(() => undefined);

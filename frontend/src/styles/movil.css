@@ -543,10 +543,6 @@
         flex-wrap: wrap;
         width: calc(100% - 30px);
     }
-    .pie-aplicacion {
-        padding: 17px !important;
-        font-size: 11px !important;
-    }
     .detalle-operacion dl {
         grid-template-columns: 1fr !important;
     }

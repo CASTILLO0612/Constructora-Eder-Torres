@@ -32,12 +32,16 @@ test("recupera la sesión y las consultas con red disponible tras una caída de 
         );
         await page.reload();
         await expect(
-            page.getByText("Sesión local sin verificar.", { exact: false }),
+            page.getByText("Conexión pendiente de verificar.", {
+                exact: false,
+            }),
         ).toBeVisible();
         expect(await page.evaluate(() => navigator.onLine)).toBe(true);
         interrumpido = false;
         await expect(
-            page.getByText("Sesión local sin verificar.", { exact: false }),
+            page.getByText("Conexión pendiente de verificar.", {
+                exact: false,
+            }),
         ).toHaveCount(0, { timeout: 25000 });
         await expect(
             page.getByRole("heading", { name: "Resumen general", exact: true }),
@@ -170,7 +174,9 @@ test("Residente: prepara la obra y sincroniza un avance con evidencia capturados
     await ingresar(page, "residente");
     await page.goto("/seguimiento?vista=avances");
     await seleccionarObra(page);
-    await page.getByRole("button", { name: "Preparar obra offline" }).click();
+    await page
+        .getByRole("button", { name: "Preparar obra sin conexión" })
+        .click();
     await expect(
         page.getByText(
             "La obra y sus catálogos se prepararon para capturas sin conexión.",
@@ -470,6 +476,7 @@ test("trabajador: GPS conservador, entrada/salida, offline y reenvío sin duplic
     browser,
 }) => {
     test.setTimeout(90_000);
+    test.setTimeout(90_000);
     const contexto = await browser.newContext({
         baseURL: process.env.CET_E2E_URL,
         permissions: ["geolocation"],
@@ -607,6 +614,41 @@ test("trabajador: GPS conservador, entrada/salida, offline y reenvío sin duplic
     await expect(
         page.getByRole("heading", { name: "Pendientes y sincronización" }),
     ).toBeVisible();
+    await page
+        .getByRole("button", { name: "Confirmadas", exact: true })
+        .click();
+    await expect(page.locator(".operacion-local")).toHaveCount(4);
+    await expect(page.locator(".operacion-local .estado")).toHaveText([
+        "Confirmada",
+        "Confirmada",
+        "Confirmada",
+        "Confirmada",
+    ]);
+    await expect(page.locator(".operacion-local details")).toHaveCount(0);
+    await expect(
+        page.locator(".motivo-operacion, .pie-aplicacion"),
+    ).toHaveCount(0);
+    await expect(page.locator("main")).not.toContainText(
+        /servidor|acuse|uuid|intentos|registro confirmado|\/api\//i,
+    );
+    for (const tema of ["claro", "oscuro"]) {
+        await page.evaluate((valor) => {
+            document.documentElement.dataset.tema = valor;
+        }, tema);
+        for (const ancho of [320, 390, 1440]) {
+            await page.setViewportSize({ width: ancho, height: 844 });
+            expect(
+                await page.evaluate(
+                    () =>
+                        document.documentElement.scrollWidth <= innerWidth + 1,
+                ),
+            ).toBe(true);
+            await page.screenshot({
+                path: `../artifacts/Frontend/asistencia-confirmada-${tema}-${ancho}.png`,
+                fullPage: true,
+            });
+        }
+    }
     await page.goto("/personal");
     await expect(
         page.getByRole("heading", { name: "Acceso restringido" }),

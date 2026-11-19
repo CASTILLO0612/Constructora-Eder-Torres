@@ -11,6 +11,7 @@ import { UbicacionObra } from "./UbicacionObra";
 import { useSesion } from "../app/Sesion";
 import { useAviso } from "../app/Avisos";
 import { etiqueta, fechaJornada, horaLocal, localAUtc } from "../app/formatos";
+import { mensajeParaUsuario } from "../app/mensajes";
 import { encolar, sincronizar } from "../offline/sincronizacion";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDatos } from "../hooks/usoDatos";
@@ -376,13 +377,15 @@ function Campos({
                                     id={`${identificadorCampos}-error-${campo}`}
                                     className="error-campo"
                                 >
-                                    {fallo.join(" ")}
+                                    {fallo
+                                        .map((m) => mensajeParaUsuario(m))
+                                        .join(" ")}
                                 </span>
                             )}
                             {campo === "radioAsistenciaMetros" && (
                                 <small className="ayuda-campo">
-                                    La API verifica distancia más precisión GPS
-                                    dentro de este radio.
+                                    La asistencia requiere una ubicación precisa
+                                    dentro del radio de la obra.
                                 </small>
                             )}
                         </div>
@@ -562,9 +565,7 @@ export function FormularioOperacion({
                     mensaje: undefined,
                     dependencia,
                 });
-                aviso(
-                    "La captura se actualizó conservando su identidad original.",
-                );
+                aviso("Los datos de la captura se actualizaron.");
                 void sincronizar(perfil!.idUsuario).catch(() => undefined);
             } else if (accion.coleccion) {
                 if (accion.coleccion === "devolucionesEpp")
@@ -615,7 +616,7 @@ export function FormularioOperacion({
             titulo={accion.titulo}
             descripcion={
                 accion.coleccion
-                    ? "La captura se conservará hasta recibir confirmación del servidor."
+                    ? "La captura se guardará para su confirmación."
                     : "Completa los campos de la operación."
             }
             cerrar={cerrar}
