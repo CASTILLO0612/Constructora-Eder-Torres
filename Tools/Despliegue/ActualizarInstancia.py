@@ -82,8 +82,8 @@ def principal():
         if not re.fullmatch(r"[a-z0-9-]+\.service", servicio):
             raise ValueError("Nombre de servicio inválido.")
     url = urllib.parse.urlparse(args.salud)
-    if url.scheme != "http" or url.hostname not in {"127.0.0.1", "localhost"}:
-        raise ValueError("La comprobación debe dirigirse al servicio HTTP local.")
+    if url.scheme != "https" or not url.hostname or url.username or url.password or url.query or url.fragment:
+        raise ValueError("La comprobación requiere la dirección HTTPS de la aplicación, sin credenciales ni parámetros.")
     if huella(args.paquete) != args.sha256:
         raise RuntimeError("El paquete no coincide con su SHA-256.")
     raiz = args.raiz.resolve(strict=True)
