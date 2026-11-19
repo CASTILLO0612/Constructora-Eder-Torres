@@ -1,0 +1,15 @@
+# Archivo de systemd, no ejecutar con source. Instalar como root:root, modo 0600.
+# Sustituir @@DOMINIO@@, @@PUERTO_API@@ y @@CONEXION@@ antes de instalar.
+ASPNETCORE_ENVIRONMENT=Production
+ASPNETCORE_URLS=http://127.0.0.1:@@PUERTO_API@@
+ASPNETCORE_HTTPS_PORT=443
+AllowedHosts=@@DOMINIO@@
+ConnectionStrings__Constructora="@@CONEXION@@"
+Evidencias__RutaRaiz=/var/lib/constructora-eder-torres/evidencias
+Seguridad__Despliegue__NombreAplicacion=ConstructoraEderTorresDemo
+Seguridad__Despliegue__RutaClaves=/var/lib/constructora-eder-torres/claves
+Seguridad__Despliegue__Certificado__Ruta=/etc/constructora-eder-torres/sesiones.pfx
+Seguridad__Despliegue__ProxiesConfiables__0=127.0.0.1
+Seguridad__Despliegue__MaximoSaltosProxy=1
+Seguridad__Sesion__PoliticaSeguridadCookie=Always
+Seguridad__Sesion__PoliticaSameSite=Lax

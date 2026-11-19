@@ -1,0 +1,11 @@
+[Unit]
+Description=Respaldo diario antes del apagado de la VM de demostración
+
+[Timer]
+OnCalendar=*-*-* 22:30:00 America/Managua
+Persistent=true
+RandomizedDelaySec=60
+Unit=constructora-eder-torres-respaldo.service
+
+[Install]
+WantedBy=timers.target

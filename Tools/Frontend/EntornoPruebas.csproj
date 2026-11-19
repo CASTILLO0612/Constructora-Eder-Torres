@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UseAppHost>false</UseAppHost>
+    <AssemblyName>ConstructoraEderTorres.Pruebas.Frontend.Entorno</AssemblyName>
+    <RootNamespace>ConstructoraEderTorres.Pruebas.Frontend</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../Tests/Integracion/ConstructoraEderTorres.Pruebas.Integracion.csproj" />
+  </ItemGroup>
+</Project>

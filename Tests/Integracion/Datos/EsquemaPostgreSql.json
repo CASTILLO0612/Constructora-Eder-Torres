@@ -1,0 +1,6340 @@
+{
+  "esquema": "public",
+  "tablas": [
+    {
+      "nombre": "actas",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "actas_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX actas_pkey ON public.actas USING btree (id_acta)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "uq_acta_numero",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX uq_acta_numero ON public.actas USING btree (id_obra, numero_acta)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_acta_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_acta_uuid ON public.actas USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_acta",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_obra",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(30)",
+          "nombre": "numero_acta",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "periodo_inicio",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "periodo_fin",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(1000)",
+          "nombre": "observaciones",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "mejoras_propuestas",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "solicitudes_cambio",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_creador",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "creado_en",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_impedir_cambio_obra_acta",
+          "funcion": "public.fn_impedir_cambio_obra()",
+          "definicion": "CREATE TRIGGER trg_impedir_cambio_obra_acta BEFORE UPDATE OF id_obra ON public.actas FOR EACH ROW EXECUTE FUNCTION public.fn_impedir_cambio_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "p",
+          "nombre": "actas_pkey",
+          "columnas": [
+            "id_acta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_acta)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_acta_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['BORRADOR'::character varying, 'PENDIENTE'::character varying, 'APROBADA'::character varying, 'RECHAZADA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_acta_periodo",
+          "columnas": [
+            "periodo_fin",
+            "periodo_inicio"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK ((periodo_fin >= periodo_inicio))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_acta_obra",
+          "columnas": [
+            "id_obra"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_obra) REFERENCES public.obras(id_obra)",
+          "tablaReferenciada": "public.obras",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_obra"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_acta_usuario",
+          "columnas": [
+            "id_usuario_creador"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_creador) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        },
+        {
+          "tipo": "u",
+          "nombre": "uq_acta_numero",
+          "columnas": [
+            "id_obra",
+            "numero_acta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (id_obra, numero_acta)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "actas_avance",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "pk_acta_avance",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX pk_acta_avance ON public.actas_avance USING btree (id_acta, id_avance)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_acta",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "bigint",
+          "nombre": "id_avance",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_validar_acta_avance_obra",
+          "funcion": "public.fn_validar_asociacion_misma_obra()",
+          "definicion": "CREATE TRIGGER trg_validar_acta_avance_obra BEFORE INSERT OR UPDATE OF id_acta, id_avance ON public.actas_avance FOR EACH ROW EXECUTE FUNCTION public.fn_validar_asociacion_misma_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "f",
+          "nombre": "fk_acta_avance_acta",
+          "columnas": [
+            "id_acta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_acta) REFERENCES public.actas(id_acta)",
+          "tablaReferenciada": "public.actas",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_acta"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_acta_avance_avance",
+          "columnas": [
+            "id_avance"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_avance) REFERENCES public.avances(id_avance)",
+          "tablaReferenciada": "public.avances",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_avance"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "pk_acta_avance",
+          "columnas": [
+            "id_acta",
+            "id_avance"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_acta, id_avance)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "actas_incidencia",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "pk_acta_incidencia",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX pk_acta_incidencia ON public.actas_incidencia USING btree (id_acta, id_incidencia)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_acta",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "bigint",
+          "nombre": "id_incidencia",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_validar_acta_incidencia_obra",
+          "funcion": "public.fn_validar_asociacion_misma_obra()",
+          "definicion": "CREATE TRIGGER trg_validar_acta_incidencia_obra BEFORE INSERT OR UPDATE OF id_acta, id_incidencia ON public.actas_incidencia FOR EACH ROW EXECUTE FUNCTION public.fn_validar_asociacion_misma_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "f",
+          "nombre": "fk_acta_incidencia_acta",
+          "columnas": [
+            "id_acta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_acta) REFERENCES public.actas(id_acta)",
+          "tablaReferenciada": "public.actas",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_acta"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_acta_incidencia_incidencia",
+          "columnas": [
+            "id_incidencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_incidencia) REFERENCES public.incidencias(id_incidencia)",
+          "tablaReferenciada": "public.incidencias",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_incidencia"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "pk_acta_incidencia",
+          "columnas": [
+            "id_acta",
+            "id_incidencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_acta, id_incidencia)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "actividades",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "actividades_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX actividades_pkey ON public.actividades USING btree (id_actividad)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "uq_actividad_codigo",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX uq_actividad_codigo ON public.actividades USING btree (id_obra, codigo)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_actividad",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_obra",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_asignacion_responsable",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(30)",
+          "nombre": "codigo",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(120)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "unidad_medida",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(12,2)",
+          "nombre": "cantidad_planificada",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_inicio_plan",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_fin_plan",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_impedir_cambio_obra_actividad",
+          "funcion": "public.fn_impedir_cambio_obra()",
+          "definicion": "CREATE TRIGGER trg_impedir_cambio_obra_actividad BEFORE UPDATE OF id_obra ON public.actividades FOR EACH ROW EXECUTE FUNCTION public.fn_impedir_cambio_obra()",
+          "habilitacion": "O"
+        },
+        {
+          "nombre": "trg_validar_responsable_actividad_obra",
+          "funcion": "public.fn_validar_asociacion_misma_obra()",
+          "definicion": "CREATE TRIGGER trg_validar_responsable_actividad_obra BEFORE INSERT OR UPDATE OF id_obra, id_asignacion_responsable ON public.actividades FOR EACH ROW EXECUTE FUNCTION public.fn_validar_asociacion_misma_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "p",
+          "nombre": "actividades_pkey",
+          "columnas": [
+            "id_actividad"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_actividad)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_actividad_cantidad",
+          "columnas": [
+            "cantidad_planificada"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK ((cantidad_planificada >= (0)::numeric))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_actividad_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['PLANIFICADA'::character varying, 'EN_PROCESO'::character varying, 'COMPLETA'::character varying, 'RETRASADA'::character varying, 'CANCELADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_actividad_fechas",
+          "columnas": [
+            "fecha_fin_plan",
+            "fecha_inicio_plan"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK ((fecha_fin_plan >= fecha_inicio_plan))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_actividad_obra",
+          "columnas": [
+            "id_obra"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_obra) REFERENCES public.obras(id_obra)",
+          "tablaReferenciada": "public.obras",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_obra"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_actividad_responsable",
+          "columnas": [
+            "id_asignacion_responsable"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_asignacion_responsable) REFERENCES public.asignaciones_trabajador_obra(id_asignacion)",
+          "tablaReferenciada": "public.asignaciones_trabajador_obra",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_asignacion"
+          ]
+        },
+        {
+          "tipo": "u",
+          "nombre": "uq_actividad_codigo",
+          "columnas": [
+            "id_obra",
+            "codigo"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (id_obra, codigo)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "actividades_incidencia",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "pk_actividad_incidencia",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX pk_actividad_incidencia ON public.actividades_incidencia USING btree (id_incidencia, id_actividad)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_incidencia",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_actividad",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_validar_actividad_incidencia_obra",
+          "funcion": "public.fn_validar_asociacion_misma_obra()",
+          "definicion": "CREATE TRIGGER trg_validar_actividad_incidencia_obra BEFORE INSERT OR UPDATE OF id_incidencia, id_actividad ON public.actividades_incidencia FOR EACH ROW EXECUTE FUNCTION public.fn_validar_asociacion_misma_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "f",
+          "nombre": "fk_ai_actividad",
+          "columnas": [
+            "id_actividad"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_actividad) REFERENCES public.actividades(id_actividad)",
+          "tablaReferenciada": "public.actividades",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_actividad"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ai_incidencia",
+          "columnas": [
+            "id_incidencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_incidencia) REFERENCES public.incidencias(id_incidencia)",
+          "tablaReferenciada": "public.incidencias",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_incidencia"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "pk_actividad_incidencia",
+          "columnas": [
+            "id_incidencia",
+            "id_actividad"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_incidencia, id_actividad)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "aprobaciones_acta",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "aprobaciones_acta_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX aprobaciones_acta_pkey ON public.aprobaciones_acta USING btree (id_aprobacion)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_aprobacion",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_acta",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(15)",
+          "nombre": "decision",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "comentario",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "fecha_hora",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "p",
+          "nombre": "aprobaciones_acta_pkey",
+          "columnas": [
+            "id_aprobacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_aprobacion)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_aprobacion_acta_decision",
+          "columnas": [
+            "decision"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((decision)::text = ANY ((ARRAY['APROBADA'::character varying, 'RECHAZADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_aprobacion_acta_acta",
+          "columnas": [
+            "id_acta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_acta) REFERENCES public.actas(id_acta)",
+          "tablaReferenciada": "public.actas",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_acta"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_aprobacion_acta_usuario",
+          "columnas": [
+            "id_usuario"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "asignaciones_herramienta",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "asignaciones_herramienta_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX asignaciones_herramienta_pkey ON public.asignaciones_herramienta USING btree (id_asignacion_herramienta)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_asignacion_herramienta_activa",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_asignacion_herramienta_activa ON public.asignaciones_herramienta USING btree (id_herramienta) WHERE ((estado)::text = 'ACTIVA'::text)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_asignacion_herramienta_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_asignacion_herramienta_uuid ON public.asignaciones_herramienta USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_asignacion_herramienta",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_herramienta",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_asignacion_trabajador_obra",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_entrega",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "entregada_en",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "condicion_entrega",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "devuelta_en",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "condicion_devolucion",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "creado_en",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "sincronizado_en",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "p",
+          "nombre": "asignaciones_herramienta_pkey",
+          "columnas": [
+            "id_asignacion_herramienta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_asignacion_herramienta)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_ah_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['ACTIVA'::character varying, 'DEVUELTA'::character varying, 'PERDIDA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_ah_fecha",
+          "columnas": [
+            "devuelta_en",
+            "entregada_en"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((devuelta_en IS NULL) OR (devuelta_en >= entregada_en)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ah_asignacion",
+          "columnas": [
+            "id_asignacion_trabajador_obra"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_asignacion_trabajador_obra) REFERENCES public.asignaciones_trabajador_obra(id_asignacion)",
+          "tablaReferenciada": "public.asignaciones_trabajador_obra",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_asignacion"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ah_herramienta",
+          "columnas": [
+            "id_herramienta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_herramienta) REFERENCES public.herramientas(id_herramienta)",
+          "tablaReferenciada": "public.herramientas",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_herramienta"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ah_usuario",
+          "columnas": [
+            "id_usuario_entrega"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_entrega) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "asignaciones_trabajador_obra",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "asignaciones_trabajador_obra_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX asignaciones_trabajador_obra_pkey ON public.asignaciones_trabajador_obra USING btree (id_asignacion)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "uq_ato_periodo",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX uq_ato_periodo ON public.asignaciones_trabajador_obra USING btree (id_trabajador, id_obra, fecha_inicio)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_ato_activa",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_ato_activa ON public.asignaciones_trabajador_obra USING btree (id_trabajador, id_obra) WHERE ((fecha_fin IS NULL) AND ((estado)::text = 'ACTIVA'::text))"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_asignacion",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_trabajador",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_obra",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_especialidad",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "tipo_contratacion",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_inicio",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_fin",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "es_responsable",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "false"
+        },
+        {
+          "tipo": "character varying(15)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_impedir_cambio_obra_asignacion",
+          "funcion": "public.fn_impedir_cambio_obra()",
+          "definicion": "CREATE TRIGGER trg_impedir_cambio_obra_asignacion BEFORE UPDATE OF id_obra ON public.asignaciones_trabajador_obra FOR EACH ROW EXECUTE FUNCTION public.fn_impedir_cambio_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "p",
+          "nombre": "asignaciones_trabajador_obra_pkey",
+          "columnas": [
+            "id_asignacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_asignacion)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_ato_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['ACTIVA'::character varying, 'FINALIZADA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_ato_fechas",
+          "columnas": [
+            "fecha_fin",
+            "fecha_inicio"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((fecha_fin IS NULL) OR (fecha_fin >= fecha_inicio)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_ato_tipo",
+          "columnas": [
+            "tipo_contratacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((tipo_contratacion)::text = ANY ((ARRAY['FIJO'::character varying, 'SUBCONTRATADO'::character varying, 'TEMPORAL'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ato_especialidad",
+          "columnas": [
+            "id_trabajador",
+            "id_especialidad"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_trabajador, id_especialidad) REFERENCES public.trabajadores_especialidad(id_trabajador, id_especialidad)",
+          "tablaReferenciada": "public.trabajadores_especialidad",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_trabajador",
+            "id_especialidad"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ato_obra",
+          "columnas": [
+            "id_obra"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_obra) REFERENCES public.obras(id_obra)",
+          "tablaReferenciada": "public.obras",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_obra"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ato_trabajador",
+          "columnas": [
+            "id_trabajador"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_trabajador) REFERENCES public.trabajadores(id_trabajador)",
+          "tablaReferenciada": "public.trabajadores",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_trabajador"
+          ]
+        },
+        {
+          "tipo": "u",
+          "nombre": "uq_ato_periodo",
+          "columnas": [
+            "id_trabajador",
+            "id_obra",
+            "fecha_inicio"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (id_trabajador, id_obra, fecha_inicio)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "asistencias",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "asistencias_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX asistencias_pkey ON public.asistencias USING btree (id_asistencia)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_asistencia_abierta_asignacion",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_asistencia_abierta_asignacion ON public.asistencias USING btree (id_asignacion) WHERE ((salida_at IS NULL) AND ((estado)::text <> 'ANULADA'::text))"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_asistencia_marcacion",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_asistencia_marcacion ON public.asistencias USING btree (id_asignacion, entrada_at)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_asistencia_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_asistencia_uuid ON public.asistencias USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_asistencia",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_asignacion",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_jornada",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "entrada_at",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "salida_at",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(9,6)",
+          "nombre": "latitud_entrada",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(9,6)",
+          "nombre": "longitud_entrada",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(9,6)",
+          "nombre": "latitud_salida",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(9,6)",
+          "nombre": "longitud_salida",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(15)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_registro",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "creado_en",
+          "generada": "",
+          "posicion": 13,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "sincronizado_en",
+          "generada": "",
+          "posicion": 14,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(10,2)",
+          "nombre": "precision_gps_entrada_metros",
+          "generada": "",
+          "posicion": 15,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(10,2)",
+          "nombre": "precision_gps_salida_metros",
+          "generada": "",
+          "posicion": 16,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "p",
+          "nombre": "asistencias_pkey",
+          "columnas": [
+            "id_asistencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_asistencia)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_asistencia_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['ABIERTA'::character varying, 'COMPLETA'::character varying, 'CORREGIDA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_asistencia_horas",
+          "columnas": [
+            "salida_at",
+            "entrada_at"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((salida_at IS NULL) OR (salida_at >= entrada_at)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_asistencia_lat_entrada",
+          "columnas": [
+            "latitud_entrada"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((latitud_entrada IS NULL) OR ((latitud_entrada >= ('-90'::integer)::numeric) AND (latitud_entrada <= (90)::numeric))))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_asistencia_lat_salida",
+          "columnas": [
+            "latitud_salida"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((latitud_salida IS NULL) OR ((latitud_salida >= ('-90'::integer)::numeric) AND (latitud_salida <= (90)::numeric))))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_asistencia_lon_entrada",
+          "columnas": [
+            "longitud_entrada"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((longitud_entrada IS NULL) OR ((longitud_entrada >= ('-180'::integer)::numeric) AND (longitud_entrada <= (180)::numeric))))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_asistencia_lon_salida",
+          "columnas": [
+            "longitud_salida"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((longitud_salida IS NULL) OR ((longitud_salida >= ('-180'::integer)::numeric) AND (longitud_salida <= (180)::numeric))))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_asistencia_precision_gps",
+          "columnas": [
+            "precision_gps_entrada_metros",
+            "latitud_entrada",
+            "longitud_entrada",
+            "precision_gps_salida_metros",
+            "latitud_salida",
+            "longitud_salida",
+            "salida_at"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK ((((precision_gps_entrada_metros IS NULL) OR ((precision_gps_entrada_metros >= (0)::numeric) AND (precision_gps_entrada_metros <= 99999999.99) AND (latitud_entrada IS NOT NULL) AND (longitud_entrada IS NOT NULL))) AND ((precision_gps_salida_metros IS NULL) OR ((precision_gps_salida_metros >= (0)::numeric) AND (precision_gps_salida_metros <= 99999999.99) AND (latitud_salida IS NOT NULL) AND (longitud_salida IS NOT NULL) AND (salida_at IS NOT NULL)))))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_asistencia_asignacion",
+          "columnas": [
+            "id_asignacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_asignacion) REFERENCES public.asignaciones_trabajador_obra(id_asignacion)",
+          "tablaReferenciada": "public.asignaciones_trabajador_obra",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_asignacion"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_asistencia_usuario",
+          "columnas": [
+            "id_usuario_registro"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_registro) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "auditorias",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "auditorias_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX auditorias_pkey ON public.auditorias USING btree (id_auditoria)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_auditoria_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_auditoria_uuid ON public.auditorias USING btree (uuid_operacion)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_auditoria",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "entidad",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(50)",
+          "nombre": "id_registro",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "accion",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "campo",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(1000)",
+          "nombre": "valor_anterior",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(1000)",
+          "nombre": "valor_nuevo",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "fecha_hora",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "inet",
+          "nombre": "ip_origen",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_operacion",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "p",
+          "nombre": "auditorias_pkey",
+          "columnas": [
+            "id_auditoria"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_auditoria)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_auditoria_accion",
+          "columnas": [
+            "accion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((accion)::text = ANY ((ARRAY['CREAR'::character varying, 'MODIFICAR'::character varying, 'ANULAR'::character varying, 'APROBAR'::character varying, 'RECHAZAR'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_auditoria_usuario",
+          "columnas": [
+            "id_usuario"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "avances",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "avances_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX avances_pkey ON public.avances USING btree (id_avance)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "uq_avance_dia",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX uq_avance_dia ON public.avances USING btree (id_actividad, fecha_avance)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_avance_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_avance_uuid ON public.avances USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_avance",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_actividad",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_avance",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(12,2)",
+          "nombre": "cantidad_ejecutada",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "observaciones",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_registro",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "creado_en",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "sincronizado_en",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "p",
+          "nombre": "avances_pkey",
+          "columnas": [
+            "id_avance"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_avance)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_avance_cantidad",
+          "columnas": [
+            "cantidad_ejecutada"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK ((cantidad_ejecutada >= (0)::numeric))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_avance_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['BORRADOR'::character varying, 'REGISTRADO'::character varying, 'ANULADO'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_avance_actividad",
+          "columnas": [
+            "id_actividad"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_actividad) REFERENCES public.actividades(id_actividad)",
+          "tablaReferenciada": "public.actividades",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_actividad"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_avance_usuario",
+          "columnas": [
+            "id_usuario_registro"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_registro) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        },
+        {
+          "tipo": "u",
+          "nombre": "uq_avance_dia",
+          "columnas": [
+            "id_actividad",
+            "fecha_avance"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (id_actividad, fecha_avance)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "cargos",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "cargos_nombre_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX cargos_nombre_key ON public.cargos USING btree (nombre)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "cargos_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX cargos_pkey ON public.cargos USING btree (id_cargo)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_cargo",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(200)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "activo",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "true"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "u",
+          "nombre": "cargos_nombre_key",
+          "columnas": [
+            "nombre"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (nombre)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "cargos_pkey",
+          "columnas": [
+            "id_cargo"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_cargo)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "categorias_herramienta",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "categorias_herramienta_nombre_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX categorias_herramienta_nombre_key ON public.categorias_herramienta USING btree (nombre)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "categorias_herramienta_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX categorias_herramienta_pkey ON public.categorias_herramienta USING btree (id_categoria)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_categoria",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(80)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(250)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "activo",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "true"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "u",
+          "nombre": "categorias_herramienta_nombre_key",
+          "columnas": [
+            "nombre"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (nombre)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "categorias_herramienta_pkey",
+          "columnas": [
+            "id_categoria"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_categoria)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "correcciones_asistencia",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "correcciones_asistencia_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX correcciones_asistencia_pkey ON public.correcciones_asistencia USING btree (id_correccion)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_correccion",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "bigint",
+          "nombre": "id_asistencia",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_solicita",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_aprueba",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "entrada_anterior",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "salida_anterior",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "entrada_nueva",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "salida_nueva",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(300)",
+          "nombre": "motivo",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(15)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "solicitado_en",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "resuelto_en",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_ca_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['PENDIENTE'::character varying, 'APROBADA'::character varying, 'RECHAZADA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_ca_horas",
+          "columnas": [
+            "salida_nueva",
+            "entrada_nueva"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((salida_nueva IS NULL) OR (entrada_nueva IS NULL) OR (salida_nueva >= entrada_nueva)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "correcciones_asistencia_pkey",
+          "columnas": [
+            "id_correccion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_correccion)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ca_aprueba",
+          "columnas": [
+            "id_usuario_aprueba"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_aprueba) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ca_asistencia",
+          "columnas": [
+            "id_asistencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_asistencia) REFERENCES public.asistencias(id_asistencia)",
+          "tablaReferenciada": "public.asistencias",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_asistencia"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ca_solicita",
+          "columnas": [
+            "id_usuario_solicita"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_solicita) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "cuadrillas",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "cuadrillas_codigo_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX cuadrillas_codigo_key ON public.cuadrillas USING btree (codigo)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "cuadrillas_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX cuadrillas_pkey ON public.cuadrillas USING btree (id_cuadrilla)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_cuadrilla",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "codigo",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(80)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(200)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "activo",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "true"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "u",
+          "nombre": "cuadrillas_codigo_key",
+          "columnas": [
+            "codigo"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (codigo)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "cuadrillas_pkey",
+          "columnas": [
+            "id_cuadrilla"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_cuadrilla)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "cuadrillas_obra",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "cuadrillas_obra_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX cuadrillas_obra_pkey ON public.cuadrillas_obra USING btree (id_cuadrilla_obra)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "uq_co_periodo",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX uq_co_periodo ON public.cuadrillas_obra USING btree (id_cuadrilla, id_obra, fecha_inicio)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_cuadrilla_obra_activa",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_cuadrilla_obra_activa ON public.cuadrillas_obra USING btree (id_cuadrilla, id_obra) WHERE ((fecha_fin IS NULL) AND ((estado)::text = 'ACTIVA'::text))"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_cuadrilla_obra",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_cuadrilla",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_obra",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_inicio",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_fin",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(15)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_impedir_cambio_obra_cuadrilla",
+          "funcion": "public.fn_impedir_cambio_obra()",
+          "definicion": "CREATE TRIGGER trg_impedir_cambio_obra_cuadrilla BEFORE UPDATE OF id_obra ON public.cuadrillas_obra FOR EACH ROW EXECUTE FUNCTION public.fn_impedir_cambio_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_co_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['ACTIVA'::character varying, 'FINALIZADA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_co_fechas",
+          "columnas": [
+            "fecha_fin",
+            "fecha_inicio"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((fecha_fin IS NULL) OR (fecha_fin >= fecha_inicio)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "cuadrillas_obra_pkey",
+          "columnas": [
+            "id_cuadrilla_obra"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_cuadrilla_obra)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_co_cuadrilla",
+          "columnas": [
+            "id_cuadrilla"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_cuadrilla) REFERENCES public.cuadrillas(id_cuadrilla)",
+          "tablaReferenciada": "public.cuadrillas",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_cuadrilla"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_co_obra",
+          "columnas": [
+            "id_obra"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_obra) REFERENCES public.obras(id_obra)",
+          "tablaReferenciada": "public.obras",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_obra"
+          ]
+        },
+        {
+          "tipo": "u",
+          "nombre": "uq_co_periodo",
+          "columnas": [
+            "id_cuadrilla",
+            "id_obra",
+            "fecha_inicio"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (id_cuadrilla, id_obra, fecha_inicio)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "entregas_epp",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "entregas_epp_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX entregas_epp_pkey ON public.entregas_epp USING btree (id_entrega_epp)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_entrega_epp_activa",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_entrega_epp_activa ON public.entregas_epp USING btree (id_epp) WHERE ((estado)::text = 'ACTIVA'::text)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_entrega_epp_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_entrega_epp_uuid ON public.entregas_epp USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_entrega_epp",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_epp",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_asignacion",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_entrega",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "entregado_en",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "condicion_entrega",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "devuelto_en",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "condicion_devolucion",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "ruta_constancia",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "creado_en",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "sincronizado_en",
+          "generada": "",
+          "posicion": 13,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_entrega_epp_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['ACTIVA'::character varying, 'DEVUELTA'::character varying, 'PERDIDA'::character varying, 'REEMPLAZADA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_entrega_epp_fecha",
+          "columnas": [
+            "devuelto_en",
+            "entregado_en"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((devuelto_en IS NULL) OR (devuelto_en >= entregado_en)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "entregas_epp_pkey",
+          "columnas": [
+            "id_entrega_epp"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_entrega_epp)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_entrega_epp_asignacion",
+          "columnas": [
+            "id_asignacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_asignacion) REFERENCES public.asignaciones_trabajador_obra(id_asignacion)",
+          "tablaReferenciada": "public.asignaciones_trabajador_obra",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_asignacion"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_entrega_epp_epp",
+          "columnas": [
+            "id_epp"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_epp) REFERENCES public.epps(id_epp)",
+          "tablaReferenciada": "public.epps",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_epp"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_entrega_epp_usuario",
+          "columnas": [
+            "id_usuario_entrega"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_entrega) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "epps",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "epps_codigo_interno_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX epps_codigo_interno_key ON public.epps USING btree (codigo_interno)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "epps_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX epps_pkey ON public.epps USING btree (id_epp)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_epp_numero_serie",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_epp_numero_serie ON public.epps USING btree (numero_serie) WHERE (numero_serie IS NOT NULL)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_epp",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_tipo_epp",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(30)",
+          "nombre": "codigo_interno",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "numero_serie",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_adquisicion",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "condicion",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_epp_condicion",
+          "columnas": [
+            "condicion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((condicion)::text = ANY ((ARRAY['NUEVO'::character varying, 'BUENO'::character varying, 'DESGASTADO'::character varying, 'DANADO'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_epp_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['DISPONIBLE'::character varying, 'ENTREGADO'::character varying, 'EN_REVISION'::character varying, 'PERDIDO'::character varying, 'RETIRADO'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "u",
+          "nombre": "epps_codigo_interno_key",
+          "columnas": [
+            "codigo_interno"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (codigo_interno)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "epps_pkey",
+          "columnas": [
+            "id_epp"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_epp)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_epp_tipo",
+          "columnas": [
+            "id_tipo_epp"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_tipo_epp) REFERENCES public.tipos_epp(id_tipo_epp)",
+          "tablaReferenciada": "public.tipos_epp",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_tipo_epp"
+          ]
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "especialidades",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "especialidades_nombre_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX especialidades_nombre_key ON public.especialidades USING btree (nombre)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "especialidades_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX especialidades_pkey ON public.especialidades USING btree (id_especialidad)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_especialidad",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(200)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "activo",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "true"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "u",
+          "nombre": "especialidades_nombre_key",
+          "columnas": [
+            "nombre"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (nombre)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "especialidades_pkey",
+          "columnas": [
+            "id_especialidad"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_especialidad)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "evidencias",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "evidencias_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX evidencias_pkey ON public.evidencias USING btree (id_evidencia)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_evidencia_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_evidencia_uuid ON public.evidencias USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_evidencia",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "bigint",
+          "nombre": "id_avance",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "tipo_evidencia",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "ruta_archivo",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character(64)",
+          "nombre": "hash_archivo",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "capturada_en",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(9,6)",
+          "nombre": "latitud",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(9,6)",
+          "nombre": "longitud",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_registro",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "creado_en",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "sincronizado_en",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_evidencia_lat",
+          "columnas": [
+            "latitud"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((latitud IS NULL) OR ((latitud >= ('-90'::integer)::numeric) AND (latitud <= (90)::numeric))))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_evidencia_lon",
+          "columnas": [
+            "longitud"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((longitud IS NULL) OR ((longitud >= ('-180'::integer)::numeric) AND (longitud <= (180)::numeric))))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_evidencia_tipo",
+          "columnas": [
+            "tipo_evidencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((tipo_evidencia)::text = ANY ((ARRAY['FOTOGRAFIA'::character varying, 'BITACORA'::character varying, 'DOCUMENTO'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "evidencias_pkey",
+          "columnas": [
+            "id_evidencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_evidencia)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_evidencia_avance",
+          "columnas": [
+            "id_avance"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_avance) REFERENCES public.avances(id_avance)",
+          "tablaReferenciada": "public.avances",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_avance"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_evidencia_usuario",
+          "columnas": [
+            "id_usuario_registro"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_registro) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "herramientas",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "herramientas_codigo_interno_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX herramientas_codigo_interno_key ON public.herramientas USING btree (codigo_interno)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "herramientas_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX herramientas_pkey ON public.herramientas USING btree (id_herramienta)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_herramienta_serie",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_herramienta_serie ON public.herramientas USING btree (numero_serie) WHERE (numero_serie IS NOT NULL)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_herramienta",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_tipo_herramienta",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(30)",
+          "nombre": "codigo_interno",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "numero_serie",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "marca",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "modelo",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_adquisicion",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "condicion",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_herramienta_condicion",
+          "columnas": [
+            "condicion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((condicion)::text = ANY ((ARRAY['NUEVA'::character varying, 'BUENA'::character varying, 'DESGASTADA'::character varying, 'DANADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_herramienta_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['DISPONIBLE'::character varying, 'ASIGNADA'::character varying, 'EN_REVISION'::character varying, 'PERDIDA'::character varying, 'RETIRADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_herramienta_tipo",
+          "columnas": [
+            "id_tipo_herramienta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_tipo_herramienta) REFERENCES public.tipos_herramienta(id_tipo_herramienta)",
+          "tablaReferenciada": "public.tipos_herramienta",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_tipo_herramienta"
+          ]
+        },
+        {
+          "tipo": "u",
+          "nombre": "herramientas_codigo_interno_key",
+          "columnas": [
+            "codigo_interno"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (codigo_interno)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "herramientas_pkey",
+          "columnas": [
+            "id_herramienta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_herramienta)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "incidencias",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "incidencias_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX incidencias_pkey ON public.incidencias USING btree (id_incidencia)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_incidencia_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_incidencia_uuid ON public.incidencias USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_incidencia",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_obra",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(30)",
+          "nombre": "tipo_incidencia",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "inicio_en",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "fin_en",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(8,2)",
+          "nombre": "horas_perdidas",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "justificacion",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_registro",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "creado_en",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "sincronizado_en",
+          "generada": "",
+          "posicion": 13,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_impedir_cambio_obra_incidencia",
+          "funcion": "public.fn_impedir_cambio_obra()",
+          "definicion": "CREATE TRIGGER trg_impedir_cambio_obra_incidencia BEFORE UPDATE OF id_obra ON public.incidencias FOR EACH ROW EXECUTE FUNCTION public.fn_impedir_cambio_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_incidencia_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['ABIERTA'::character varying, 'RESUELTA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_incidencia_fechas",
+          "columnas": [
+            "fin_en",
+            "inicio_en"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((fin_en IS NULL) OR (fin_en >= inicio_en)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_incidencia_horas",
+          "columnas": [
+            "horas_perdidas"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((horas_perdidas IS NULL) OR (horas_perdidas >= (0)::numeric)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_incidencia_tipo",
+          "columnas": [
+            "tipo_incidencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((tipo_incidencia)::text = ANY ((ARRAY['CLIMA'::character varying, 'MATERIAL_IMPORTADO'::character varying, 'TECNICA'::character varying, 'SEGURIDAD'::character varying, 'OTRA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_incidencia_obra",
+          "columnas": [
+            "id_obra"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_obra) REFERENCES public.obras(id_obra)",
+          "tablaReferenciada": "public.obras",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_obra"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_incidencia_usuario",
+          "columnas": [
+            "id_usuario_registro"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_registro) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "incidencias_pkey",
+          "columnas": [
+            "id_incidencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_incidencia)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "incidencias_herramienta",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "incidencias_herramienta_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX incidencias_herramienta_pkey ON public.incidencias_herramienta USING btree (id_incidencia_herramienta)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_incidencia_herramienta_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_incidencia_herramienta_uuid ON public.incidencias_herramienta USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_incidencia_herramienta",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "bigint",
+          "nombre": "id_asignacion_herramienta",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(25)",
+          "nombre": "tipo_incidencia",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "fecha_hora",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "resolucion",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(12,2)",
+          "nombre": "costo_estimado",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_registro",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "'ABIERTA'::character varying"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_ih_costo",
+          "columnas": [
+            "costo_estimado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((costo_estimado IS NULL) OR (costo_estimado >= (0)::numeric)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_ih_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['ABIERTA'::character varying, 'EN_PROCESO'::character varying, 'RESUELTA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_ih_tipo",
+          "columnas": [
+            "tipo_incidencia"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((tipo_incidencia)::text = ANY ((ARRAY['DANO'::character varying, 'PERDIDA'::character varying, 'DEMORA'::character varying, 'DEVOLUCION'::character varying, 'OTRA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ih_asignacion",
+          "columnas": [
+            "id_asignacion_herramienta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_asignacion_herramienta) REFERENCES public.asignaciones_herramienta(id_asignacion_herramienta)",
+          "tablaReferenciada": "public.asignaciones_herramienta",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_asignacion_herramienta"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ih_usuario",
+          "columnas": [
+            "id_usuario_registro"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_registro) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "incidencias_herramienta_pkey",
+          "columnas": [
+            "id_incidencia_herramienta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_incidencia_herramienta)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "movimientos_stock_epp",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "movimientos_stock_epp_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX movimientos_stock_epp_pkey ON public.movimientos_stock_epp USING btree (id_movimiento_epp)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_movimiento_epp_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_movimiento_epp_uuid ON public.movimientos_stock_epp USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_movimiento_epp",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_epp",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "bigint",
+          "nombre": "id_entrega_epp",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(25)",
+          "nombre": "tipo_movimiento",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "fecha_hora",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(300)",
+          "nombre": "observacion",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_movimiento_epp_tipo",
+          "columnas": [
+            "tipo_movimiento"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((tipo_movimiento)::text = ANY ((ARRAY['ENTRADA'::character varying, 'ENTREGA'::character varying, 'DEVOLUCION'::character varying, 'PERDIDA'::character varying, 'RETIRO'::character varying, 'AJUSTE'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_movimiento_epp_entrega",
+          "columnas": [
+            "id_entrega_epp"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_entrega_epp) REFERENCES public.entregas_epp(id_entrega_epp)",
+          "tablaReferenciada": "public.entregas_epp",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_entrega_epp"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_movimiento_epp_epp",
+          "columnas": [
+            "id_epp"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_epp) REFERENCES public.epps(id_epp)",
+          "tablaReferenciada": "public.epps",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_epp"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_movimiento_epp_usuario",
+          "columnas": [
+            "id_usuario"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "movimientos_stock_epp_pkey",
+          "columnas": [
+            "id_movimiento_epp"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_movimiento_epp)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "obras",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "obras_codigo_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX obras_codigo_key ON public.obras USING btree (codigo)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "obras_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX obras_pkey ON public.obras USING btree (id_obra)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_obra",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "codigo",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(120)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(200)",
+          "nombre": "direccion",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_inicio_plan",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_fin_plan",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_inicio_real",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_fin_real",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "creado_en",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "numeric(9,6)",
+          "nombre": "latitud",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(9,6)",
+          "nombre": "longitud",
+          "generada": "",
+          "posicion": 13,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "numeric(10,2)",
+          "nombre": "radio_asistencia_metros",
+          "generada": "",
+          "posicion": 14,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_obra_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['PLANIFICADA'::character varying, 'ACTIVA'::character varying, 'SUSPENDIDA'::character varying, 'FINALIZADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_obra_fechas_plan",
+          "columnas": [
+            "fecha_fin_plan",
+            "fecha_inicio_plan"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK ((fecha_fin_plan >= fecha_inicio_plan))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_obra_fechas_real",
+          "columnas": [
+            "fecha_fin_real",
+            "fecha_inicio_real"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((fecha_fin_real IS NULL) OR (fecha_inicio_real IS NULL) OR (fecha_fin_real >= fecha_inicio_real)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_obra_geocerca",
+          "columnas": [
+            "latitud",
+            "longitud",
+            "radio_asistencia_metros"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK ((((latitud IS NULL) AND (longitud IS NULL) AND (radio_asistencia_metros IS NULL)) OR ((latitud IS NOT NULL) AND (longitud IS NOT NULL) AND (radio_asistencia_metros IS NOT NULL) AND (latitud >= '-90'::numeric) AND (latitud <= (90)::numeric) AND (longitud >= '-180'::numeric) AND (longitud <= (180)::numeric) AND (radio_asistencia_metros > (0)::numeric))))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "u",
+          "nombre": "obras_codigo_key",
+          "columnas": [
+            "codigo"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (codigo)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "obras_pkey",
+          "columnas": [
+            "id_obra"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_obra)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "permisos",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "permisos_codigo_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX permisos_codigo_key ON public.permisos USING btree (codigo)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "permisos_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX permisos_pkey ON public.permisos USING btree (id_permiso)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_permiso",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "codigo",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(80)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(200)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "activo",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "true"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "u",
+          "nombre": "permisos_codigo_key",
+          "columnas": [
+            "codigo"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (codigo)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "permisos_pkey",
+          "columnas": [
+            "id_permiso"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_permiso)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "reposiciones_epp",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "reposiciones_epp_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX reposiciones_epp_pkey ON public.reposiciones_epp USING btree (id_reposicion_epp)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_reposicion_entrega_nueva",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_reposicion_entrega_nueva ON public.reposiciones_epp USING btree (id_entrega_nueva) WHERE (id_entrega_nueva IS NOT NULL)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_reposicion_uuid",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_reposicion_uuid ON public.reposiciones_epp USING btree (uuid_registro)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "bigint",
+          "nombre": "id_reposicion_epp",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "bigint",
+          "nombre": "id_entrega_origen",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "bigint",
+          "nombre": "id_entrega_nueva",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(30)",
+          "nombre": "motivo",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(300)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "equipo_devuelto",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "false"
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_solicita",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "solicitada_en",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_aprueba",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "resuelta_en",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "uuid",
+          "nombre": "uuid_registro",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "gen_random_uuid()"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_reposicion_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['PENDIENTE'::character varying, 'APROBADA'::character varying, 'RECHAZADA'::character varying, 'EJECUTADA'::character varying, 'ANULADA'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_reposicion_fechas",
+          "columnas": [
+            "resuelta_en",
+            "solicitada_en"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((resuelta_en IS NULL) OR (resuelta_en >= solicitada_en)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_reposicion_motivo",
+          "columnas": [
+            "motivo"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((motivo)::text = ANY ((ARRAY['DANO'::character varying, 'PERDIDA'::character varying, 'DESGASTE'::character varying, 'VENCIMIENTO'::character varying, 'OTRO'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_reposicion_aprueba",
+          "columnas": [
+            "id_usuario_aprueba"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_aprueba) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_reposicion_nueva",
+          "columnas": [
+            "id_entrega_nueva"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_entrega_nueva) REFERENCES public.entregas_epp(id_entrega_epp)",
+          "tablaReferenciada": "public.entregas_epp",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_entrega_epp"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_reposicion_origen",
+          "columnas": [
+            "id_entrega_origen"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_entrega_origen) REFERENCES public.entregas_epp(id_entrega_epp)",
+          "tablaReferenciada": "public.entregas_epp",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_entrega_epp"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_reposicion_solicita",
+          "columnas": [
+            "id_usuario_solicita"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario_solicita) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "reposiciones_epp_pkey",
+          "columnas": [
+            "id_reposicion_epp"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_reposicion_epp)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "roles",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "roles_nombre_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX roles_nombre_key ON public.roles USING btree (nombre)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "roles_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX roles_pkey ON public.roles USING btree (id_rol)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_rol",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(50)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(200)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "activo",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "true"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "u",
+          "nombre": "roles_nombre_key",
+          "columnas": [
+            "nombre"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (nombre)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "roles_pkey",
+          "columnas": [
+            "id_rol"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_rol)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "roles_permiso",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "pk_rol_permiso",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX pk_rol_permiso ON public.roles_permiso USING btree (id_rol, id_permiso)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_rol",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_permiso",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "f",
+          "nombre": "fk_rol_permiso_permiso",
+          "columnas": [
+            "id_permiso"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_permiso) REFERENCES public.permisos(id_permiso)",
+          "tablaReferenciada": "public.permisos",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_permiso"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_rol_permiso_rol",
+          "columnas": [
+            "id_rol"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_rol) REFERENCES public.roles(id_rol)",
+          "tablaReferenciada": "public.roles",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_rol"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "pk_rol_permiso",
+          "columnas": [
+            "id_rol",
+            "id_permiso"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_rol, id_permiso)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "tipos_epp",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "tipos_epp_nombre_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX tipos_epp_nombre_key ON public.tipos_epp USING btree (nombre)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "tipos_epp_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX tipos_epp_pkey ON public.tipos_epp USING btree (id_tipo_epp)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_tipo_epp",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(80)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(250)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "vida_util_dias",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "stock_minimo",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "0"
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "activo",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "true"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_tipo_epp_stock",
+          "columnas": [
+            "stock_minimo"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK ((stock_minimo >= 0))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_tipo_epp_vida",
+          "columnas": [
+            "vida_util_dias"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((vida_util_dias IS NULL) OR (vida_util_dias > 0)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "u",
+          "nombre": "tipos_epp_nombre_key",
+          "columnas": [
+            "nombre"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (nombre)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "tipos_epp_pkey",
+          "columnas": [
+            "id_tipo_epp"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_tipo_epp)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "tipos_herramienta",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "tipos_herramienta_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX tipos_herramienta_pkey ON public.tipos_herramienta USING btree (id_tipo_herramienta)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "uq_tipo_herramienta",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX uq_tipo_herramienta ON public.tipos_herramienta USING btree (id_categoria, nombre)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_tipo_herramienta",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_categoria",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(100)",
+          "nombre": "nombre",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(250)",
+          "nombre": "descripcion",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "boolean",
+          "nombre": "activo",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "true"
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "f",
+          "nombre": "fk_tipo_herramienta_categoria",
+          "columnas": [
+            "id_categoria"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_categoria) REFERENCES public.categorias_herramienta(id_categoria)",
+          "tablaReferenciada": "public.categorias_herramienta",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_categoria"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "tipos_herramienta_pkey",
+          "columnas": [
+            "id_tipo_herramienta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_tipo_herramienta)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "u",
+          "nombre": "uq_tipo_herramienta",
+          "columnas": [
+            "id_categoria",
+            "nombre"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (id_categoria, nombre)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "trabajadores",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "trabajadores_cedula_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX trabajadores_cedula_key ON public.trabajadores USING btree (cedula)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "trabajadores_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX trabajadores_pkey ON public.trabajadores USING btree (id_trabajador)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_trabajador_correo",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_trabajador_correo ON public.trabajadores USING btree (correo) WHERE (correo IS NOT NULL)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_trabajador",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_cargo",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "cedula",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(50)",
+          "nombre": "primer_nombre",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(50)",
+          "nombre": "segundo_nombre",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(50)",
+          "nombre": "primer_apellido",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(50)",
+          "nombre": "segundo_apellido",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "telefono",
+          "generada": "",
+          "posicion": 8,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(100)",
+          "nombre": "correo",
+          "generada": "",
+          "posicion": 9,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(200)",
+          "nombre": "direccion",
+          "generada": "",
+          "posicion": 10,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_ingreso",
+          "generada": "",
+          "posicion": 11,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(15)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 12,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_trabajador_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['ACTIVO'::character varying, 'INACTIVO'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_trabajador_cargo",
+          "columnas": [
+            "id_cargo"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_cargo) REFERENCES public.cargos(id_cargo)",
+          "tablaReferenciada": "public.cargos",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_cargo"
+          ]
+        },
+        {
+          "tipo": "u",
+          "nombre": "trabajadores_cedula_key",
+          "columnas": [
+            "cedula"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (cedula)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "trabajadores_pkey",
+          "columnas": [
+            "id_trabajador"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_trabajador)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "trabajadores_acta",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "pk_trabajador_acta",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX pk_trabajador_acta ON public.trabajadores_acta USING btree (id_acta, id_asignacion)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_acta",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_asignacion",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(30)",
+          "nombre": "tipo_participacion",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(500)",
+          "nombre": "ruta_firma",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "firmado_en",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_validar_trabajador_acta_obra",
+          "funcion": "public.fn_validar_asociacion_misma_obra()",
+          "definicion": "CREATE TRIGGER trg_validar_trabajador_acta_obra BEFORE INSERT OR UPDATE OF id_acta, id_asignacion ON public.trabajadores_acta FOR EACH ROW EXECUTE FUNCTION public.fn_validar_asociacion_misma_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "f",
+          "nombre": "fk_trabajador_acta_acta",
+          "columnas": [
+            "id_acta"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_acta) REFERENCES public.actas(id_acta)",
+          "tablaReferenciada": "public.actas",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_acta"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_trabajador_acta_asignacion",
+          "columnas": [
+            "id_asignacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_asignacion) REFERENCES public.asignaciones_trabajador_obra(id_asignacion)",
+          "tablaReferenciada": "public.asignaciones_trabajador_obra",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_asignacion"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "pk_trabajador_acta",
+          "columnas": [
+            "id_acta",
+            "id_asignacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_acta, id_asignacion)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "trabajadores_actividad",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "pk_trabajador_actividad",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX pk_trabajador_actividad ON public.trabajadores_actividad USING btree (id_actividad, id_asignacion)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_actividad",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_asignacion",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(50)",
+          "nombre": "rol_participacion",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_validar_trabajador_actividad_obra",
+          "funcion": "public.fn_validar_asociacion_misma_obra()",
+          "definicion": "CREATE TRIGGER trg_validar_trabajador_actividad_obra BEFORE INSERT OR UPDATE OF id_actividad, id_asignacion ON public.trabajadores_actividad FOR EACH ROW EXECUTE FUNCTION public.fn_validar_asociacion_misma_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "f",
+          "nombre": "fk_ta_actividad",
+          "columnas": [
+            "id_actividad"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_actividad) REFERENCES public.actividades(id_actividad)",
+          "tablaReferenciada": "public.actividades",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_actividad"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_ta_asignacion",
+          "columnas": [
+            "id_asignacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_asignacion) REFERENCES public.asignaciones_trabajador_obra(id_asignacion)",
+          "tablaReferenciada": "public.asignaciones_trabajador_obra",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_asignacion"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "pk_trabajador_actividad",
+          "columnas": [
+            "id_actividad",
+            "id_asignacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_actividad, id_asignacion)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "trabajadores_cuadrilla",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "trabajadores_cuadrilla_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX trabajadores_cuadrilla_pkey ON public.trabajadores_cuadrilla USING btree (id_trabajador_cuadrilla)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "uq_tc_periodo",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX uq_tc_periodo ON public.trabajadores_cuadrilla USING btree (id_asignacion, id_cuadrilla_obra, fecha_inicio)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_trabajador_cuadrilla_activa",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_trabajador_cuadrilla_activa ON public.trabajadores_cuadrilla USING btree (id_asignacion) WHERE (fecha_fin IS NULL)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_trabajador_cuadrilla",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_asignacion",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_cuadrilla_obra",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_inicio",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_fin",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [
+        {
+          "nombre": "trg_validar_trabajador_cuadrilla_obra",
+          "funcion": "public.fn_validar_asociacion_misma_obra()",
+          "definicion": "CREATE TRIGGER trg_validar_trabajador_cuadrilla_obra BEFORE INSERT OR UPDATE OF id_asignacion, id_cuadrilla_obra ON public.trabajadores_cuadrilla FOR EACH ROW EXECUTE FUNCTION public.fn_validar_asociacion_misma_obra()",
+          "habilitacion": "O"
+        }
+      ],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_tc_fechas",
+          "columnas": [
+            "fecha_fin",
+            "fecha_inicio"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((fecha_fin IS NULL) OR (fecha_fin >= fecha_inicio)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_tc_asignacion",
+          "columnas": [
+            "id_asignacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_asignacion) REFERENCES public.asignaciones_trabajador_obra(id_asignacion)",
+          "tablaReferenciada": "public.asignaciones_trabajador_obra",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_asignacion"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_tc_cuadrilla_obra",
+          "columnas": [
+            "id_cuadrilla_obra"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_cuadrilla_obra) REFERENCES public.cuadrillas_obra(id_cuadrilla_obra)",
+          "tablaReferenciada": "public.cuadrillas_obra",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_cuadrilla_obra"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "trabajadores_cuadrilla_pkey",
+          "columnas": [
+            "id_trabajador_cuadrilla"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_trabajador_cuadrilla)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "u",
+          "nombre": "uq_tc_periodo",
+          "columnas": [
+            "id_asignacion",
+            "id_cuadrilla_obra",
+            "fecha_inicio"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (id_asignacion, id_cuadrilla_obra, fecha_inicio)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "trabajadores_especialidad",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "pk_trabajador_especialidad",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX pk_trabajador_especialidad ON public.trabajadores_especialidad USING btree (id_trabajador, id_especialidad)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_trabajador",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_especialidad",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(20)",
+          "nombre": "nivel",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_certificacion",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_vencimiento",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_te_fechas",
+          "columnas": [
+            "fecha_vencimiento",
+            "fecha_certificacion"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((fecha_vencimiento IS NULL) OR (fecha_certificacion IS NULL) OR (fecha_vencimiento >= fecha_certificacion)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "c",
+          "nombre": "ck_te_nivel",
+          "columnas": [
+            "nivel"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((nivel IS NULL) OR ((nivel)::text = ANY ((ARRAY['BASICO'::character varying, 'INTERMEDIO'::character varying, 'AVANZADO'::character varying, 'CERTIFICADO'::character varying])::text[]))))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_te_especialidad",
+          "columnas": [
+            "id_especialidad"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_especialidad) REFERENCES public.especialidades(id_especialidad)",
+          "tablaReferenciada": "public.especialidades",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_especialidad"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_te_trabajador",
+          "columnas": [
+            "id_trabajador"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_trabajador) REFERENCES public.trabajadores(id_trabajador)",
+          "tablaReferenciada": "public.trabajadores",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_trabajador"
+          ]
+        },
+        {
+          "tipo": "p",
+          "nombre": "pk_trabajador_especialidad",
+          "columnas": [
+            "id_trabajador",
+            "id_especialidad"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_trabajador, id_especialidad)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "usuarios",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "usuarios_nombre_usuario_key",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX usuarios_nombre_usuario_key ON public.usuarios USING btree (nombre_usuario)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "usuarios_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX usuarios_pkey ON public.usuarios USING btree (id_usuario)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_usuario_trabajador",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_usuario_trabajador ON public.usuarios USING btree (id_trabajador) WHERE (id_trabajador IS NOT NULL)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_trabajador",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(60)",
+          "nombre": "nombre_usuario",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(255)",
+          "nombre": "password_hash",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "character varying(15)",
+          "nombre": "estado",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "creado_en",
+          "generada": "",
+          "posicion": 6,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": "CURRENT_TIMESTAMP"
+        },
+        {
+          "tipo": "timestamp(0) with time zone",
+          "nombre": "ultimo_acceso",
+          "generada": "",
+          "posicion": 7,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_usuario_estado",
+          "columnas": [
+            "estado"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((estado)::text = ANY ((ARRAY['ACTIVO'::character varying, 'BLOQUEADO'::character varying, 'INACTIVO'::character varying])::text[])))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_usuario_trabajador",
+          "columnas": [
+            "id_trabajador"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_trabajador) REFERENCES public.trabajadores(id_trabajador)",
+          "tablaReferenciada": "public.trabajadores",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_trabajador"
+          ]
+        },
+        {
+          "tipo": "u",
+          "nombre": "usuarios_nombre_usuario_key",
+          "columnas": [
+            "nombre_usuario"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (nombre_usuario)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "usuarios_pkey",
+          "columnas": [
+            "id_usuario"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_usuario)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    },
+    {
+      "nombre": "usuarios_rol",
+      "indices": [
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "uq_usuario_rol_periodo",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX uq_usuario_rol_periodo ON public.usuarios_rol USING btree (id_usuario, id_rol, fecha_inicio)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "usuarios_rol_pkey",
+          "valido": true,
+          "primario": true,
+          "definicion": "CREATE UNIQUE INDEX usuarios_rol_pkey ON public.usuarios_rol USING btree (id_usuario_rol)"
+        },
+        {
+          "listo": true,
+          "unico": true,
+          "nombre": "ux_usuario_rol_activo",
+          "valido": true,
+          "primario": false,
+          "definicion": "CREATE UNIQUE INDEX ux_usuario_rol_activo ON public.usuarios_rol USING btree (id_usuario, id_rol) WHERE (fecha_fin IS NULL)"
+        }
+      ],
+      "columnas": [
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario_rol",
+          "generada": "",
+          "posicion": 1,
+          "identidad": "d",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_usuario",
+          "generada": "",
+          "posicion": 2,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "integer",
+          "nombre": "id_rol",
+          "generada": "",
+          "posicion": 3,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_inicio",
+          "generada": "",
+          "posicion": 4,
+          "identidad": "",
+          "obligatoria": true,
+          "valorPredeterminado": null
+        },
+        {
+          "tipo": "date",
+          "nombre": "fecha_fin",
+          "generada": "",
+          "posicion": 5,
+          "identidad": "",
+          "obligatoria": false,
+          "valorPredeterminado": null
+        }
+      ],
+      "esParticion": false,
+      "disparadores": [],
+      "particionada": false,
+      "restricciones": [
+        {
+          "tipo": "c",
+          "nombre": "ck_usuario_rol_fechas",
+          "columnas": [
+            "fecha_fin",
+            "fecha_inicio"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "CHECK (((fecha_fin IS NULL) OR (fecha_fin >= fecha_inicio)))",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_usuario_rol_rol",
+          "columnas": [
+            "id_rol"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_rol) REFERENCES public.roles(id_rol)",
+          "tablaReferenciada": "public.roles",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_rol"
+          ]
+        },
+        {
+          "tipo": "f",
+          "nombre": "fk_usuario_rol_usuario",
+          "columnas": [
+            "id_usuario"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "FOREIGN KEY (id_usuario) REFERENCES public.usuarios(id_usuario)",
+          "tablaReferenciada": "public.usuarios",
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": [
+            "id_usuario"
+          ]
+        },
+        {
+          "tipo": "u",
+          "nombre": "uq_usuario_rol_periodo",
+          "columnas": [
+            "id_usuario",
+            "id_rol",
+            "fecha_inicio"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "UNIQUE (id_usuario, id_rol, fecha_inicio)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        },
+        {
+          "tipo": "p",
+          "nombre": "usuarios_rol_pkey",
+          "columnas": [
+            "id_usuario_rol"
+          ],
+          "validada": true,
+          "diferible": false,
+          "definicion": "PRIMARY KEY (id_usuario_rol)",
+          "tablaReferenciada": null,
+          "diferidaInicialmente": false,
+          "columnasReferenciadas": []
+        }
+      ],
+      "seguridadPorFila": false,
+      "seguridadPorFilaForzada": false
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "AllowedHosts": "",
+  "ConnectionStrings": { "Constructora": "" },
+  "Seguridad": {
+    "Sesion": { "PoliticaSeguridadCookie": "Always", "PoliticaSameSite": "Lax", "OrigenesCorsPermitidos": [] },
+    "Despliegue": {
+      "NombreAplicacion": "ConstructoraEderTorres",
+      "RutaClaves": "",
+      "Certificado": { "Ruta": "", "Contrasena": "" },
+      "CertificadosAnteriores": [],
+      "ProxiesConfiables": [],
+      "MaximoSaltosProxy": 1,
+      "TiempoVerificacionArranque": "00:00:15"
+    }
+  },
+  "Evidencias": { "RutaRaiz": "" },
+  "Observabilidad": { "DestinoOtlp": "", "FraccionMuestreo": 0.1 }
+}

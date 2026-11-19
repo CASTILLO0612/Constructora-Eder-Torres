@@ -1,0 +1,5761 @@
+{
+  "AcuseOperacionSincronizacion": {
+    "required": [
+      "uuidRegistro",
+      "tipoOperacion",
+      "estadoAcuse",
+      "idRegistroServidor",
+      "sincronizadoEnUtc"
+    ],
+    "type": "object",
+    "properties": {
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "tipoOperacion": {
+        "type": "string"
+      },
+      "estadoAcuse": {
+        "type": "string"
+      },
+      "idRegistroServidor": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "sincronizadoEnUtc": {
+        "format": "date-time"
+      },
+      "codigoError": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "mensajeError": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "EventoHistorialEppTrabajador": {
+    "required": [
+      "fechaHora",
+      "tipoEvento",
+      "idReferencia",
+      "idObra",
+      "codigoObra",
+      "nombreObra",
+      "idEpp",
+      "codigoInternoEpp",
+      "nombreTipoEpp",
+      "estadoEquipo",
+      "condicion",
+      "detalle"
+    ],
+    "type": "object",
+    "properties": {
+      "fechaHora": {
+        "format": "date-time"
+      },
+      "tipoEvento": {
+        "type": "string"
+      },
+      "idReferencia": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoObra": {
+        "type": "string"
+      },
+      "nombreObra": {
+        "type": "string"
+      },
+      "idEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoInternoEpp": {
+        "type": "string"
+      },
+      "nombreTipoEpp": {
+        "type": "string"
+      },
+      "estadoEquipo": {
+        "type": "string"
+      },
+      "condicion": {
+        "type": "string"
+      },
+      "detalle": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "ItemConsolidadoAsistencia": {
+    "required": [
+      "idObra",
+      "codigoObra",
+      "nombreObra",
+      "idTrabajador",
+      "cedulaTrabajador",
+      "nombreCompletoTrabajador",
+      "idCuadrilla",
+      "nombreCuadrilla",
+      "totalJornadasRegistradas",
+      "jornadasCompletas",
+      "jornadasAbiertas",
+      "jornadasCorregidas",
+      "horasTrabajadasTotales"
+    ],
+    "type": "object",
+    "properties": {
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoObra": {
+        "type": "string"
+      },
+      "nombreObra": {
+        "type": "string"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "cedulaTrabajador": {
+        "type": "string"
+      },
+      "nombreCompletoTrabajador": {
+        "type": "string"
+      },
+      "idCuadrilla": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCuadrilla": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "totalJornadasRegistradas": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "jornadasCompletas": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "jornadasAbiertas": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "jornadasCorregidas": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "horasTrabajadasTotales": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "ItemMarcacionCuadrilla": {
+    "required": [
+      "idAsignacion",
+      "entradaEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "entradaEn": {
+        "format": "date-time"
+      },
+      "salidaEn": {},
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      }
+    },
+    "additionalProperties": false
+  },
+  "ItemReporteEpp": {
+    "required": [
+      "idObra",
+      "codigoObra",
+      "nombreObra",
+      "idTrabajador",
+      "cedulaTrabajador",
+      "nombreCompletoTrabajador",
+      "idTipoEpp",
+      "nombreTipoEpp",
+      "cantidadEntregada",
+      "cantidadActiva",
+      "cantidadReemplazada",
+      "cantidadPerdida"
+    ],
+    "type": "object",
+    "properties": {
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoObra": {
+        "type": "string"
+      },
+      "nombreObra": {
+        "type": "string"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "cedulaTrabajador": {
+        "type": "string"
+      },
+      "nombreCompletoTrabajador": {
+        "type": "string"
+      },
+      "idTipoEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreTipoEpp": {
+        "type": "string"
+      },
+      "cantidadEntregada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "cantidadActiva": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "cantidadReemplazada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "cantidadPerdida": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaActa": {
+    "required": [
+      "idActa",
+      "idObra",
+      "codigoObra",
+      "nombreObra",
+      "numeroActa",
+      "periodoInicio",
+      "periodoFin",
+      "observaciones",
+      "mejorasPropuestas",
+      "solicitudesCambio",
+      "estado",
+      "idUsuarioCreador",
+      "uuidRegistro",
+      "creadoEn",
+      "avancesConsolidados",
+      "evidenciasConsolidadas",
+      "incidenciasConsolidadas",
+      "participantes",
+      "aprobaciones"
+    ],
+    "type": "object",
+    "properties": {
+      "idActa": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoObra": {
+        "type": "string"
+      },
+      "nombreObra": {
+        "type": "string"
+      },
+      "numeroActa": {
+        "type": "string"
+      },
+      "periodoInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "periodoFin": {
+        "type": "string",
+        "format": "date"
+      },
+      "observaciones": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "mejorasPropuestas": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "solicitudesCambio": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "estado": {
+        "type": "string"
+      },
+      "idUsuarioCreador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      },
+      "avancesConsolidados": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RespuestaAvance"
+        }
+      },
+      "evidenciasConsolidadas": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RespuestaEvidencia"
+        }
+      },
+      "incidenciasConsolidadas": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RespuestaIncidenciaObra"
+        }
+      },
+      "participantes": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RespuestaParticipanteActa"
+        }
+      },
+      "aprobaciones": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RespuestaAprobacionActa"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaActividad": {
+    "required": [
+      "idActividad",
+      "idObra",
+      "idAsignacionResponsable",
+      "codigo",
+      "nombre",
+      "descripcion",
+      "unidadMedida",
+      "cantidadPlanificada",
+      "cantidadEjecutadaAcumulada",
+      "fechaInicioPlan",
+      "fechaFinPlan",
+      "estado",
+      "participantes"
+    ],
+    "type": "object",
+    "properties": {
+      "idActividad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idAsignacionResponsable": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigo": {
+        "type": "string"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "unidadMedida": {
+        "type": "string"
+      },
+      "cantidadPlanificada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "cantidadEjecutadaAcumulada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "fechaInicioPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFinPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "participantes": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RespuestaParticipanteActividad"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaAntifalsificacion": {
+    "required": [
+      "token",
+      "cabecera"
+    ],
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string"
+      },
+      "cabecera": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaAprobacionActa": {
+    "required": [
+      "idAprobacion",
+      "idActa",
+      "idUsuario",
+      "nombreUsuario",
+      "decision",
+      "comentario",
+      "fechaHora"
+    ],
+    "type": "object",
+    "properties": {
+      "idAprobacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idActa": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idUsuario": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreUsuario": {
+        "type": "string"
+      },
+      "decision": {
+        "type": "string"
+      },
+      "comentario": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaHora": {
+        "format": "date-time"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaAsignacionAsistencia": {
+    "required": [
+      "idAsignacion",
+      "idObra",
+      "codigoObra",
+      "nombreObra",
+      "direccion",
+      "estadoObra",
+      "latitud",
+      "longitud",
+      "radioAsistenciaMetros",
+      "fechaInicio",
+      "fechaFin",
+      "idAsistenciaAbierta"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoObra": {
+        "type": "string"
+      },
+      "nombreObra": {
+        "type": "string"
+      },
+      "direccion": {
+        "type": "string"
+      },
+      "estadoObra": {
+        "type": "string"
+      },
+      "latitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "radioAsistenciaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "fechaInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFin": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "idAsistenciaAbierta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaAsignacionHerramienta": {
+    "required": [
+      "idAsignacionHerramienta",
+      "idHerramienta",
+      "codigoInternoHerramienta",
+      "nombreTipoHerramienta",
+      "idAsignacionTrabajadorObra",
+      "idTrabajador",
+      "nombreCompletoTrabajador",
+      "idObra",
+      "codigoObra",
+      "idUsuarioEntrega",
+      "entregadaEn",
+      "condicionEntrega",
+      "devueltaEn",
+      "condicionDevolucion",
+      "estado",
+      "uuidRegistro",
+      "creadoEn",
+      "sincronizadoEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacionHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoInternoHerramienta": {
+        "type": "string"
+      },
+      "nombreTipoHerramienta": {
+        "type": "string"
+      },
+      "idAsignacionTrabajadorObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCompletoTrabajador": {
+        "type": "string"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoObra": {
+        "type": "string"
+      },
+      "idUsuarioEntrega": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "entregadaEn": {
+        "format": "date-time"
+      },
+      "condicionEntrega": {
+        "type": "string"
+      },
+      "devueltaEn": {
+        "format": "date-time"
+      },
+      "condicionDevolucion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "estado": {
+        "type": "string"
+      },
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      },
+      "sincronizadoEn": {
+        "format": "date-time"
+      },
+      "fueIdempotente": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaAsignacionTrabajadorObra": {
+    "required": [
+      "idAsignacion",
+      "idTrabajador",
+      "nombreCompletoTrabajador",
+      "cedulaTrabajador",
+      "idObra",
+      "codigoObra",
+      "idEspecialidad",
+      "nombreEspecialidad",
+      "tipoContratacion",
+      "fechaInicio",
+      "fechaFin",
+      "esResponsable",
+      "estado"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCompletoTrabajador": {
+        "type": "string"
+      },
+      "cedulaTrabajador": {
+        "type": "string"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoObra": {
+        "type": "string"
+      },
+      "idEspecialidad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreEspecialidad": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "tipoContratacion": {
+        "type": "string"
+      },
+      "fechaInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFin": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "esResponsable": {
+        "type": "boolean"
+      },
+      "estado": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaAsistencia": {
+    "required": [
+      "idAsistencia",
+      "idAsignacion",
+      "idTrabajador",
+      "nombreCompletoTrabajador",
+      "idObra",
+      "fechaJornada",
+      "entradaEn",
+      "salidaEn",
+      "latitudEntrada",
+      "longitudEntrada",
+      "latitudSalida",
+      "longitudSalida",
+      "estado",
+      "idUsuarioRegistro",
+      "uuidRegistro",
+      "creadoEn",
+      "sincronizadoEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsistencia": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCompletoTrabajador": {
+        "type": "string"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaJornada": {
+        "type": "string",
+        "format": "date"
+      },
+      "entradaEn": {
+        "format": "date-time"
+      },
+      "salidaEn": {
+        "format": "date-time"
+      },
+      "latitudEntrada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitudEntrada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "latitudSalida": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitudSalida": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "idUsuarioRegistro": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      },
+      "sincronizadoEn": {
+        "format": "date-time"
+      },
+      "fueIdempotente": {
+        "type": "boolean",
+        "default": false
+      },
+      "precisionGpsEntradaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "precisionGpsSalidaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaAuditoria": {
+    "required": [
+      "idAuditoria",
+      "idUsuario",
+      "nombreUsuario",
+      "entidad",
+      "idRegistro",
+      "accion",
+      "campo",
+      "valorAnterior",
+      "valorNuevo",
+      "fechaHora",
+      "ipOrigen",
+      "uuidOperacion"
+    ],
+    "type": "object",
+    "properties": {
+      "idAuditoria": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idUsuario": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreUsuario": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "entidad": {
+        "type": "string"
+      },
+      "idRegistro": {
+        "type": "string"
+      },
+      "accion": {
+        "type": "string"
+      },
+      "campo": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "valorAnterior": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "valorNuevo": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaHora": {
+        "format": "date-time"
+      },
+      "ipOrigen": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "uuidOperacion": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaAvance": {
+    "required": [
+      "idAvance",
+      "idActividad",
+      "idObra",
+      "codigoActividad",
+      "nombreActividad",
+      "fechaAvance",
+      "cantidadEjecutada",
+      "observaciones",
+      "estado",
+      "idUsuarioRegistro",
+      "uuidRegistro",
+      "creadoEn",
+      "sincronizadoEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idAvance": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idActividad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoActividad": {
+        "type": "string"
+      },
+      "nombreActividad": {
+        "type": "string"
+      },
+      "fechaAvance": {
+        "type": "string",
+        "format": "date"
+      },
+      "cantidadEjecutada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "observaciones": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "estado": {
+        "type": "string"
+      },
+      "idUsuarioRegistro": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      },
+      "sincronizadoEn": {
+        "format": "date-time"
+      },
+      "fueIdempotente": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaCargo": {
+    "required": [
+      "idCargo",
+      "nombre",
+      "descripcion",
+      "activo"
+    ],
+    "type": "object",
+    "properties": {
+      "idCargo": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "activo": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaCategoriaHerramienta": {
+    "required": [
+      "idCategoria",
+      "nombre",
+      "descripcion",
+      "activo"
+    ],
+    "type": "object",
+    "properties": {
+      "idCategoria": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "activo": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaCorreccionAsistencia": {
+    "required": [
+      "idCorreccion",
+      "idAsistencia",
+      "idObra",
+      "idUsuarioSolicita",
+      "idUsuarioAprueba",
+      "entradaAnterior",
+      "salidaAnterior",
+      "entradaNueva",
+      "salidaNueva",
+      "motivo",
+      "estado",
+      "solicitadoEn",
+      "resueltoEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idCorreccion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idAsistencia": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idUsuarioSolicita": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idUsuarioAprueba": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "entradaAnterior": {
+        "format": "date-time"
+      },
+      "salidaAnterior": {
+        "format": "date-time"
+      },
+      "entradaNueva": {
+        "format": "date-time"
+      },
+      "salidaNueva": {
+        "format": "date-time"
+      },
+      "motivo": {
+        "type": "string"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "solicitadoEn": {
+        "format": "date-time"
+      },
+      "resueltoEn": {
+        "format": "date-time"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaCuadrilla": {
+    "required": [
+      "idCuadrilla",
+      "codigo",
+      "nombre",
+      "descripcion",
+      "activo"
+    ],
+    "type": "object",
+    "properties": {
+      "idCuadrilla": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigo": {
+        "type": "string"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "activo": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaCuadrillaObra": {
+    "required": [
+      "idCuadrillaObra",
+      "idCuadrilla",
+      "codigoCuadrilla",
+      "nombreCuadrilla",
+      "idObra",
+      "fechaInicio",
+      "fechaFin",
+      "estado"
+    ],
+    "type": "object",
+    "properties": {
+      "idCuadrillaObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idCuadrilla": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoCuadrilla": {
+        "type": "string"
+      },
+      "nombreCuadrilla": {
+        "type": "string"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFin": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "estado": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaEntregaEpp": {
+    "required": [
+      "idEntregaEpp",
+      "idEpp",
+      "codigoInternoEpp",
+      "idTipoEpp",
+      "nombreTipoEpp",
+      "idAsignacion",
+      "idTrabajador",
+      "nombreCompletoTrabajador",
+      "idObra",
+      "codigoObra",
+      "idUsuarioEntrega",
+      "entregadoEn",
+      "condicionEntrega",
+      "devueltoEn",
+      "condicionDevolucion",
+      "estado",
+      "rutaConstancia",
+      "uuidRegistro",
+      "creadoEn",
+      "sincronizadoEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idEntregaEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoInternoEpp": {
+        "type": "string"
+      },
+      "idTipoEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreTipoEpp": {
+        "type": "string"
+      },
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCompletoTrabajador": {
+        "type": "string"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoObra": {
+        "type": "string"
+      },
+      "idUsuarioEntrega": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "entregadoEn": {
+        "format": "date-time"
+      },
+      "condicionEntrega": {
+        "type": "string"
+      },
+      "devueltoEn": {
+        "format": "date-time"
+      },
+      "condicionDevolucion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "estado": {
+        "type": "string"
+      },
+      "rutaConstancia": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      },
+      "sincronizadoEn": {
+        "format": "date-time"
+      },
+      "fueIdempotente": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaEpp": {
+    "required": [
+      "idEpp",
+      "idTipoEpp",
+      "nombreTipoEpp",
+      "codigoInterno",
+      "numeroSerie",
+      "fechaAdquisicion",
+      "estado",
+      "condicion"
+    ],
+    "type": "object",
+    "properties": {
+      "idEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTipoEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreTipoEpp": {
+        "type": "string"
+      },
+      "codigoInterno": {
+        "type": "string"
+      },
+      "numeroSerie": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaAdquisicion": {
+        "type": "string",
+        "format": "date"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "condicion": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaEspecialidad": {
+    "required": [
+      "idEspecialidad",
+      "nombre",
+      "descripcion",
+      "activo"
+    ],
+    "type": "object",
+    "properties": {
+      "idEspecialidad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "activo": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaEspecialidadTrabajador": {
+    "required": [
+      "idEspecialidad",
+      "nombreEspecialidad",
+      "nivel",
+      "fechaCertificacion",
+      "fechaVencimiento"
+    ],
+    "type": "object",
+    "properties": {
+      "idEspecialidad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreEspecialidad": {
+        "type": "string"
+      },
+      "nivel": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaCertificacion": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "fechaVencimiento": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaEvidencia": {
+    "required": [
+      "idEvidencia",
+      "idAvance",
+      "idActividad",
+      "idObra",
+      "tipoEvidencia",
+      "rutaArchivo",
+      "huellaArchivo",
+      "capturadaEn",
+      "latitud",
+      "longitud",
+      "idUsuarioRegistro",
+      "uuidRegistro",
+      "creadoEn",
+      "sincronizadoEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idEvidencia": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idAvance": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idActividad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "tipoEvidencia": {
+        "type": "string"
+      },
+      "rutaArchivo": {
+        "type": "string"
+      },
+      "huellaArchivo": {
+        "type": "string"
+      },
+      "capturadaEn": {
+        "format": "date-time"
+      },
+      "latitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "idUsuarioRegistro": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      },
+      "sincronizadoEn": {
+        "format": "date-time"
+      },
+      "fueIdempotente": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaHerramienta": {
+    "required": [
+      "idHerramienta",
+      "idTipoHerramienta",
+      "nombreTipoHerramienta",
+      "idCategoria",
+      "nombreCategoria",
+      "codigoInterno",
+      "numeroSerie",
+      "marca",
+      "modelo",
+      "fechaAdquisicion",
+      "estado",
+      "condicion"
+    ],
+    "type": "object",
+    "properties": {
+      "idHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTipoHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreTipoHerramienta": {
+        "type": "string"
+      },
+      "idCategoria": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCategoria": {
+        "type": "string"
+      },
+      "codigoInterno": {
+        "type": "string"
+      },
+      "numeroSerie": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "marca": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "modelo": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaAdquisicion": {
+        "type": "string",
+        "format": "date"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "condicion": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaIncidenciaHerramienta": {
+    "required": [
+      "idIncidenciaHerramienta",
+      "idAsignacionHerramienta",
+      "idHerramienta",
+      "codigoInternoHerramienta",
+      "idTrabajador",
+      "idObra",
+      "tipoIncidencia",
+      "fechaHora",
+      "descripcion",
+      "resolucion",
+      "costoEstimado",
+      "idUsuarioRegistro",
+      "uuidRegistro",
+      "estado",
+      "estadoAsignacionResultante",
+      "estadoHerramientaResultante"
+    ],
+    "type": "object",
+    "properties": {
+      "idIncidenciaHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idAsignacionHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoInternoHerramienta": {
+        "type": "string"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "tipoIncidencia": {
+        "type": "string"
+      },
+      "fechaHora": {
+        "format": "date-time"
+      },
+      "descripcion": {
+        "type": "string"
+      },
+      "resolucion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "costoEstimado": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "idUsuarioRegistro": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "estadoAsignacionResultante": {
+        "type": "string"
+      },
+      "estadoHerramientaResultante": {
+        "type": "string"
+      },
+      "fueIdempotente": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaIncidenciaObra": {
+    "required": [
+      "idIncidencia",
+      "idObra",
+      "tipoIncidencia",
+      "inicioEn",
+      "finEn",
+      "horasPerdidas",
+      "descripcion",
+      "justificacion",
+      "estado",
+      "idUsuarioRegistro",
+      "uuidRegistro",
+      "creadoEn",
+      "sincronizadoEn",
+      "idsActividadesAfectadas"
+    ],
+    "type": "object",
+    "properties": {
+      "idIncidencia": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "tipoIncidencia": {
+        "type": "string"
+      },
+      "inicioEn": {
+        "format": "date-time"
+      },
+      "finEn": {
+        "format": "date-time"
+      },
+      "horasPerdidas": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "descripcion": {
+        "type": "string"
+      },
+      "justificacion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "estado": {
+        "type": "string"
+      },
+      "idUsuarioRegistro": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      },
+      "sincronizadoEn": {
+        "format": "date-time"
+      },
+      "idsActividadesAfectadas": {
+        "type": "array",
+        "items": {
+          "pattern": "^-?(?:0|[1-9]\\d*)$",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "format": "int32"
+        }
+      },
+      "fueIdempotente": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaObra": {
+    "required": [
+      "idObra",
+      "codigo",
+      "nombre",
+      "descripcion",
+      "direccion",
+      "fechaInicioPlan",
+      "fechaFinPlan",
+      "fechaInicioReal",
+      "fechaFinReal",
+      "estado",
+      "creadoEn",
+      "latitud",
+      "longitud",
+      "radioAsistenciaMetros"
+    ],
+    "type": "object",
+    "properties": {
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigo": {
+        "type": "string"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "direccion": {
+        "type": "string"
+      },
+      "fechaInicioPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFinPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaInicioReal": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "fechaFinReal": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      },
+      "latitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "radioAsistenciaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaParticipanteActa": {
+    "required": [
+      "idActa",
+      "idAsignacion",
+      "idTrabajador",
+      "nombreCompletoTrabajador",
+      "tipoParticipacion",
+      "rutaFirma",
+      "firmadoEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idActa": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCompletoTrabajador": {
+        "type": "string"
+      },
+      "tipoParticipacion": {
+        "type": "string"
+      },
+      "rutaFirma": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "firmadoEn": {
+        "format": "date-time"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaParticipanteActividad": {
+    "required": [
+      "idActividad",
+      "idAsignacion",
+      "idTrabajador",
+      "nombreCompletoTrabajador",
+      "rolParticipacion"
+    ],
+    "type": "object",
+    "properties": {
+      "idActividad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCompletoTrabajador": {
+        "type": "string"
+      },
+      "rolParticipacion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaPermiso": {
+    "required": [
+      "idPermiso",
+      "codigo",
+      "nombre",
+      "descripcion",
+      "activo"
+    ],
+    "type": "object",
+    "properties": {
+      "idPermiso": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigo": {
+        "type": "string"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "activo": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaReposicionEpp": {
+    "required": [
+      "idReposicionEpp",
+      "idEntregaOrigen",
+      "idEntregaNueva",
+      "idTrabajador",
+      "idObra",
+      "motivo",
+      "descripcion",
+      "equipoDevuelto",
+      "idUsuarioSolicita",
+      "solicitadaEn",
+      "idUsuarioAprueba",
+      "resueltaEn",
+      "estado",
+      "uuidRegistro"
+    ],
+    "type": "object",
+    "properties": {
+      "idReposicionEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idEntregaOrigen": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idEntregaNueva": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "motivo": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": "string"
+      },
+      "equipoDevuelto": {
+        "type": "boolean"
+      },
+      "idUsuarioSolicita": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "solicitadaEn": {
+        "format": "date-time"
+      },
+      "idUsuarioAprueba": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "resueltaEn": {
+        "format": "date-time"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "uuidRegistro": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "fueIdempotente": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaRol": {
+    "required": [
+      "idRol",
+      "nombre",
+      "descripcion",
+      "activo",
+      "codigosPermiso"
+    ],
+    "type": "object",
+    "properties": {
+      "idRol": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "activo": {
+        "type": "boolean"
+      },
+      "codigosPermiso": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaSalud": {
+    "required": [
+      "estado",
+      "componentes"
+    ],
+    "type": "object",
+    "properties": {
+      "estado": {
+        "type": "string"
+      },
+      "componentes": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaSesionActiva": {
+    "required": [
+      "idUsuario",
+      "nombreUsuario",
+      "idTrabajador",
+      "roles",
+      "permisos",
+      "obrasAsignadas",
+      "tieneAlcanceGlobal",
+      "autenticadoEnUtc"
+    ],
+    "type": "object",
+    "properties": {
+      "idUsuario": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreUsuario": {
+        "type": "string"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "roles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "permisos": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "obrasAsignadas": {
+        "type": "array",
+        "items": {
+          "pattern": "^-?(?:0|[1-9]\\d*)$",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "format": "int32"
+        }
+      },
+      "tieneAlcanceGlobal": {
+        "type": "boolean"
+      },
+      "autenticadoEnUtc": {
+        "format": "date-time"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaSincronizacionLote": {
+    "required": [
+      "procesadoEnUtc",
+      "totalRecibidas",
+      "totalConfirmadas",
+      "totalIdempotentes",
+      "totalRechazadas",
+      "acuses"
+    ],
+    "type": "object",
+    "properties": {
+      "procesadoEnUtc": {
+        "format": "date-time"
+      },
+      "totalRecibidas": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "totalConfirmadas": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "totalIdempotentes": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "totalRechazadas": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "acuses": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/AcuseOperacionSincronizacion"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaTipoEpp": {
+    "required": [
+      "idTipoEpp",
+      "nombre",
+      "descripcion",
+      "vidaUtilDias",
+      "existenciaMinima",
+      "activo"
+    ],
+    "type": "object",
+    "properties": {
+      "idTipoEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "vidaUtilDias": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "existenciaMinima": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "activo": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaTipoHerramienta": {
+    "required": [
+      "idTipoHerramienta",
+      "idCategoria",
+      "nombreCategoria",
+      "nombre",
+      "descripcion",
+      "activo"
+    ],
+    "type": "object",
+    "properties": {
+      "idTipoHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idCategoria": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCategoria": {
+        "type": "string"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "activo": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaTrabajador": {
+    "required": [
+      "idTrabajador",
+      "idCargo",
+      "nombreCargo",
+      "cedula",
+      "primerNombre",
+      "segundoNombre",
+      "primerApellido",
+      "segundoApellido",
+      "telefono",
+      "correo",
+      "direccion",
+      "fechaIngreso",
+      "estado",
+      "especialidades"
+    ],
+    "type": "object",
+    "properties": {
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idCargo": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCargo": {
+        "type": "string"
+      },
+      "cedula": {
+        "type": "string"
+      },
+      "primerNombre": {
+        "type": "string"
+      },
+      "segundoNombre": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "primerApellido": {
+        "type": "string"
+      },
+      "segundoApellido": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "telefono": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "correo": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "direccion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaIngreso": {
+        "type": "string",
+        "format": "date"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "especialidades": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RespuestaEspecialidadTrabajador"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaTrabajadorCuadrilla": {
+    "required": [
+      "idTrabajadorCuadrilla",
+      "idAsignacion",
+      "idTrabajador",
+      "nombreCompletoTrabajador",
+      "idCuadrillaObra",
+      "idCuadrilla",
+      "nombreCuadrilla",
+      "idObra",
+      "fechaInicio",
+      "fechaFin"
+    ],
+    "type": "object",
+    "properties": {
+      "idTrabajadorCuadrilla": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCompletoTrabajador": {
+        "type": "string"
+      },
+      "idCuadrillaObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idCuadrilla": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreCuadrilla": {
+        "type": "string"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFin": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaUsuario": {
+    "required": [
+      "idUsuario",
+      "idTrabajador",
+      "nombreUsuario",
+      "estado",
+      "creadoEn",
+      "ultimoAcceso",
+      "roles"
+    ],
+    "type": "object",
+    "properties": {
+      "idUsuario": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreUsuario": {
+        "type": "string"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      },
+      "ultimoAcceso": {
+        "format": "date-time"
+      },
+      "roles": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/RolAsignadoRespuesta"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "RespuestaValidacionUbicacionAsistencia": {
+    "required": [
+      "idAsignacion",
+      "idObra",
+      "marcacionHabilitada",
+      "distanciaMetros",
+      "radioAsistenciaMetros",
+      "precisionGpsMetros",
+      "distanciaMaximaEstimadaMetros"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "marcacionHabilitada": {
+        "type": "boolean"
+      },
+      "distanciaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "radioAsistenciaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "precisionGpsMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "distanciaMaximaEstimadaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "ResumenActa": {
+    "required": [
+      "idActa",
+      "idObra",
+      "numeroActa",
+      "periodoInicio",
+      "periodoFin",
+      "estado",
+      "creadoEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idActa": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "numeroActa": {
+        "type": "string"
+      },
+      "periodoInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "periodoFin": {
+        "type": "string",
+        "format": "date"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "creadoEn": {
+        "format": "date-time"
+      }
+    },
+    "additionalProperties": false
+  },
+  "ResumenExistenciaTipoEpp": {
+    "required": [
+      "idTipoEpp",
+      "nombreTipoEpp",
+      "existenciaMinima",
+      "totalDisponibles",
+      "totalEntregados",
+      "totalEnRevision",
+      "totalPerdidos",
+      "totalRetirados",
+      "bajoExistenciaMinima"
+    ],
+    "type": "object",
+    "properties": {
+      "idTipoEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreTipoEpp": {
+        "type": "string"
+      },
+      "existenciaMinima": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "totalDisponibles": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "totalEntregados": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "totalEnRevision": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "totalPerdidos": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "totalRetirados": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "bajoExistenciaMinima": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  },
+  "RolAsignadoRespuesta": {
+    "required": [
+      "idUsuarioRol",
+      "idRol",
+      "nombreRol",
+      "fechaInicio",
+      "fechaFin"
+    ],
+    "type": "object",
+    "properties": {
+      "idUsuarioRol": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idRol": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombreRol": {
+        "type": "string"
+      },
+      "fechaInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFin": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudActualizarActa": {
+    "required": [
+      "periodoInicio",
+      "periodoFin"
+    ],
+    "type": "object",
+    "properties": {
+      "periodoInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "periodoFin": {
+        "type": "string",
+        "format": "date"
+      },
+      "observaciones": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "mejorasPropuestas": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "solicitudesCambio": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "idsAvances": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "pattern": "^-?(?:0|[1-9]\\d*)$",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "format": "int64"
+        }
+      },
+      "idsIncidencias": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "pattern": "^-?(?:0|[1-9]\\d*)$",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "format": "int64"
+        }
+      },
+      "participantes": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudParticipanteActa"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudActualizarActividad": {
+    "required": [
+      "idAsignacionResponsable",
+      "nombre",
+      "descripcion",
+      "unidadMedida",
+      "cantidadPlanificada",
+      "fechaInicioPlan",
+      "fechaFinPlan",
+      "estado"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacionResponsable": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "unidadMedida": {
+        "type": "string"
+      },
+      "cantidadPlanificada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "fechaInicioPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFinPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "estado": {
+        "type": "string"
+      },
+      "motivoVariacion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudActualizarHerramienta": {
+    "required": [
+      "numeroSerie",
+      "marca",
+      "modelo",
+      "fechaAdquisicion"
+    ],
+    "type": "object",
+    "properties": {
+      "numeroSerie": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "marca": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "modelo": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaAdquisicion": {
+        "type": "string",
+        "format": "date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudActualizarObra": {
+    "required": [
+      "nombre",
+      "descripcion",
+      "direccion",
+      "fechaInicioPlan",
+      "fechaFinPlan",
+      "fechaInicioReal",
+      "fechaFinReal",
+      "latitud",
+      "longitud",
+      "radioAsistenciaMetros"
+    ],
+    "type": "object",
+    "properties": {
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "direccion": {
+        "type": "string"
+      },
+      "fechaInicioPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFinPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaInicioReal": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "fechaFinReal": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "latitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "radioAsistenciaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudActualizarTrabajador": {
+    "required": [
+      "idCargo",
+      "primerNombre",
+      "segundoNombre",
+      "primerApellido",
+      "segundoApellido",
+      "telefono",
+      "correo",
+      "direccion"
+    ],
+    "type": "object",
+    "properties": {
+      "idCargo": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "primerNombre": {
+        "type": "string"
+      },
+      "segundoNombre": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "primerApellido": {
+        "type": "string"
+      },
+      "segundoApellido": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "telefono": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "correo": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "direccion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudActualizarUsuario": {
+    "required": [
+      "nombreUsuario",
+      "idTrabajador"
+    ],
+    "type": "object",
+    "properties": {
+      "nombreUsuario": {
+        "type": "string"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nuevaContrasena": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudAsignarCuadrillaObra": {
+    "required": [
+      "idCuadrilla",
+      "idObra",
+      "fechaInicio"
+    ],
+    "type": "object",
+    "properties": {
+      "idCuadrilla": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFin": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudAsignarHerramienta": {
+    "required": [
+      "idHerramienta",
+      "idAsignacionTrabajadorObra",
+      "entregadaEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idAsignacionTrabajadorObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "entregadaEn": {
+        "format": "date-time"
+      },
+      "condicionEntrega": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudAsignarPermisosRol": {
+    "required": [
+      "codigosPermiso"
+    ],
+    "type": "object",
+    "properties": {
+      "codigosPermiso": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudAsignarRolUsuario": {
+    "required": [
+      "idRol",
+      "fechaInicio"
+    ],
+    "type": "object",
+    "properties": {
+      "idRol": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFin": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudAsignarTrabajadorCuadrilla": {
+    "required": [
+      "idAsignacion",
+      "idCuadrillaObra",
+      "fechaInicio"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idCuadrillaObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFin": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudAsignarTrabajadorObra": {
+    "required": [
+      "idTrabajador",
+      "idObra",
+      "idEspecialidad",
+      "tipoContratacion",
+      "fechaInicio"
+    ],
+    "type": "object",
+    "properties": {
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idEspecialidad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "tipoContratacion": {
+        "type": "string"
+      },
+      "fechaInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFin": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "esResponsable": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudAtenderIncidenciaHerramienta": {
+    "required": [
+      "estado",
+      "resolucion"
+    ],
+    "type": "object",
+    "properties": {
+      "estado": {
+        "type": "string"
+      },
+      "resolucion": {
+        "type": "string"
+      },
+      "costoEstimado": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCambiarEstadoObra": {
+    "required": [
+      "estado"
+    ],
+    "type": "object",
+    "properties": {
+      "estado": {
+        "type": "string"
+      },
+      "fechaInicioReal": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "fechaFinReal": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCambiarEstadoTrabajador": {
+    "required": [
+      "estado"
+    ],
+    "type": "object",
+    "properties": {
+      "estado": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCambiarEstadoUsuario": {
+    "required": [
+      "estado"
+    ],
+    "type": "object",
+    "properties": {
+      "estado": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCargo": {
+    "required": [
+      "nombre",
+      "descripcion"
+    ],
+    "type": "object",
+    "properties": {
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCrearActividad": {
+    "required": [
+      "idObra",
+      "idAsignacionResponsable",
+      "codigo",
+      "nombre",
+      "descripcion",
+      "unidadMedida",
+      "cantidadPlanificada",
+      "fechaInicioPlan",
+      "fechaFinPlan"
+    ],
+    "type": "object",
+    "properties": {
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idAsignacionResponsable": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigo": {
+        "type": "string"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "unidadMedida": {
+        "type": "string"
+      },
+      "cantidadPlanificada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "fechaInicioPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFinPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "estadoInicial": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "participantes": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudParticipanteActividad"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCrearCategoriaHerramienta": {
+    "required": [
+      "nombre",
+      "descripcion"
+    ],
+    "type": "object",
+    "properties": {
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCrearCorreccionAsistencia": {
+    "required": [
+      "idAsistencia",
+      "entradaNueva",
+      "salidaNueva",
+      "motivo"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsistencia": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "entradaNueva": {
+        "format": "date-time"
+      },
+      "salidaNueva": {
+        "format": "date-time"
+      },
+      "motivo": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCrearObra": {
+    "required": [
+      "codigo",
+      "nombre",
+      "descripcion",
+      "direccion",
+      "fechaInicioPlan",
+      "fechaFinPlan",
+      "latitud",
+      "longitud",
+      "radioAsistenciaMetros"
+    ],
+    "type": "object",
+    "properties": {
+      "codigo": {
+        "type": "string"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "direccion": {
+        "type": "string"
+      },
+      "fechaInicioPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "fechaFinPlan": {
+        "type": "string",
+        "format": "date"
+      },
+      "estadoInicial": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "latitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "radioAsistenciaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCrearRol": {
+    "required": [
+      "nombre",
+      "descripcion"
+    ],
+    "type": "object",
+    "properties": {
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "codigosPermiso": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCrearTipoEpp": {
+    "required": [
+      "nombre",
+      "descripcion",
+      "vidaUtilDias"
+    ],
+    "type": "object",
+    "properties": {
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "vidaUtilDias": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "existenciaMinima": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32",
+        "default": 0
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCrearTipoHerramienta": {
+    "required": [
+      "idCategoria",
+      "nombre",
+      "descripcion"
+    ],
+    "type": "object",
+    "properties": {
+      "idCategoria": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCrearTrabajador": {
+    "required": [
+      "idCargo",
+      "cedula",
+      "primerNombre",
+      "segundoNombre",
+      "primerApellido",
+      "segundoApellido",
+      "telefono",
+      "correo",
+      "direccion",
+      "fechaIngreso"
+    ],
+    "type": "object",
+    "properties": {
+      "idCargo": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "cedula": {
+        "type": "string"
+      },
+      "primerNombre": {
+        "type": "string"
+      },
+      "segundoNombre": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "primerApellido": {
+        "type": "string"
+      },
+      "segundoApellido": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "telefono": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "correo": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "direccion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaIngreso": {
+        "type": "string",
+        "format": "date"
+      },
+      "especialidades": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudEspecialidadTrabajador"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCrearUsuario": {
+    "required": [
+      "nombreUsuario",
+      "contrasena",
+      "idTrabajador"
+    ],
+    "type": "object",
+    "properties": {
+      "nombreUsuario": {
+        "type": "string"
+      },
+      "contrasena": {
+        "type": "string"
+      },
+      "idTrabajador": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idsRolesIniciales": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "pattern": "^-?(?:0|[1-9]\\d*)$",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "format": "int32"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudCuadrilla": {
+    "required": [
+      "codigo",
+      "nombre",
+      "descripcion"
+    ],
+    "type": "object",
+    "properties": {
+      "codigo": {
+        "type": "string"
+      },
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudDevolverEpp": {
+    "required": [
+      "devueltoEn",
+      "condicionDevolucion"
+    ],
+    "type": "object",
+    "properties": {
+      "devueltoEn": {
+        "format": "date-time"
+      },
+      "condicionDevolucion": {
+        "type": "string"
+      },
+      "observacion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudEjecutarReposicionEpp": {
+    "required": [
+      "idEppSustituto",
+      "equipoDevuelto"
+    ],
+    "type": "object",
+    "properties": {
+      "idEppSustituto": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "equipoDevuelto": {
+        "type": "boolean"
+      },
+      "ejecutadaEn": {}
+    },
+    "additionalProperties": false
+  },
+  "SolicitudElaborarActa": {
+    "required": [
+      "idObra",
+      "numeroActa",
+      "periodoInicio",
+      "periodoFin"
+    ],
+    "type": "object",
+    "properties": {
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "numeroActa": {
+        "type": "string"
+      },
+      "periodoInicio": {
+        "type": "string",
+        "format": "date"
+      },
+      "periodoFin": {
+        "type": "string",
+        "format": "date"
+      },
+      "observaciones": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "mejorasPropuestas": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "solicitudesCambio": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "enviarARevision": {
+        "type": "boolean",
+        "default": false
+      },
+      "idsAvances": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "pattern": "^-?(?:0|[1-9]\\d*)$",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "format": "int64"
+        }
+      },
+      "idsIncidencias": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "pattern": "^-?(?:0|[1-9]\\d*)$",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "format": "int64"
+        }
+      },
+      "participantes": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudParticipanteActa"
+        }
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudEnviarActa": {
+    "type": "object",
+    "additionalProperties": false
+  },
+  "SolicitudEspecialidad": {
+    "required": [
+      "nombre",
+      "descripcion"
+    ],
+    "type": "object",
+    "properties": {
+      "nombre": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudEspecialidadTrabajador": {
+    "required": [
+      "idEspecialidad"
+    ],
+    "type": "object",
+    "properties": {
+      "idEspecialidad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "nivel": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaCertificacion": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      },
+      "fechaVencimiento": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "date"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudFinalizarAsignacionObra": {
+    "required": [
+      "fechaFin"
+    ],
+    "type": "object",
+    "properties": {
+      "fechaFin": {
+        "type": "string",
+        "format": "date"
+      },
+      "estado": {
+        "type": "string",
+        "default": "FINALIZADA"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudIniciarSesion": {
+    "required": [
+      "nombreUsuario",
+      "contrasena"
+    ],
+    "type": "object",
+    "properties": {
+      "nombreUsuario": {
+        "type": "string"
+      },
+      "contrasena": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudJustificarActividad": {
+    "required": [
+      "idActividad",
+      "fechaAvance",
+      "cantidadEjecutada",
+      "motivoObligatorio"
+    ],
+    "type": "object",
+    "properties": {
+      "idActividad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaAvance": {
+        "type": "string",
+        "format": "date"
+      },
+      "cantidadEjecutada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "motivoObligatorio": {
+        "type": "string"
+      },
+      "idIncidenciaExistente": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudParticipanteActa": {
+    "required": [
+      "idAsignacion",
+      "tipoParticipacion"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "tipoParticipacion": {
+        "type": "string"
+      },
+      "rutaFirma": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "firmadoEn": {}
+    },
+    "additionalProperties": false
+  },
+  "SolicitudParticipanteActividad": {
+    "required": [
+      "idAsignacion"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "rolParticipacion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarAsistencia": {
+    "required": [
+      "idAsignacion",
+      "fechaJornada",
+      "entradaEn",
+      "latitudEntrada",
+      "longitudEntrada",
+      "precisionGpsEntradaMetros"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaJornada": {
+        "type": "string",
+        "format": "date"
+      },
+      "entradaEn": {
+        "format": "date-time"
+      },
+      "salidaEn": {},
+      "latitudEntrada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitudEntrada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "latitudSalida": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitudSalida": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      },
+      "precisionGpsEntradaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "precisionGpsSalidaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarAsistenciaCuadrilla": {
+    "required": [
+      "idObra",
+      "fechaJornada",
+      "latitudLectura",
+      "longitudLectura",
+      "marcaciones",
+      "precisionGpsMetros"
+    ],
+    "type": "object",
+    "properties": {
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaJornada": {
+        "type": "string",
+        "format": "date"
+      },
+      "latitudLectura": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitudLectura": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "marcaciones": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ItemMarcacionCuadrilla"
+        }
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      },
+      "precisionGpsMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarAvance": {
+    "required": [
+      "idActividad",
+      "fechaAvance",
+      "cantidadEjecutada"
+    ],
+    "type": "object",
+    "properties": {
+      "idActividad": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "fechaAvance": {
+        "type": "string",
+        "format": "date"
+      },
+      "cantidadEjecutada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "observaciones": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "estado": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "esIncompletoORetrasado": {
+        "type": "boolean",
+        "default": false
+      },
+      "idIncidenciaVinculada": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      },
+      "estadoActividad": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarEntradaEpp": {
+    "required": [
+      "idTipoEpp",
+      "codigoInterno",
+      "numeroSerie",
+      "fechaAdquisicion"
+    ],
+    "type": "object",
+    "properties": {
+      "idTipoEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoInterno": {
+        "type": "string"
+      },
+      "numeroSerie": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaAdquisicion": {
+        "type": "string",
+        "format": "date"
+      },
+      "condicion": {
+        "type": "string",
+        "default": "NUEVO"
+      },
+      "observacion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "uuidMovimiento": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarEntregaEpp": {
+    "required": [
+      "idEpp",
+      "idAsignacion",
+      "entregadoEn"
+    ],
+    "type": "object",
+    "properties": {
+      "idEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "entregadoEn": {
+        "format": "date-time"
+      },
+      "condicionEntrega": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "rutaConstancia": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarEventoHerramienta": {
+    "required": [
+      "idAsignacionHerramienta",
+      "tipoIncidencia",
+      "fechaHora",
+      "descripcion"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacionHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "tipoIncidencia": {
+        "type": "string"
+      },
+      "fechaHora": {
+        "format": "date-time"
+      },
+      "descripcion": {
+        "type": "string"
+      },
+      "condicionDevolucion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "resolucion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "costoEstimado": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "cerrarAsignacion": {
+        "type": "boolean",
+        "default": true
+      },
+      "retirarHerramienta": {
+        "type": "boolean",
+        "default": false
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarEvidencia": {
+    "required": [
+      "idAvance",
+      "tipoEvidencia"
+    ],
+    "type": "object",
+    "properties": {
+      "idAvance": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "tipoEvidencia": {
+        "type": "string"
+      },
+      "nombreArchivo": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "contenidoArchivo": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "byte"
+      },
+      "capturadaEn": {},
+      "latitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarHerramienta": {
+    "required": [
+      "idTipoHerramienta",
+      "codigoInterno",
+      "numeroSerie",
+      "marca",
+      "modelo",
+      "fechaAdquisicion"
+    ],
+    "type": "object",
+    "properties": {
+      "idTipoHerramienta": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "codigoInterno": {
+        "type": "string"
+      },
+      "numeroSerie": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "marca": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "modelo": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fechaAdquisicion": {
+        "type": "string",
+        "format": "date"
+      },
+      "condicion": {
+        "type": "string",
+        "default": "NUEVA"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarIncidenciaObra": {
+    "required": [
+      "idObra",
+      "tipoIncidencia",
+      "inicioEn",
+      "finEn",
+      "horasPerdidas",
+      "descripcion",
+      "justificacion"
+    ],
+    "type": "object",
+    "properties": {
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "tipoIncidencia": {
+        "type": "string"
+      },
+      "inicioEn": {
+        "format": "date-time"
+      },
+      "finEn": {
+        "format": "date-time"
+      },
+      "horasPerdidas": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "descripcion": {
+        "type": "string"
+      },
+      "justificacion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "estado": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "idsActividadesAfectadas": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "pattern": "^-?(?:0|[1-9]\\d*)$",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "format": "int32"
+        }
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarReposicionEpp": {
+    "required": [
+      "idEntregaOrigen",
+      "idEppSustituto",
+      "motivo",
+      "descripcion",
+      "equipoDevuelto"
+    ],
+    "type": "object",
+    "properties": {
+      "idEntregaOrigen": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "idEppSustituto": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "motivo": {
+        "type": "string"
+      },
+      "descripcion": {
+        "type": "string"
+      },
+      "equipoDevuelto": {
+        "type": "boolean"
+      },
+      "solicitadaEn": {},
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarSalidaAsistencia": {
+    "required": [
+      "salidaEn",
+      "latitudSalida",
+      "longitudSalida",
+      "precisionGpsSalidaMetros"
+    ],
+    "type": "object",
+    "properties": {
+      "salidaEn": {
+        "format": "date-time"
+      },
+      "latitudSalida": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitudSalida": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      },
+      "precisionGpsSalidaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRegistrarSalidasCuadrilla": {
+    "required": [
+      "idObra",
+      "salidaEn",
+      "latitudLectura",
+      "longitudLectura",
+      "precisionGpsMetros",
+      "idsAsistencias"
+    ],
+    "type": "object",
+    "properties": {
+      "idObra": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "salidaEn": {
+        "format": "date-time"
+      },
+      "latitudLectura": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitudLectura": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "precisionGpsMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "idsAsistencias": {
+        "type": "array",
+        "items": {
+          "pattern": "^-?(?:0|[1-9]\\d*)$",
+          "type": [
+            "integer",
+            "string"
+          ],
+          "format": "int64"
+        }
+      },
+      "esSincronizacionDiferida": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudResolverActa": {
+    "required": [
+      "decision"
+    ],
+    "type": "object",
+    "properties": {
+      "decision": {
+        "type": "string"
+      },
+      "comentario": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudResolverCorreccionAsistencia": {
+    "required": [
+      "decision"
+    ],
+    "type": "object",
+    "properties": {
+      "decision": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRevisarEpp": {
+    "required": [
+      "condicion",
+      "retirar",
+      "motivo"
+    ],
+    "type": "object",
+    "properties": {
+      "condicion": {
+        "type": "string"
+      },
+      "retirar": {
+        "type": "boolean"
+      },
+      "motivo": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudRevisarHerramienta": {
+    "required": [
+      "condicion",
+      "retirar",
+      "motivo"
+    ],
+    "type": "object",
+    "properties": {
+      "condicion": {
+        "type": "string"
+      },
+      "retirar": {
+        "type": "boolean"
+      },
+      "motivo": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudSincronizacionLote": {
+    "type": "object",
+    "properties": {
+      "asistencias": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudRegistrarAsistencia"
+        }
+      },
+      "avances": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudRegistrarAvance"
+        }
+      },
+      "evidencias": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudRegistrarEvidencia"
+        }
+      },
+      "incidenciasObra": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudRegistrarIncidenciaObra"
+        }
+      },
+      "entregasEpp": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudRegistrarEntregaEpp"
+        }
+      },
+      "reposicionesEpp": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudRegistrarReposicionEpp"
+        }
+      },
+      "asignacionesHerramienta": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudAsignarHerramienta"
+        }
+      },
+      "eventosHerramienta": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudRegistrarEventoHerramienta"
+        }
+      },
+      "salidasAsistencia": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudSincronizarSalidaAsistencia"
+        }
+      },
+      "devolucionesEpp": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/SolicitudSincronizarDevolucionEpp"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudSincronizarDevolucionEpp": {
+    "required": [
+      "idEntregaEpp",
+      "devueltoEn",
+      "condicionDevolucion",
+      "observacion",
+      "uuidRegistro"
+    ],
+    "type": "object",
+    "properties": {
+      "idEntregaEpp": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "devueltoEn": {
+        "format": "date-time"
+      },
+      "condicionDevolucion": {
+        "type": "string"
+      },
+      "observacion": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudSincronizarSalidaAsistencia": {
+    "required": [
+      "idAsistencia",
+      "salidaEn",
+      "latitudSalida",
+      "longitudSalida",
+      "uuidRegistro"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsistencia": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "format": "int64"
+      },
+      "salidaEn": {
+        "format": "date-time"
+      },
+      "latitudSalida": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitudSalida": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "uuidRegistro": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "uuid"
+      },
+      "precisionGpsSalidaMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "SolicitudValidarUbicacionAsistencia": {
+    "required": [
+      "idAsignacion",
+      "latitud",
+      "longitud",
+      "precisionGpsMetros"
+    ],
+    "type": "object",
+    "properties": {
+      "idAsignacion": {
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "format": "int32"
+      },
+      "latitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "longitud": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      },
+      "precisionGpsMetros": {
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "type": [
+          "null",
+          "number",
+          "string"
+        ],
+        "format": "double"
+      }
+    },
+    "additionalProperties": false
+  },
+  "Stream": {
+    "type": "string",
+    "format": "binary"
+  }
+}

@@ -1,0 +1,61 @@
+name: CI Frontend — Constructora Eder Torres
+
+on:
+  push:
+    branches: [main, master, 'feat/**', 'fix/**']
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar-pwa:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+      - name: Localizar PostgreSQL desechable
+        shell: pwsh
+        run: |
+          $candidatos = @(Get-ChildItem -LiteralPath 'C:\Program Files\PostgreSQL' -Directory -ErrorAction SilentlyContinue | ForEach-Object { Join-Path $_.FullName 'bin' })
+          $binarios = $candidatos | Where-Object { Test-Path -LiteralPath (Join-Path $_ 'initdb.exe') } | Select-Object -First 1
+          if (-not $binarios) { throw 'No se encontraron binarios de PostgreSQL en el agente.' }
+          "PG_BIN=$binarios" >> $env:GITHUB_ENV
+      - name: Instalar versiones bloqueadas
+        working-directory: frontend
+        run: npm ci
+      - name: Comprobar dependencias
+        working-directory: frontend
+        run: npm audit --audit-level=low
+      - name: Pruebas de captura, contratos y sincronización
+        working-directory: frontend
+        run: npm test
+      - name: Restaurar entorno E2E bloqueado
+        run: dotnet restore Tools/Frontend/EntornoPruebas.csproj --locked-mode
+      - name: Compilar y probar navegador con API y PostgreSQL reales
+        working-directory: frontend
+        run: npm run test:e2e
+      - name: Conservar interfaz compilada
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-pwa
+          path: frontend/dist/
+      - name: Conservar informes y capturas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-frontend
+          path: artifacts/Frontend/
+          if-no-files-found: warn

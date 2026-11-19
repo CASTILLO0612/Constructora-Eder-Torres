@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ConstructoraEderTorres.Simulacion</RootNamespace>
+    <UserSecretsId>constructora-eder-torres-desarrollo</UserSecretsId>
+    <UseAppHost>false</UseAppHost>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../../src/Infrastructure/ConstructoraEderTorres.Infraestructura.csproj" />
+  </ItemGroup>
+</Project>

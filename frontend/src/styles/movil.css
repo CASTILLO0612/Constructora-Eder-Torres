@@ -1,0 +1,568 @@
+@media (max-width: 1200px) {
+    .barra-lateral {
+        width: 218px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+    .zona-trabajo {
+        margin-left: 218px !important;
+    }
+    main {
+        padding: 29px 25px !important;
+    }
+    .barra-superior {
+        padding: 0 25px !important;
+    }
+    .enlace-menu {
+        font-size: 12px !important;
+        gap: 10px !important;
+    }
+    .metricas > div,
+    .metricas > a {
+        padding: 20px !important;
+    }
+    .rejilla-inicio {
+        grid-template-columns: 1fr !important;
+    }
+    .presentacion-ingreso {
+        padding: 40px 35px !important;
+    }
+    .mapa-gerencial {
+        grid-template-columns: 1fr 230px !important;
+    }
+}
+@media (max-width: 900px) {
+    .pagina-ingreso {
+        grid-template-columns: 0.85fr 1fr !important;
+    }
+    .presentacion-ingreso {
+        padding: 35px 26px !important;
+    }
+    .marca strong {
+        font-size: 13px !important;
+    }
+    .panel-ingreso {
+        padding: 35px 30px !important;
+    }
+    .barra-lateral {
+        width: 205px !important;
+    }
+    .zona-trabajo {
+        margin-left: 205px !important;
+    }
+    .encabezado-pagina {
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+    .acciones-pagina {
+        align-self: stretch;
+    }
+    .fecha-encabezado {
+        display: none;
+    }
+    .metricas {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .metricas > :nth-child(2) {
+        border-right: 0 !important;
+    }
+    .metricas > :nth-child(-n + 2) {
+        border-bottom: 1px solid var(--borde);
+    }
+    .metricas-tres > :nth-child(3) {
+        grid-column: 1/-1;
+    }
+    .mapa-gerencial {
+        grid-template-columns: 1fr !important;
+    }
+    .lista-mapa {
+        border-left: 0 !important;
+        border-top: 1px solid var(--borde);
+        max-height: 200px !important;
+    }
+    .aviso-mapa {
+        right: 15px !important;
+        bottom: auto !important;
+        top: 280px;
+    }
+    .ruta-empresa {
+        display: none;
+    }
+    .operacion-principal {
+        flex-wrap: wrap;
+    }
+    .detalle-operacion {
+        margin-left: 0 !important;
+    }
+}
+@media (max-width: 700px) {
+    .barra-lateral {
+        width: min(290px, calc(100vw - 28px)) !important;
+        transform: translateX(-100%);
+        transition: transform 0.2s;
+        padding-top: max(28px, env(safe-area-inset-top)) !important;
+        padding-left: max(12px, env(safe-area-inset-left)) !important;
+        padding-right: 12px !important;
+    }
+    .barra-lateral.menu-abierto {
+        transform: translateX(0);
+    }
+    .zona-trabajo {
+        margin-left: 0 !important;
+        padding-bottom: calc(68px + env(safe-area-inset-bottom));
+    }
+    .barra-superior {
+        height: calc(62px + env(safe-area-inset-top)) !important;
+        min-height: calc(62px + env(safe-area-inset-top)) !important;
+        padding: env(safe-area-inset-top) max(18px, env(safe-area-inset-right))
+            0 max(18px, env(safe-area-inset-left)) !important;
+    }
+    .abrir-menu {
+        display: inline-flex !important;
+        margin-left: -7px;
+    }
+    .cerrar-menu {
+        display: inline-flex !important;
+        position: absolute;
+        right: 7px;
+        top: max(7px, env(safe-area-inset-top));
+        width: 44px;
+        height: 44px;
+    }
+    .fondo-menu {
+        display: block !important;
+        position: fixed;
+        inset: 0;
+        background: #0000006b;
+        border: 0;
+        z-index: 29;
+    }
+    .navegacion-movil {
+        display: flex !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 25;
+        background: var(--superficie);
+        border-top: 1px solid var(--borde);
+        padding: 8px max(8px, env(safe-area-inset-right))
+            max(8px, env(safe-area-inset-bottom))
+            max(8px, env(safe-area-inset-left));
+        justify-content: space-around;
+    }
+    .navegacion-movil a,
+    .navegacion-movil button {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        font-size: 11px;
+        background: none;
+        border: 0;
+        min-height: 44px;
+        min-width: 52px;
+        color: var(--secundario);
+    }
+    .navegacion-movil .active {
+        color: var(--texto);
+        font-weight: 650;
+    }
+    .navegacion-movil .active svg {
+        stroke-width: 2.4;
+    }
+    .utilidades {
+        gap: 9px !important;
+    }
+    .conexion {
+        font-size: 12px !important;
+    }
+    .utilidades select {
+        width: 74px !important;
+    }
+    main {
+        padding: 27px max(17px, env(safe-area-inset-right)) 35px
+            max(17px, env(safe-area-inset-left)) !important;
+    }
+    h1 {
+        font-size: 27px !important;
+    }
+    .encabezado-pagina {
+        margin-bottom: 24px !important;
+        gap: 17px !important;
+    }
+    .ceja {
+        font-size: 11px !important;
+    }
+    .descripcion-pagina {
+        font-size: 14px !important;
+    }
+    .acciones-pagina {
+        flex-wrap: wrap;
+    }
+    .acciones-pagina .boton {
+        flex: 1;
+    }
+    .metricas {
+        margin-bottom: 21px !important;
+    }
+    .metricas > div,
+    .metricas > a {
+        padding: 17px !important;
+    }
+    .metricas strong {
+        font-size: 30px !important;
+        margin: 10px 0 5px !important;
+    }
+    .metricas span {
+        font-size: 12px !important;
+    }
+    .metricas small {
+        font-size: 11px !important;
+    }
+    .metricas svg {
+        width: 15px;
+    }
+    .titulo-panel {
+        padding: 19px !important;
+    }
+    .titulo-panel h2 {
+        font-size: 16px !important;
+    }
+    .obra-resumen {
+        padding: 17px !important;
+        gap: 10px !important;
+    }
+    .obra-resumen > svg:last-child {
+        display: none;
+    }
+    .obra-resumen .estado {
+        font-size: 11px !important;
+    }
+    .obra-resumen .estado svg {
+        display: none;
+    }
+    .icono-obra {
+        width: 34px !important;
+        height: 36px !important;
+    }
+    .obra-resumen > div > span {
+        max-width: 190px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .accesos-frecuentes {
+        padding: 3px 16px !important;
+    }
+    .accesos-frecuentes a {
+        min-height: 65px;
+    }
+    .rejilla-inicio {
+        gap: 20px !important;
+    }
+    .panel {
+        border-radius: 9px !important;
+        margin-bottom: 20px !important;
+    }
+    .banda-offline {
+        padding: 11px 17px !important;
+        font-size: 11px !important;
+        flex-wrap: wrap;
+    }
+    .banda-offline a {
+        margin-left: 25px !important;
+    }
+    .pestanas {
+        gap: 22px !important;
+        margin-bottom: 20px !important;
+    }
+    .pestanas button {
+        min-height: 44px;
+        font-size: 12px !important;
+        padding-bottom: 11px !important;
+    }
+    .barra-filtros {
+        padding: 14px !important;
+        gap: 16px !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+    .buscar-tabla {
+        max-width: none !important;
+        min-width: 100% !important;
+        height: 44px !important;
+    }
+    .filtro,
+    .filtro-referencia {
+        flex: 1;
+        max-width: none !important;
+        min-width: 0 !important;
+    }
+    .barra-filtros select,
+    .barra-filtros .filtro input {
+        min-height: 44px !important;
+    }
+    .filtros-final {
+        margin-left: 0;
+    }
+    .filtro-fecha {
+        display: flex !important;
+    }
+    .filtro-fecha input {
+        width: 100%;
+        max-width: none !important;
+    }
+    .tabla-datos {
+        white-space: normal !important;
+    }
+    .tabla-datos thead {
+        display: none;
+    }
+    .tabla-datos tbody {
+        display: block;
+    }
+    .tabla-datos tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 16px;
+        border-bottom: 1px solid var(--borde);
+        position: relative;
+        gap: 12px 16px;
+    }
+    .tabla-datos tr:last-child {
+        border-bottom: 0;
+    }
+    .tabla-datos td {
+        display: block !important;
+        border: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+        min-width: 0;
+        overflow: visible !important;
+        font-size: 13px;
+    }
+    .tabla-datos td:before {
+        content: attr(data-label);
+        display: block;
+        font-size: 10px;
+        color: var(--secundario);
+        margin-bottom: 3px;
+        font-weight: 400;
+    }
+    .tabla-datos td:first-child {
+        grid-column: 1/-1;
+        padding-right: 70px !important;
+        font-size: 15px;
+    }
+    .tabla-datos .acciones-fila {
+        position: absolute;
+        right: 12px;
+        top: 14px;
+        padding: 0 !important;
+        display: flex !important;
+        gap: 2px !important;
+    }
+    .acciones-fila:before {
+        display: none !important;
+    }
+    .tabla-datos .acciones-fila .boton-icono {
+        width: 34px;
+        height: 38px;
+    }
+    .menu-acciones > div {
+        right: 0 !important;
+        min-width: 200px !important;
+        z-index: 15 !important;
+    }
+    .tabla-datos tr:hover td {
+        background: none !important;
+    }
+    .paginacion {
+        padding: 15px !important;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .paginacion .boton {
+        min-height: 44px !important;
+        font-size: 14px !important;
+    }
+    .numero-pagina {
+        height: 35px !important;
+    }
+    .modal {
+        max-height: 94dvh !important;
+        border-radius: 11px 11px 0 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: auto 0 0 !important;
+        inset: auto 0 0 !important;
+    }
+    .cabecera-modal {
+        padding: 20px !important;
+    }
+    .cabecera-modal h2 {
+        font-size: 20px !important;
+    }
+    .cuerpo-modal {
+        padding: 20px 20px max(20px, env(safe-area-inset-bottom)) !important;
+    }
+    .rejilla-formulario {
+        grid-template-columns: 1fr !important;
+        gap: 17px !important;
+    }
+    .campo input,
+    .campo select,
+    .campo textarea {
+        min-height: 47px;
+    }
+    .campo input[type="checkbox"] {
+        min-height: 18px;
+    }
+    .campo > label {
+        font-size: 14px !important;
+    }
+    .pie-formulario {
+        flex-wrap: wrap;
+    }
+    .pie-formulario > div {
+        width: 100%;
+        display: flex;
+    }
+    .pie-formulario .boton {
+        flex: 1;
+        min-height: 46px;
+    }
+    .detalle-datos {
+        gap: 18px !important;
+    }
+    .detalle-datos dd {
+        font-size: 13px !important;
+    }
+    .opciones-multiples {
+        max-height: 250px !important;
+    }
+    .opcion-check {
+        min-height: 44px;
+        font-size: 14px !important;
+    }
+    .opcion-check input {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    .pagina-ingreso {
+        display: block !important;
+    }
+    .presentacion-ingreso {
+        min-height: 210px !important;
+        padding: 28px 26px 0 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 32px !important;
+    }
+    .nombre-ingreso {
+        font-size: 32px !important;
+    }
+    .lineas-arquitectura {
+        display: block;
+        height: 108px !important;
+    }
+    .panel-ingreso {
+        padding: 32px 26px 80px !important;
+        display: block !important;
+    }
+    .formulario-ingreso {
+        max-width: 450px !important;
+        margin: 0 auto;
+    }
+    .formulario-ingreso h2 {
+        font-size: 25px !important;
+    }
+    .formulario-ingreso form input {
+        min-height: 48px;
+    }
+    .formulario-ingreso form .boton {
+        min-height: 49px !important;
+        font-size: 15px !important;
+    }
+    .pie-ingreso {
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 12px !important;
+    }
+    .registros-personales > div {
+        padding: 17px !important;
+        gap: 10px !important;
+        flex-wrap: wrap;
+    }
+    .registros-personales > div > span:nth-child(2) {
+        flex-basis: 100%;
+        font-size: 11px;
+    }
+    .nota-operativa {
+        font-size: 12px !important;
+    }
+    .lista-asistida {
+        padding: 0 16px !important;
+    }
+    .fila-asistida {
+        min-height: 64px;
+    }
+    .fila-asistida input {
+        height: 22px;
+        width: 22px;
+    }
+    .operacion-local {
+        padding: 20px 0 !important;
+    }
+    .lista-pendientes {
+        padding: 0 16px !important;
+    }
+    .operacion-principal .estado {
+        margin-left: 54px;
+    }
+    .acciones-operacion {
+        flex-wrap: wrap;
+    }
+    .acciones-operacion .boton {
+        min-height: 44px !important;
+        font-size: 12px !important;
+    }
+    .avisos {
+        bottom: 85px !important;
+        right: 15px !important;
+        left: 15px;
+        max-width: none !important;
+    }
+    .aviso {
+        font-size: 13px !important;
+    }
+    .aviso-actualizacion {
+        bottom: 80px !important;
+        flex-wrap: wrap;
+        width: calc(100% - 30px);
+    }
+    .pie-aplicacion {
+        padding: 17px !important;
+        font-size: 11px !important;
+    }
+    .detalle-operacion dl {
+        grid-template-columns: 1fr !important;
+    }
+    .reloj-marcacion .panel {
+        max-width: 100%;
+    }
+}
+@media (max-width: 600px) {
+    .panel-asistencia .pie-formulario {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .panel-asistencia .pie-formulario .boton {
+        min-width: 0;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+}

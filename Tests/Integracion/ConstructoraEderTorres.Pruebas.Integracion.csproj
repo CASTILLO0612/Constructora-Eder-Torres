@@ -6,6 +6,10 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../src/Presentation/ConstructoraEderTorres.Presentacion.csproj" />
+    <ProjectReference Include="../../Tools/Respaldos/ConstructoraEderTorres.Respaldos.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Datos/EsquemaPostgreSql.json" LogicalName="EsquemaPostgreSql.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />

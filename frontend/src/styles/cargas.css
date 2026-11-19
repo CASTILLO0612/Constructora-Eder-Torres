@@ -1,0 +1,200 @@
+.esqueleto-carga {
+    width: 100%;
+    min-width: 0;
+    padding: 24px;
+}
+.esqueleto-estructura {
+    display: grid;
+    gap: 22px;
+    animation: pulso-esqueleto 1.8s ease-in-out infinite;
+}
+.esqueleto-bloque {
+    display: block;
+    height: 13px;
+    min-width: 0;
+    border-radius: 5px;
+    background: var(--borde);
+}
+.esqueleto-corta {
+    width: 36%;
+}
+.esqueleto-media {
+    width: 67%;
+}
+.esqueleto-titulo {
+    height: 32px;
+    width: min(55%, 330px);
+}
+.esqueleto-textos {
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+.esqueleto-controles {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 14px;
+}
+.esqueleto-controles > span,
+.esqueleto-control {
+    height: 44px;
+}
+.esqueleto-fila {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 70px;
+    gap: 18px;
+    align-items: center;
+    min-height: 78px;
+    border-bottom: 1px solid var(--borde);
+    padding: 16px 0;
+}
+.esqueleto-fila:last-child {
+    border-bottom: 0;
+}
+.esqueleto-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+}
+.esqueleto-insignia {
+    height: 24px;
+}
+.esqueleto-fila-tabla,
+.esqueleto-fila-cabecera {
+    grid-template-columns: 1.2fr 2fr 1fr 0.8fr;
+    gap: 28px;
+}
+.esqueleto-fila-cabecera {
+    min-height: 50px;
+}
+.esqueleto-fila-tabla > span:nth-child(even) {
+    width: 78%;
+}
+.esqueleto-campos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 26px;
+}
+.esqueleto-grafico {
+    height: 215px;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    border-bottom: 1px solid var(--borde);
+    padding: 14px 0;
+}
+.esqueleto-grafico > span {
+    flex: 1;
+}
+.esqueleto-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--borde);
+}
+.esqueleto-tarjeta {
+    padding: 24px;
+    background: var(--superficie);
+    display: grid;
+    gap: 20px;
+}
+.esqueleto-numero {
+    width: 42px;
+    height: 36px;
+}
+.carga-tarjetas {
+    padding: 0;
+    margin-bottom: 25px;
+}
+.esqueleto-mapa {
+    height: 350px;
+}
+.carga-imagen {
+    padding: 0;
+}
+.esqueleto-imagen {
+    height: clamp(180px, 45dvh, 420px);
+    border-radius: 8px;
+}
+.esqueleto-valor {
+    width: 48px;
+    height: 34px;
+}
+.carga-pagina {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 38px 28px;
+}
+.carga-opciones {
+    padding: 0;
+}
+.carga-opciones .esqueleto-textos {
+    gap: 10px;
+}
+@keyframes pulso-esqueleto {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.45;
+    }
+}
+@media (max-width: 700px) {
+    .esqueleto-carga {
+        padding: 20px;
+    }
+    .carga-pagina {
+        padding: 26px 20px;
+    }
+    .carga-opciones {
+        padding: 0;
+    }
+    .esqueleto-tarjetas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .carga-tarjetas {
+        padding: 0;
+    }
+    .esqueleto-tarjeta {
+        padding: 18px;
+    }
+    .esqueleto-campos {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+    .esqueleto-fila {
+        grid-template-columns: 36px minmax(0, 1fr) 45px;
+        gap: 12px;
+    }
+    .esqueleto-fila-tabla,
+    .esqueleto-fila-cabecera {
+        grid-template-columns: 1.2fr 2fr 1fr;
+        gap: 20px;
+    }
+    .esqueleto-fila-tabla > :last-child,
+    .esqueleto-fila-cabecera > :last-child {
+        display: none;
+    }
+    .esqueleto-avatar {
+        width: 36px;
+        height: 36px;
+    }
+    .esqueleto-controles {
+        grid-template-columns: 1fr 1fr;
+    }
+    .esqueleto-controles > :first-child {
+        grid-column: 1/-1;
+    }
+    .esqueleto-grafico {
+        height: 210px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .esqueleto-estructura {
+        animation: none;
+    }
+}

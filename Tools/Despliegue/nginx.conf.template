@@ -1,0 +1,62 @@
+# Sustituir @@DOMINIO@@ y @@PUERTO_API@@. El certificado HTTPS debe existir.
+# Instalar este archivo en sites-available; no sustituir sitios de otras aplicaciones.
+server {
+    listen 80;
+    server_name @@DOMINIO@@;
+    location ^~ /.well-known/acme-challenge/ {
+        root /var/lib/constructora-eder-torres/acme;
+        default_type text/plain;
+        try_files $uri =404;
+    }
+    location / { return 301 https://@@DOMINIO@@$request_uri; }
+}
+
+server {
+    listen 443 ssl;
+    server_name @@DOMINIO@@;
+    ssl_certificate /etc/letsencrypt/live/@@DOMINIO@@/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/@@DOMINIO@@/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_session_cache shared:CET_TLS:10m;
+    ssl_session_tickets off;
+    server_tokens off;
+    root /opt/constructora-eder-torres/actual/Web;
+    index index.html;
+    client_max_body_size 24m;
+    client_body_timeout 30s;
+    send_timeout 60s;
+    keepalive_timeout 30s;
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/css application/javascript application/json image/svg+xml application/manifest+json;
+    # El registro de acceso puede contener consultas con datos personales. Usar métricas de API.
+    access_log off;
+    error_log /var/log/nginx/constructora-eder-torres.error.log warn;
+    include /etc/constructora-eder-torres/cabeceras-web.conf;
+    add_header Strict-Transport-Security "max-age=15552000" always;
+
+    location ~ ^/(api|salud)(/|$) {
+        proxy_pass http://127.0.0.1:@@PUERTO_API@@;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        # Nginx es el único proxy; sobrescribe los valores enviados por el cliente.
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host "";
+        proxy_set_header Forwarded "";
+        proxy_set_header Connection "";
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_cache off;
+    }
+    location ~ ^/(scalar|openapi)(/|$) { return 404; }
+    location ~ /\. { deny all; }
+    location = /sw.js { expires -1; try_files $uri =404; }
+    location = /index.html { expires -1; try_files $uri =404; }
+    location = /manifest.webmanifest { expires -1; try_files $uri =404; }
+    location /assets/ { expires 1y; try_files $uri =404; }
+    location ~* \.(js|css|svg|png|woff2|json|webmanifest)$ { try_files $uri =404; }
+    location / { expires -1; try_files $uri $uri/ /index.html; }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "/", "name": "Constructora Eder Torres", "short_name": "Eder Torres", "lang": "es",
+  "description": "Gestión y seguimiento operativo de obras",
+  "theme_color": "#111111", "background_color": "#ffffff", "display": "standalone",
+  "start_url": "/", "scope": "/",
+  "icons": [
+    { "src": "/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

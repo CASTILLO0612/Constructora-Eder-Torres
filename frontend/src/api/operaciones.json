@@ -1,0 +1,2900 @@
+{
+  "/salud/viva": {
+    "get": {
+      "parametros": []
+    }
+  },
+  "/salud/lista": {
+    "get": {
+      "parametros": []
+    }
+  },
+  "/api/sesion/antifalsificacion": {
+    "get": {
+      "parametros": []
+    }
+  },
+  "/api/sesion/iniciar": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudIniciarSesion"
+    }
+  },
+  "/api/sesion/cerrar": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    }
+  },
+  "/api/sesion/actual": {
+    "get": {
+      "parametros": []
+    }
+  },
+  "/api/usuarios": {
+    "get": {
+      "parametros": [
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCrearUsuario"
+    }
+  },
+  "/api/usuarios/{idUsuario}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idUsuario",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    },
+    "put": {
+      "parametros": [
+        {
+          "name": "idUsuario",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudActualizarUsuario"
+    }
+  },
+  "/api/usuarios/{idUsuario}/estado": {
+    "patch": {
+      "parametros": [
+        {
+          "name": "idUsuario",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCambiarEstadoUsuario"
+    }
+  },
+  "/api/usuarios/{idUsuario}/roles": {
+    "post": {
+      "parametros": [
+        {
+          "name": "idUsuario",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudAsignarRolUsuario"
+    }
+  },
+  "/api/roles/{idRol}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idRol",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/roles": {
+    "get": {
+      "parametros": [
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCrearRol"
+    }
+  },
+  "/api/roles/{idRol}/permisos": {
+    "put": {
+      "parametros": [
+        {
+          "name": "idRol",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudAsignarPermisosRol"
+    }
+  },
+  "/api/permisos": {
+    "get": {
+      "parametros": [
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/auditorias": {
+    "get": {
+      "parametros": [
+        {
+          "name": "entidad",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "idRegistro",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "accion",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "idUsuario",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "desdeUtc",
+          "in": "query",
+          "schema": {
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "hastaUtc",
+          "in": "query",
+          "schema": {
+            "format": "date-time"
+          }
+        },
+        {
+          "name": "limite",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/obras": {
+    "get": {
+      "parametros": [
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCrearObra"
+    }
+  },
+  "/api/obras/{idObra}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    },
+    "put": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudActualizarObra"
+    }
+  },
+  "/api/obras/{idObra}/estado": {
+    "patch": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCambiarEstadoObra"
+    }
+  },
+  "/api/personal/trabajadores-cuadrilla/{idTrabajadorCuadrilla}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idTrabajadorCuadrilla",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/personal/obras/{idObra}/cuadrillas": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/personal/asignaciones-obra/{idAsignacion}/finalizacion": {
+    "patch": {
+      "parametros": [
+        {
+          "name": "idAsignacion",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudFinalizarAsignacionObra"
+    }
+  },
+  "/api/personal/trabajadores/{idTrabajador}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idTrabajador",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    },
+    "put": {
+      "parametros": [
+        {
+          "name": "idTrabajador",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudActualizarTrabajador"
+    }
+  },
+  "/api/personal/cargos/{idCargo}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idCargo",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/personal/especialidades/{idEspecialidad}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idEspecialidad",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/personal/cuadrillas/{idCuadrilla}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idCuadrilla",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/personal/asignaciones-obra/{idAsignacion}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idAsignacion",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/personal/cuadrillas-obra/{idCuadrillaObra}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idCuadrillaObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/personal/cargos": {
+    "get": {
+      "parametros": [
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCargo"
+    }
+  },
+  "/api/personal/especialidades": {
+    "get": {
+      "parametros": [
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudEspecialidad"
+    }
+  },
+  "/api/personal/cuadrillas": {
+    "get": {
+      "parametros": [
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCuadrilla"
+    }
+  },
+  "/api/personal/trabajadores": {
+    "get": {
+      "parametros": [
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "soloAsignables",
+          "in": "query",
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCrearTrabajador"
+    }
+  },
+  "/api/personal/trabajadores/{idTrabajador}/estado": {
+    "patch": {
+      "parametros": [
+        {
+          "name": "idTrabajador",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCambiarEstadoTrabajador"
+    }
+  },
+  "/api/personal/asignaciones-obra": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudAsignarTrabajadorObra"
+    }
+  },
+  "/api/personal/obras/{idObra}/asignaciones": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "soloVigentes",
+          "in": "query",
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/personal/cuadrillas-obra": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudAsignarCuadrillaObra"
+    }
+  },
+  "/api/personal/trabajadores-cuadrilla": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudAsignarTrabajadorCuadrilla"
+    }
+  },
+  "/api/personal/obras/{idObra}/miembros-cuadrilla": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idCuadrillaObra",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/asistencias/mis-asignaciones": {
+    "get": {
+      "parametros": [
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/asistencias/validar-ubicacion": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudValidarUbicacionAsistencia"
+    }
+  },
+  "/api/asistencias/correcciones": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCrearCorreccionAsistencia"
+    }
+  },
+  "/api/asistencias/{idAsistencia}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idAsistencia",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/asistencias/correcciones/{idCorreccion}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idCorreccion",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/asistencias": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idTrabajador",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idCuadrilla",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "fechaDesde",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "name": "fechaHasta",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarAsistencia"
+    }
+  },
+  "/api/asistencias/cuadrilla": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarAsistenciaCuadrilla"
+    }
+  },
+  "/api/asistencias/cuadrilla/salidas": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarSalidasCuadrilla"
+    }
+  },
+  "/api/asistencias/{idAsistencia}/salida": {
+    "patch": {
+      "parametros": [
+        {
+          "name": "idAsistencia",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarSalidaAsistencia"
+    }
+  },
+  "/api/asistencias/correcciones/{idCorreccion}/resolucion": {
+    "patch": {
+      "parametros": [
+        {
+          "name": "idCorreccion",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudResolverCorreccionAsistencia"
+    }
+  },
+  "/api/asistencias/consolidado": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idTrabajador",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idCuadrilla",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "fechaDesde",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "name": "fechaHasta",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/avances/{idAvance}/evidencias": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idAvance",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/actividades/{idActividad}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idActividad",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    },
+    "put": {
+      "parametros": [
+        {
+          "name": "idActividad",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudActualizarActividad"
+    }
+  },
+  "/api/seguimiento/avances/{idAvance}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idAvance",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/evidencias/{idEvidencia}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idEvidencia",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/incidencias/{idIncidencia}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idIncidencia",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/evidencias/{idEvidencia}/archivo": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idEvidencia",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/obras/{idObra}/actividades": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/actividades": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCrearActividad"
+    }
+  },
+  "/api/seguimiento/obras/{idObra}/avances": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idActividad",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "fechaDesde",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "name": "fechaHasta",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/avances": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarAvance"
+    }
+  },
+  "/api/seguimiento/avances/justificar-retraso": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudJustificarActividad"
+    }
+  },
+  "/api/seguimiento/evidencias": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarEvidencia"
+    }
+  },
+  "/api/seguimiento/obras/{idObra}/incidencias": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/incidencias": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarIncidenciaObra"
+    }
+  },
+  "/api/seguimiento/obras/{idObra}/actas": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/seguimiento/actas/{idActa}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idActa",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    },
+    "put": {
+      "parametros": [
+        {
+          "name": "idActa",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudActualizarActa"
+    }
+  },
+  "/api/seguimiento/actas": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudElaborarActa"
+    }
+  },
+  "/api/seguimiento/actas/{idActa}/enviar-revision": {
+    "post": {
+      "parametros": [
+        {
+          "name": "idActa",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudEnviarActa"
+    }
+  },
+  "/api/seguimiento/actas/{idActa}/resolucion": {
+    "patch": {
+      "parametros": [
+        {
+          "name": "idActa",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudResolverActa"
+    }
+  },
+  "/api/epp/existencias/{idEpp}/revision": {
+    "post": {
+      "parametros": [
+        {
+          "name": "idEpp",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRevisarEpp"
+    }
+  },
+  "/api/epp/entregas": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idTrabajador",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarEntregaEpp"
+    }
+  },
+  "/api/epp/reposiciones": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarReposicionEpp"
+    }
+  },
+  "/api/epp/tipos/{idTipoEpp}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idTipoEpp",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/epp/existencias/{idEpp}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idEpp",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/epp/entregas/{idEntrega}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idEntrega",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/epp/reposiciones/{idReposicion}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idReposicion",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/epp/reposiciones/{idReposicion}/ejecutar": {
+    "post": {
+      "parametros": [
+        {
+          "name": "idReposicion",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudEjecutarReposicionEpp"
+    }
+  },
+  "/api/epp/tipos": {
+    "get": {
+      "parametros": [
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCrearTipoEpp"
+    }
+  },
+  "/api/epp/existencias": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idTipoEpp",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "condicion",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/epp/existencias/resumen": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idTipoEpp",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/epp/entradas": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarEntradaEpp"
+    }
+  },
+  "/api/epp/entregas/{idEntregaEpp}/devolucion": {
+    "patch": {
+      "parametros": [
+        {
+          "name": "idEntregaEpp",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudDevolverEpp"
+    }
+  },
+  "/api/epp/trabajadores/{idTrabajador}/historial": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idTrabajador",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/epp/reportes": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idTrabajador",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idTipoEpp",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "fechaDesde",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "name": "fechaHasta",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  },
+  "/api/herramientas/{idHerramienta}": {
+    "put": {
+      "parametros": [
+        {
+          "name": "idHerramienta",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudActualizarHerramienta"
+    },
+    "get": {
+      "parametros": [
+        {
+          "name": "idHerramienta",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/herramientas/{idHerramienta}/revision": {
+    "post": {
+      "parametros": [
+        {
+          "name": "idHerramienta",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRevisarHerramienta"
+    }
+  },
+  "/api/herramientas/eventos/{idIncidencia}/atencion": {
+    "patch": {
+      "parametros": [
+        {
+          "name": "idIncidencia",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudAtenderIncidenciaHerramienta"
+    }
+  },
+  "/api/herramientas/eventos": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "idAsignacionHerramienta",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int64"
+          }
+        },
+        {
+          "name": "idHerramienta",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarEventoHerramienta"
+    }
+  },
+  "/api/herramientas/categorias/{idCategoria}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idCategoria",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/herramientas/tipos/{idTipo}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idTipo",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      ]
+    }
+  },
+  "/api/herramientas/asignaciones/{idAsignacion}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idAsignacion",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/herramientas/eventos/{idIncidencia}": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idIncidencia",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    }
+  },
+  "/api/herramientas/categorias": {
+    "get": {
+      "parametros": [
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCrearCategoriaHerramienta"
+    }
+  },
+  "/api/herramientas/tipos": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idCategoria",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudCrearTipoHerramienta"
+    }
+  },
+  "/api/herramientas": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idTipoHerramienta",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "condicion",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudRegistrarHerramienta"
+    }
+  },
+  "/api/herramientas/asignaciones": {
+    "get": {
+      "parametros": [
+        {
+          "name": "idObra",
+          "in": "query",
+          "schema": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        },
+        {
+          "name": "soloActivas",
+          "in": "query",
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "estado",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "pagina",
+          "in": "query",
+          "description": "Predeterminado: 1.",
+          "schema": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        {
+          "name": "tamanoPagina",
+          "in": "query",
+          "description": "Predeterminado: 100. Máximo: 500.",
+          "schema": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      ]
+    },
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudAsignarHerramienta"
+    }
+  },
+  "/api/sincronizacion/lote": {
+    "post": {
+      "parametros": [
+        {
+          "name": "X-CET-CSRF",
+          "in": "header",
+          "description": "Token de /api/sesion/antifalsificacion obtenido con las cookies de la sesión actual.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "solicitud": "SolicitudSincronizacionLote"
+    }
+  }
+}
