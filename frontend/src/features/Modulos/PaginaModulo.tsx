@@ -35,6 +35,7 @@ import { catalogos } from "../../api/catalogos";
 import { MenuAcciones } from "../../components/MenuAcciones";
 import { PrepararObra } from "../../components/PrepararObra";
 import { api } from "../../api/cliente";
+import { fechaFiltroLocal, prepararFiltrosConsulta } from "./filtrosConsulta";
 
 const Formulario = lazy(() =>
     import("../../components/FormularioOperacion").then((m) => ({
@@ -118,7 +119,9 @@ export default function PaginaModulo({
                 campo !== "idObra" &&
                 (campo !== "estado" || estadosFiltro(recurso).includes(valor))
             )
-                parametros[campo] = valor;
+                parametros[campo] = campo.endsWith("Utc")
+                    ? fechaFiltroLocal(valor)
+                    : valor;
         }
         if (busqueda.has("idObra")) {
             const id = Number(busqueda.get("idObra"));
@@ -129,10 +132,13 @@ export default function PaginaModulo({
         setBuscar("");
         setMapa(false);
     }, [nombre, recurso?.clave, busqueda]);
-    const contexto = { idObra: obra, ...filtros };
-    const ruta = recurso ? rutaConDatos(recurso.ruta, contexto) : null;
+    const { parametros: filtrosConsulta, error: errorFiltros } =
+        prepararFiltrosConsulta(filtros);
+    const contexto = { idObra: obra, ...filtrosConsulta };
+    const ruta =
+        recurso && !errorFiltros ? rutaConDatos(recurso.ruta, contexto) : null;
     const filtroParams = {
-        ...filtros,
+        ...filtrosConsulta,
         ...(recurso?.filtros?.includes("idObra") ? { idObra: obra } : {}),
         pagina,
         tamanoPagina: 25,
@@ -444,6 +450,32 @@ export default function PaginaModulo({
                                                       : "text"
                                             }
                                             value={String(filtros[f] || "")}
+                                            min={
+                                                f === "hastaUtc"
+                                                    ? String(
+                                                          filtros.desdeUtc ||
+                                                              "",
+                                                      )
+                                                    : undefined
+                                            }
+                                            max={
+                                                f === "desdeUtc"
+                                                    ? String(
+                                                          filtros.hastaUtc ||
+                                                              "",
+                                                      )
+                                                    : undefined
+                                            }
+                                            aria-invalid={
+                                                (f.endsWith("Utc") &&
+                                                    !!errorFiltros) ||
+                                                undefined
+                                            }
+                                            aria-describedby={
+                                                f.endsWith("Utc")
+                                                    ? `${idFiltros}-ayuda-fechas${errorFiltros ? ` ${idFiltros}-error-fechas` : ""}`
+                                                    : undefined
+                                            }
                                             onChange={(e) => {
                                                 setFiltros((a) => ({
                                                     ...a,
@@ -479,8 +511,9 @@ export default function PaginaModulo({
                             className="boton boton-secundario"
                             aria-label="Actualizar registros"
                             title="Actualizar"
+                            disabled={!!errorFiltros}
                             onClick={() => {
-                                void consulta.refetch();
+                                if (!errorFiltros) void consulta.refetch();
                                 if (mapa) void mapaConsulta.refetch();
                             }}
                         >
@@ -492,13 +525,23 @@ export default function PaginaModulo({
                         </button>
                     </div>
                 </div>
+                {recurso.filtros?.some((f) => f.endsWith("Utc")) && (
+                    <p id={`${idFiltros}-ayuda-fechas`} className="aviso-cache">
+                        Fechas y horas de Managua. Puedes completar una o ambas
+                        fechas.
+                    </p>
+                )}
                 {consulta.cache && (
                     <p className="aviso-cache">
                         Consulta guardada en este dispositivo ·{" "}
                         {fecha(consulta.guardadoEn, true)}
                     </p>
                 )}
-                {mapa ? (
+                {errorFiltros ? (
+                    <div id={`${idFiltros}-error-fechas`}>
+                        <ErrorVisible error={new Error(errorFiltros)} />
+                    </div>
+                ) : mapa ? (
                     mapaConsulta.isLoading ? (
                         <Cargando variante="mapa" />
                     ) : mapaConsulta.error ? (
@@ -580,7 +623,7 @@ export default function PaginaModulo({
                         idObra={obra}
                         cerrar={cerrarFormulario}
                         alGuardar={(guardado) => {
-                            void consulta.refetch();
+                            if (!errorFiltros) void consulta.refetch();
                             if (guardado?.[recurso.identidad])
                                 setDetalle(guardado);
                             else if (volverDetalle) setDetalle(volverDetalle);
