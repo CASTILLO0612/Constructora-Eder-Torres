@@ -16,6 +16,9 @@ artifacts/
 **/coverage/
 *.coverage
 *.coveragexml
+*.trx
+*.lcov
+*.dump
 
 # Credenciales y configuracion local.
 .env
@@ -23,13 +26,43 @@ artifacts/
 !.env.example
 **/appsettings.Local.json
 **/secrets.json
+**/accesos-demo.json
 *.pfx
 *.p12
 *.pem
 *.key
+*.ppk
+*.pgpass
+pgpass.conf
+**/Datos/Evidencias/
+**/Datos/Claves/
 
 # Registros y archivos del sistema.
 **/registros/
 *.log
 Thumbs.db
 .DS_Store
+*.tmp
+*.bak
+*.orig
+*.rej
+*~
+__pycache__/
+*.py[cod]
+
+# Frontend: dependencias y archivos generados.
+**/node_modules/
+frontend/dist/
+frontend/playwright-report/
+frontend/test-results/
+frontend/*.tsbuildinfo
+.cache/
+.vite/
+.eslintcache
+.npm/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# La documentación académica se conserva fuera de este repositorio.
+/Documentacion/
